@@ -17,6 +17,12 @@
     <string name="error_id_card_invalid">ID card number is invalid</string>
     <string name="error_please_fill">Please fill</string>
 
+    <!--Tabs-->
+    <string name="tab_home">Home</string>
+    <string name="tab_favorite">Fav</string>
+    <string name="tab_history">History</string>
+    <string name="tab_profile">Profile</string>
+
     <!--Dialog-->
     <string name="dialog_login_failed">User not found.</string>
     <string name="dialog_register_failed">Register failed.</string>

@@ -6,6 +6,7 @@
 
     <color name="color_theme_dark">#ebb81e</color>
     <color name="color_theme_light">#f2f0f1</color>
+    <color name="color_line">#d0c8da</color>
 
     <color name="color_white">#ffffff</color>
     <color name="color_gray">#a196af</color>
