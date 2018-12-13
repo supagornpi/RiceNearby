@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.dialog.DialogAlert;
+import com.warunya.ricenearby.ui.register.RegisterActivity;
 import com.warunya.ricenearby.utils.ValidatorUtils;
 
 public class LoginActivity extends AbstractActivity implements LoginContract.View {
@@ -53,7 +54,8 @@ public class LoginActivity extends AbstractActivity implements LoginContract.Vie
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //go to register
+                RegisterActivity.Start();
             }
         });
     }

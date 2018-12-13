@@ -5,10 +5,11 @@
     <string name="label_username">ชื่อผู้ใช้งาน (username)</string>
     <string name="label_email">อีเมล</string>
     <string name="label_password">รหัสผ่าน</string>
-    <string name="label_password_confirm">ยืนยันรหัสผ่าน</string>
+    <string name="label_confirm_password">ยืนยันรหัสผ่าน</string>
 
     <!--Error-->
     <string name="error_not_found">Not Found</string>
+    <string name="error_username_invalid">Username is invalid</string>
     <string name="error_email_invalid">Email is invalid</string>
     <string name="error_password_invalid">Password must be at least 6 characters.</string>
     <string name="error_password_not_match">Password not match</string>
