@@ -28,6 +28,9 @@
     <string name="dialog_register_failed">Register failed.</string>
     <string name="dialog_logout">Do you want to Logout?</string>
 
+    <!--Title-->
+    <string name="title_add_food">อัพโหลดเมนู</string>
+
     <!--Login-->
     <string name="login_business_model">คนแถวนี้กินอะไรกัน?</string>
     <string name="login_title">ลงชื่อเข้าใช้ด้วยอีเมล</string>
@@ -43,5 +46,40 @@
     <string name="button_login">ลงชื่อเข้าใช้งาน</string>
     <string name="button_forgot_password">ลืมรหัสผ่าน</string>
     <string name="button_close">ปิด</string>
+    <string name="button_edit_profile">แก้ไขข้อมูล</string>
+    <string name="button_register_seller">ลงทะเบียนผู้ขายอาหาร</string>
+    <string name="button_register_sender">ลงทะเบียนผู้ส่งอาหาร</string>
+    <string name="button_click_to_change">กดเพื่อเปลี่ยน</string>
+    <string name="button_add_food">+ เพิ่มสินค้า</string>
+    <string name="button_save">บันทึก</string>
+
+    <!--Profile-->
+    <string name="profile_history">ประวัติการสั่งซื้อ</string>
+    <string name="profile_favorite_food">อาหารจารโปรด</string>
+    <string name="profile_sell_income">รายได้จากการขายอาหาร</string>
+    <string name="profile_send_income">รายได้จากการส่งอาหาร</string>
+    <string name="profile_username_label">ชื่อผู้ใช้</string>
+    <string name="profile_change_password_label">เปลี่ยนรหัสผ่าน</string>
+    <string name="profile_name_label">ชื่อ-นามสกุล</string>
+    <string name="profile_address_label">ที่อยู่</string>
+    <string name="profile_gender_label">เพศ</string>
+    <string name="profile_mobile_label">เบอร์โทรศัพท์</string>
+    <string name="profile_email_label">อีเมล</string>
+    <string name="profile_birthday_label">วันเกิด</string>
+
+    <!--Seller-->
+    <string name="seller_set_time">กำหนดเวลาขายอาหาร</string>
+    <string name="seller_order">ออเดอร์</string>
+    <string name="seller_income">รายได้จากการขายอาหาร</string>
+    <string name="seller_history">ประวัติการขาย</string>
+    <string name="seller_review">รีวิว</string>
+    <string name="seller_menu">เมนู</string>
+
+    <!--Add Food-->
+    <string name="add_menu_name">ชื่อเมนู</string>
+    <string name="add_amount">จำนวน</string>
+    <string name="add_price">ราคา</string>
+    <string name="add_detail">รายละเอียด</string>
+    <string name="add_type">ประเภทอาหาร</string>
 
 </resources>

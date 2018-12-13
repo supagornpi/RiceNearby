@@ -24,4 +24,6 @@
     <dimen name="text_large">9pt</dimen>
     <dimen name="text_xlarge">10pt</dimen>
     <dimen name="text_2xlarge">11pt</dimen>
+
+    <dimen name="profile_image">100dp</dimen>
 </resources>

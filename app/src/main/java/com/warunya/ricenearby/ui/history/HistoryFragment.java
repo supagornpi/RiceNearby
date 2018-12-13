@@ -1,7 +1,11 @@
 package com.warunya.ricenearby.ui.history;
 
+import android.view.View;
+
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractFragment;
+
+import org.jetbrains.annotations.NotNull;
 
 public class HistoryFragment extends AbstractFragment implements HistoryContract.View {
 
@@ -13,7 +17,7 @@ public class HistoryFragment extends AbstractFragment implements HistoryContract
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(@NotNull View view) {
 
     }
 

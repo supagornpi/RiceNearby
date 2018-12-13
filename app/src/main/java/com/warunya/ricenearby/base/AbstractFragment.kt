@@ -15,7 +15,7 @@ abstract class AbstractFragment : Fragment() {
     var fragmentNavigation: FragmentNavigation? = null
 
     protected abstract fun setLayoutView(): Int
-    protected abstract fun setupView()
+    protected abstract fun setupView(view: View)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(setLayoutView(), container, false)
@@ -23,7 +23,7 @@ abstract class AbstractFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
+        setupView(view)
     }
 
     override fun onAttach(context: Context?) {

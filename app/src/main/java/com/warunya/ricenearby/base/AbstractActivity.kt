@@ -35,6 +35,10 @@ abstract class AbstractActivity : AppCompatActivity() {
         tvTitle.text = title
     }
 
+    fun setToolbarColor(color: Int) {
+        actionbar.setBackgroundColor(resources.getColor(color))
+    }
+
     fun showBackButton() {
         if (btnIconLeft != null) {
             btnIconLeft.setImageResource(R.drawable.ic_previous)

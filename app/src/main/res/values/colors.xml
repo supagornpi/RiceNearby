@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#f2f0f1</color>
-    <color name="colorPrimaryDark">#ebb81e</color>
+    <color name="colorPrimaryDark">#FFCD00</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="color_theme_dark">#ebb81e</color>
-    <color name="color_theme_light">#f2f0f1</color>
-    <color name="color_line">#d0c8da</color>
+    <color name="color_line">#d9d9d9</color>
 
     <color name="color_white">#ffffff</color>
-    <color name="color_gray">#a196af</color>
+    <color name="color_gray_light">#eaeaea</color>
+    <color name="color_gray">#aeaeaf</color>
+    <color name="color_gray_dark">#878787</color>
     <color name="color_facebook">#3b5998</color>
 </resources>

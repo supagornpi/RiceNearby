@@ -1,7 +1,11 @@
 package com.warunya.ricenearby.ui.favorite;
 
+import android.view.View;
+
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractFragment;
+
+import org.jetbrains.annotations.NotNull;
 
 public class FavoriteFragment extends AbstractFragment implements FavoriteContract.View {
 
@@ -13,7 +17,7 @@ public class FavoriteFragment extends AbstractFragment implements FavoriteContra
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(@NotNull View view) {
 
     }
 

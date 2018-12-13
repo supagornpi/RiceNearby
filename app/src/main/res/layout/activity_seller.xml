@@ -21,7 +21,7 @@
                 android:id="@+id/layout_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
+                android:layout_marginTop="@dimen/padding_xxlarge"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -57,15 +57,8 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_edit_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/layout_profile"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/button_conor_white"
-                android:padding="@dimen/padding_small"
-                android:text="@string/button_edit_profile" />
+            <include layout="@layout/layout_action_bar" />
+
         </RelativeLayout>
 
         <LinearLayout
@@ -139,21 +132,14 @@
             android:layout_marginTop="@dimen/padding_mini">
 
             <Button
-                android:id="@+id/btn_seller"
-                android:layout_width="0dp"
+                android:id="@+id/btn_add_food"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@color/color_white"
-                android:text="@string/button_register_seller"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btn_sender"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/color_white"
-                android:text="@string/button_register_sender"
+                android:gravity="center_vertical"
+                android:paddingEnd="@dimen/padding_normal"
+                android:paddingStart="@dimen/padding_normal"
+                android:text="@string/button_add_food"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -171,7 +157,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/profile_history" />
+                android:text="@string/seller_set_time" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -192,7 +178,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/profile_favorite_food" />
+                android:text="@string/seller_order" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/arrow_down_float" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/seller_income" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -213,7 +220,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/profile_sell_income" />
+                android:text="@string/seller_history" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -234,7 +241,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/profile_send_income" />
+                android:text="@string/seller_review" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/arrow_down_float" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_mini"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/seller_menu" />
 
             <ImageView
                 android:layout_width="wrap_content"
