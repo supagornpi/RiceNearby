@@ -9,7 +9,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     }
 
     @Override
-    public void register(String email, String password) {
+    public void register(String username, String email, String password, String confirmPassword) {
 
     }
 }
