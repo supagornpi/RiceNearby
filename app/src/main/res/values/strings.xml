@@ -1,3 +1,40 @@
 <resources>
     <string name="app_name">Rice nearby</string>
+
+    <!--Label-->
+    <string name="label_username">ชื่อผู้ใช้งาน (username)</string>
+    <string name="label_email">อีเมล</string>
+    <string name="label_password">รหัสผ่าน</string>
+    <string name="label_password_confirm">ยืนยันรหัสผ่าน</string>
+
+    <!--Error-->
+    <string name="error_not_found">Not Found</string>
+    <string name="error_email_invalid">Email is invalid</string>
+    <string name="error_password_invalid">Password must be at least 6 characters.</string>
+    <string name="error_password_not_match">Password not match</string>
+    <string name="error_mobile_invalid">Mobile number is invalid</string>
+    <string name="error_id_card_invalid">ID card number is invalid</string>
+    <string name="error_please_fill">Please fill</string>
+
+    <!--Dialog-->
+    <string name="dialog_login_failed">User not found.</string>
+    <string name="dialog_register_failed">Register failed.</string>
+    <string name="dialog_logout">Do you want to Logout?</string>
+
+    <!--Login-->
+    <string name="login_business_model">คนแถวนี้กินอะไรกัน?</string>
+    <string name="login_title">ลงชื่อเข้าใช้ด้วยอีเมล</string>
+    <string name="login_or">or</string>
+
+    <!--Register-->
+    <string name="register_title">สมัครสมาชิก</string>
+
+    <!--Button-->
+    <string name="button_login_facebook">ลงชื่อเข้าใช้ด้วย Facebook</string>
+    <string name="button_login_email">ลงชื่อเข้าใช้ด้วยอีเมล</string>
+    <string name="button_register">สมัครสมาชิก</string>
+    <string name="button_login">ลงชื่อเข้าใช้งาน</string>
+    <string name="button_forgot_password">ลืมรหัสผ่าน</string>
+    <string name="button_close">ปิด</string>
+
 </resources>
