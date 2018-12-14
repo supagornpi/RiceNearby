@@ -1,10 +1,12 @@
 package com.warunya.ricenearby.ui.food;
 
 import android.content.Intent;
+import android.view.View;
 
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
+import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
 
 public class FoodActivity extends AbstractActivity implements FoodContract.View {
 
@@ -23,6 +25,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     @Override
     protected void setupView() {
         showBackButton();
+        setMenuRightText(R.string.button_edit);
         bindView();
         bindAction();
     }
@@ -32,6 +35,12 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     }
 
     private void bindAction() {
+        setOnclickMenuRight(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddFoodActivity.start();
+            }
+        });
 
     }
 

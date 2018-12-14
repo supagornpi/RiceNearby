@@ -52,6 +52,7 @@
     <string name="button_click_to_change">กดเพื่อเปลี่ยน</string>
     <string name="button_add_food">+ เพิ่มสินค้า</string>
     <string name="button_save">บันทึก</string>
+    <string name="button_edit">แก้ไข</string>
 
     <!--Profile-->
     <string name="profile_history">ประวัติการสั่งซื้อ</string>
