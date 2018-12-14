@@ -1,12 +1,18 @@
 package com.warunya.ricenearby.ui.register;
 
+import com.warunya.ricenearby.base.BaseView;
+import com.warunya.ricenearby.constance.RequireField;
+import com.warunya.ricenearby.model.RegisterEntity;
+
 public interface RegisterContract {
 
     interface Presenter {
-        void register(String username, String email, String password, String confirmPassword);
+        void register(RegisterEntity registerEntity);
     }
 
-    interface View {
+    interface View extends BaseView {
+        void requireField(RequireField requireField);
+
         void showUsernameInvalid();
 
         void showEmailInvalid();

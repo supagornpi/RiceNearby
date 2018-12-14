@@ -84,8 +84,8 @@
             android:id="@+id/btn_facebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_small"
             android:background="@drawable/button_facebook"
-            android:paddingBottom="@dimen/padding_small"
             android:text="@string/button_login_facebook"
             android:textColor="@color/color_white"
             android:textSize="@dimen/text_small" />

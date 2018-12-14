@@ -4,15 +4,21 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
+import com.warunya.ricenearby.constance.RequireField;
 import com.warunya.ricenearby.dialog.DialogAlert;
+import com.warunya.ricenearby.model.RegisterEntity;
+import com.warunya.ricenearby.ui.main.MainActivity;
+import com.warunya.ricenearby.utils.DismissKeyboardListener;
 import com.warunya.ricenearby.utils.ValidatorUtils;
 
 public class RegisterActivity extends AbstractActivity implements RegisterContract.View {
 
+    private RelativeLayout rootView;
     private EditText edtUsername;
     private EditText edtEmail;
     private EditText edtPassword;
@@ -39,6 +45,7 @@ public class RegisterActivity extends AbstractActivity implements RegisterContra
     }
 
     private void bindView() {
+        rootView = findViewById(R.id.rootView);
         edtUsername = findViewById(R.id.edt_username);
         edtEmail = findViewById(R.id.edt_email);
         edtPassword = findViewById(R.id.edt_password);
@@ -47,17 +54,35 @@ public class RegisterActivity extends AbstractActivity implements RegisterContra
     }
 
     private void bindAction() {
+        rootView.setOnTouchListener(new DismissKeyboardListener(this));
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = edtUsername.getText().toString().trim();
-                String email = edtEmail.getText().toString().trim();
-                String password = edtPassword.getText().toString().trim();
-                String confirmPassword = edtConfirmPassword.getText().toString().trim();
                 //register
-                presenter.register(username, email, password, confirmPassword);
+                presenter.register(getRegisterEntity());
             }
         });
+    }
+
+    @Override
+    public void requireField(RequireField requireField) {
+        EditText editText = null;
+        switch (requireField) {
+            case Username:
+                editText = edtUsername;
+                break;
+            case Email:
+                editText = edtUsername;
+                break;
+            case Password:
+                editText = edtUsername;
+                break;
+            case ConfirmPassword:
+                editText = edtUsername;
+                break;
+        }
+        ValidatorUtils.setErrorInput(getApplicationContext(), editText, R.string.error_please_fill);
     }
 
     @Override
@@ -83,11 +108,39 @@ public class RegisterActivity extends AbstractActivity implements RegisterContra
 
     @Override
     public void registerSuccess() {
-
+        MainActivity.start();
     }
 
     @Override
     public void registerFailed() {
         DialogAlert.Companion.show(this, R.string.dialog_register_failed);
+    }
+
+    private RegisterEntity getRegisterEntity() {
+        String username = edtUsername.getText().toString().trim();
+        String email = edtEmail.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        String confirmPassword = edtConfirmPassword.getText().toString().trim();
+        return new RegisterEntity(username, email, password, confirmPassword);
+    }
+
+    @Override
+    public void showProgress() {
+        showProgressDialog();
+    }
+
+    @Override
+    public void hideProgress() {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void showNotFound() {
+
+    }
+
+    @Override
+    public void hideNotFound() {
+
     }
 }
