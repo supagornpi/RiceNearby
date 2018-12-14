@@ -27,6 +27,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
     @Override
     protected void setupView() {
         setTitle("");
+        setToolbarColor(android.R.color.transparent);
         showBackButton();
         bindView();
         bindAction();

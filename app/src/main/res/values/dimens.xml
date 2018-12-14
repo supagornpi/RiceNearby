@@ -26,4 +26,5 @@
     <dimen name="text_2xlarge">11pt</dimen>
 
     <dimen name="profile_image">100dp</dimen>
+    <dimen name="food_image_small">60dp</dimen>
 </resources>

@@ -30,6 +30,7 @@
 
     <!--Title-->
     <string name="title_add_food">อัพโหลดเมนู</string>
+    <string name="title_menu">เมนู</string>
 
     <!--Login-->
     <string name="login_business_model">คนแถวนี้กินอะไรกัน?</string>

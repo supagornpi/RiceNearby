@@ -5,7 +5,7 @@
     android:id="@+id/actionbar"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
-    tools:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark">
 
     <ImageView
         android:id="@+id/btnIconLeft"

@@ -23,7 +23,6 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
     @Override
     protected void setupView() {
         setTitle(R.string.title_add_food);
-        setToolbarColor(R.color.colorPrimaryDark);
         showBackButton();
         bindView();
         bindAction();
