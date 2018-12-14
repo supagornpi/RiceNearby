@@ -47,4 +47,8 @@ public class UserManager {
     public static void updateUserImage(Upload upload) {
         getInstance().mDatabase.child("user-images").child(getUid()).setValue(upload);
     }
+
+    public static void logout() {
+        FirebaseAuth.getInstance().signOut();
+    }
 }

@@ -7,10 +7,11 @@ import com.warunya.ricenearby.constance.Gender;
 public class User {
     public String username;
     public String email;
-    public String firstName;
+    public String name;
     public String lastName;
     public String mobile;
     public Gender gender;
+    public String birthday;
     public Upload image;
 
     public User() {
@@ -22,13 +23,8 @@ public class User {
         this.email = email;
     }
 
-    public User setFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    public User setLastName(String lastName) {
-        this.lastName = lastName;
+    public User setName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -44,6 +40,11 @@ public class User {
 
     public User setImage(Upload image) {
         this.image = image;
+        return this;
+    }
+
+    public User setBirthday(String birthday) {
+        this.birthday = birthday;
         return this;
     }
 }

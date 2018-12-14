@@ -1,11 +1,13 @@
 package com.warunya.ricenearby.ui.login;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.dialog.DialogAlert;
@@ -25,6 +27,11 @@ public class LoginActivity extends AbstractActivity implements LoginContract.Vie
     private Button btnForgotPassword;
 
     private LoginContract.Presenter presenter = new LoginPresenter(this);
+
+    public static void start() {
+        Intent intent = new Intent(MyApplication.applicationContext, LoginActivity.class);
+        MyApplication.applicationContext.startActivity(intent);
+    }
 
     @Override
     protected int setLayoutView() {
