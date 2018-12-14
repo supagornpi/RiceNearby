@@ -1,5 +1,6 @@
 package com.warunya.ricenearby.ui.main;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.Tabs;
 import com.warunya.ricenearby.base.AbstractActivity;
@@ -18,6 +20,11 @@ import org.jetbrains.annotations.NotNull;
 public class MainActivity extends AbstractActivity {
     private FragmentStateManager fragmentStateManager = null;
     private BottomNavigationViewEx navigation;
+
+    public static void start() {
+        Intent intent = new Intent(MyApplication.applicationContext, MainActivity.class);
+        MyApplication.applicationContext.startActivity(intent);
+    }
 
     @Override
     protected int setLayoutView() {

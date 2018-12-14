@@ -3,15 +3,20 @@ package com.warunya.ricenearby.ui.login;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.dialog.DialogAlert;
+import com.warunya.ricenearby.ui.main.MainActivity;
 import com.warunya.ricenearby.ui.register.RegisterActivity;
+import com.warunya.ricenearby.utils.DismissKeyboardListener;
 import com.warunya.ricenearby.utils.ValidatorUtils;
 
 public class LoginActivity extends AbstractActivity implements LoginContract.View {
 
+    private RelativeLayout rootView;
     private EditText edtEmail;
     private EditText edtPassword;
     private Button btnLogin;
@@ -34,6 +39,7 @@ public class LoginActivity extends AbstractActivity implements LoginContract.Vie
     }
 
     private void bindView() {
+        rootView = findViewById(R.id.rootView);
         edtEmail = findViewById(R.id.edt_email);
         edtPassword = findViewById(R.id.edt_password);
         btnLogin = findViewById(R.id.btn_login);
@@ -42,6 +48,8 @@ public class LoginActivity extends AbstractActivity implements LoginContract.Vie
     }
 
     private void bindAction() {
+        rootView.setOnTouchListener(new DismissKeyboardListener(this));
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +69,26 @@ public class LoginActivity extends AbstractActivity implements LoginContract.Vie
     }
 
     @Override
+    public void showProgress() {
+        showProgressDialog();
+    }
+
+    @Override
+    public void hideProgress() {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void showNotFound() {
+
+    }
+
+    @Override
+    public void hideNotFound() {
+
+    }
+
+    @Override
     public void showEmailInvalid() {
         ValidatorUtils.setErrorInput(getApplicationContext(), edtEmail, R.string.error_email_invalid);
     }
@@ -72,7 +100,7 @@ public class LoginActivity extends AbstractActivity implements LoginContract.Vie
 
     @Override
     public void loginSuccess() {
-
+        MainActivity.start();
     }
 
     @Override

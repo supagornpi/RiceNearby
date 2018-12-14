@@ -32,6 +32,7 @@ dependencies {
     implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.2'
 
     //fire base
+    implementation "com.google.firebase:firebase-core:$firebaseLibraryVersion"
     implementation "com.google.firebase:firebase-database:$firebaseLibraryVersion"
     implementation "com.google.firebase:firebase-auth:$firebaseLibraryVersion"
     implementation "com.google.firebase:firebase-storage:$firebaseLibraryVersion"
@@ -44,3 +45,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+apply plugin: 'com.google.gms.google-services'
