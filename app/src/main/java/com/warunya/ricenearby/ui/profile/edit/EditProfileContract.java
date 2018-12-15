@@ -10,7 +10,8 @@ public interface EditProfileContract {
         void editUserProfile(User user);
     }
 
-    interface View extends BaseView {
+    interface View extends BaseView.Progress {
         void bindUserData(User user);
+
     }
 }

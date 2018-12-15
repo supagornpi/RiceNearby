@@ -14,7 +14,7 @@ import com.warunya.ricenearby.model.User;
 
 public class UserManager {
 
-    private static final String STORAGE_PATH_PROFILE = "profiles/";
+    public static final String STORAGE_PATH_PROFILE = "profiles/";
 
     private static final UserManager ourInstance = new UserManager();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -96,8 +96,26 @@ public class UserManager {
         updateUserData(uid, user);
     }
 
-    public static void updateUserImage(Upload upload) {
-        getInstance().mDatabase.child("user-images").child(getUid()).setValue(upload);
+    public static void updateUserImage(final Upload upload, final Handler handler) {
+        getDatabaseReference().runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                User value = mutableData.getValue(User.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+                value.image = upload;
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                if (handler == null) return;
+                handler.onComplete();
+            }
+        });
     }
 
     public static void logout() {

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
@@ -14,6 +15,7 @@ import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.login.LoginActivity;
 import com.warunya.ricenearby.ui.profile.edit.EditProfileActivity;
 import com.warunya.ricenearby.ui.seller.SellerActivity;
+import com.warunya.ricenearby.utils.GlideLoader;
 
 public class ProfileFragment extends AbstractFragment implements ProfileContract.View {
 
@@ -21,6 +23,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     private Button btnSeller;
     private Button btnLogout;
     private TextView tvName;
+    private ImageView ivProfile;
 
     private ProfileContract.Presenter presenter = new ProfilePresenter(this);
 
@@ -41,6 +44,8 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         btnSeller = view.findViewById(R.id.btn_seller);
         btnLogout = view.findViewById(R.id.btn_logout);
         tvName = view.findViewById(R.id.tv_name);
+        ivProfile = view.findViewById(R.id.iv_profile);
+
     }
 
     private void bindAction() {
@@ -95,5 +100,6 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     @Override
     public void bindUserData(User user) {
         tvName.setText(user.username);
+        GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
     }
 }

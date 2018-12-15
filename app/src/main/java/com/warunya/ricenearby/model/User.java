@@ -1,10 +1,15 @@
 package com.warunya.ricenearby.model;
 
+import android.net.Uri;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.warunya.ricenearby.constance.Gender;
 
 @IgnoreExtraProperties
 public class User {
+
+    public Uri imageUri;
+
     public String username;
     public String email;
     public String name;
@@ -17,11 +22,13 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String name, String mobile, Gender gender,String birthday) {
+    public User(String username, String name, String mobile, Gender gender, String birthday, Uri imageUri) {
+        this.username = username;
         this.name = name;
         this.mobile = mobile;
         this.gender = gender;
         this.birthday = birthday;
+        this.imageUri = imageUri;
     }
 
     public User(String username, String email) {
