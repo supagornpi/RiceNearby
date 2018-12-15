@@ -4,11 +4,13 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractFragment;
 import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.firebase.UserManager;
+import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.login.LoginActivity;
 import com.warunya.ricenearby.ui.profile.edit.EditProfileActivity;
 import com.warunya.ricenearby.ui.seller.SellerActivity;
@@ -18,6 +20,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     private Button btnEditProfile;
     private Button btnSeller;
     private Button btnLogout;
+    private TextView tvName;
 
     private ProfileContract.Presenter presenter = new ProfilePresenter(this);
 
@@ -30,12 +33,14 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     protected void setupView(@NonNull View view) {
         bindView(view);
         bindAction();
+        presenter.start();
     }
 
     private void bindView(View view) {
         btnEditProfile = view.findViewById(R.id.btn_edit_profile);
         btnSeller = view.findViewById(R.id.btn_seller);
         btnLogout = view.findViewById(R.id.btn_logout);
+        tvName = view.findViewById(R.id.tv_name);
     }
 
     private void bindAction() {
@@ -85,5 +90,10 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     @Override
     public void hideNotFound() {
 
+    }
+
+    @Override
+    public void bindUserData(User user) {
+        tvName.setText(user.username);
     }
 }

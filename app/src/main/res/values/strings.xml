@@ -69,6 +69,11 @@
     <string name="profile_mobile_label">เบอร์โทรศัพท์</string>
     <string name="profile_email_label">อีเมล</string>
     <string name="profile_birthday_label">วันเกิด</string>
+    <string-array name="gender_list">
+        <item>เลือกเพศของคุณ</item>
+        <item>ชาย</item>
+        <item>หญิง</item>
+    </string-array>
 
     <!--Seller-->
     <string name="seller_set_time">กำหนดเวลาขายอาหาร</string>

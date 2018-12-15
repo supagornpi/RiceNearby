@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -58,12 +59,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/profile_username_label" />
 
-                <EditText
+                <TextView
+                    android:id="@+id/tv_username"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="..."
                     android:padding="@dimen/padding_small"
                     android:textAlignment="textEnd" />
 
@@ -84,15 +85,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/profile_change_password_label" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="..."
-                    android:padding="@dimen/padding_small"
-                    android:textAlignment="textEnd" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -118,11 +110,14 @@
                     android:text="@string/profile_name_label" />
 
                 <EditText
+                    android:id="@+id/edt_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="..."
+                    android:inputType="text"
+                    android:maxLength="50"
                     android:padding="@dimen/padding_small"
                     android:textAlignment="textEnd" />
             </LinearLayout>
@@ -144,6 +139,7 @@
                     android:text="@string/profile_address_label" />
 
                 <TextView
+                    android:id="@+id/edt_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -175,14 +171,26 @@
                     android:layout_height="wrap_content"
                     android:text="@string/profile_gender_label" />
 
-                <EditText
+                <LinearLayout
+                    android:id="@+id/layoutSpinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="..."
-                    android:padding="@dimen/padding_small"
-                    android:textAlignment="textEnd" />
+                    android:gravity="end|center_vertical">
+
+                    <Spinner
+                        android:id="@+id/spinner_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/arrow_down_float" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -202,11 +210,14 @@
                     android:text="@string/profile_mobile_label" />
 
                 <EditText
+                    android:id="@+id/edt_mobile"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="..."
+                    android:inputType="number"
+                    android:maxLength="10"
                     android:padding="@dimen/padding_small"
                     android:textAlignment="textEnd" />
             </LinearLayout>
@@ -227,12 +238,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/profile_email_label" />
 
-                <EditText
+                <TextView
+                    android:id="@+id/tv_email"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="..."
                     android:padding="@dimen/padding_small"
                     android:textAlignment="textEnd" />
             </LinearLayout>
@@ -254,6 +265,7 @@
                     android:text="@string/profile_birthday_label" />
 
                 <EditText
+                    android:id="@+id/edt_birthday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
