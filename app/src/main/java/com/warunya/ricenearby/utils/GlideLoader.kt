@@ -16,15 +16,15 @@ class GlideLoader {
             imageView.setImageResource(R.drawable.logo)
         }
 
-        fun load(context: Context, url: String, imageView: ImageView) {
-            load(context, url, RequestOptions().fitCenter(), imageView)
+        fun load(url: String, imageView: ImageView) {
+            load(url, RequestOptions().fitCenter(), imageView)
         }
 
-        fun load(context: Context, url: String?, requestOptions: RequestOptions, imageView: ImageView) {
+        fun load(url: String?, requestOptions: RequestOptions, imageView: ImageView) {
             if (url.isNullOrEmpty()) {
                 loadDefaultImage(imageView)
             } else {
-                Glide.with(context)
+                Glide.with(MyApplication.applicationContext)
                         .load(url)
                         .apply(requestOptions)
                         .into(imageView)

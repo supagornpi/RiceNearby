@@ -2,6 +2,9 @@ package com.warunya.ricenearby.model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import org.parceler.Parcel;
+
+@Parcel
 @IgnoreExtraProperties
 public class Upload {
 

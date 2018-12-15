@@ -106,6 +106,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         tvEmail.setText(user.email);
         edtMobile.setText(user.mobile);
 
+        if (user.image ==null) return;
         GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
 
     }

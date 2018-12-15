@@ -23,6 +23,7 @@ public class MainActivity extends AbstractActivity {
 
     public static void start() {
         Intent intent = new Intent(MyApplication.applicationContext, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         MyApplication.applicationContext.startActivity(intent);
     }
 

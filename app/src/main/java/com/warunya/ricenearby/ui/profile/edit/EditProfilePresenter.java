@@ -81,6 +81,7 @@ public class EditProfilePresenter implements EditProfileContract.Presenter {
             @Override
             public void onFailure(@NonNull Exception e) {
                 view.hideProgressDialog();
+                view.error(e.getMessage());
 
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

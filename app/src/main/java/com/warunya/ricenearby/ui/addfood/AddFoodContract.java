@@ -10,7 +10,7 @@ public interface AddFoodContract {
         void addNewFood(Food food);
     }
 
-    interface View extends BaseView {
-
+    interface View extends BaseView.Progress {
+        void addSuccess();
     }
 }

@@ -13,11 +13,13 @@ import java.util.Map;
 public class Food {
 
     public String uid;
-    public List<String> url;
+    public List<String> urls;
     public String foodName;
     public String detail;
     public int amount;
     public int price;
+    public List<FoodImage> foodImages;
+    public List<Upload> uploads;
 
     @Exclude
     public Map<String, Object> toMap() {
@@ -28,26 +30,29 @@ public class Food {
         result.put("detail", detail);
         result.put("amount", amount);
         result.put("price", price);
+        result.put("urls", urls);
+        result.put("uploads", uploads);
         return result;
     }
 
     public Food() {
     }
 
-    public Food(String uid, String foodName, int amount, int price, String detail) {
+    public Food(String uid, String foodName, int amount, int price, String detail, List<FoodImage> foodImages) {
         this.uid = uid;
         this.foodName = foodName;
         this.detail = detail;
         this.amount = amount;
         this.price = price;
+        this.foodImages = foodImages;
     }
 
-    public List<String> getUrl() {
-        return url;
+    public List<String> getUrls() {
+        return urls;
     }
 
-    public void setUrl(List<String> url) {
-        this.url = url;
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
     }
 
     public String getFoodName() {

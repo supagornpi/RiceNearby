@@ -27,6 +27,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         runnable = Runnable {
             if (UserManager.isLogin()) {
+                finish()
                 MainActivity.start()
             } else {
                 LoginActivity.start()

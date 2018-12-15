@@ -107,6 +107,7 @@ public class LoginActivity extends AbstractActivity implements LoginContract.Vie
 
     @Override
     public void loginSuccess() {
+        finish();
         MainActivity.start();
     }
 
