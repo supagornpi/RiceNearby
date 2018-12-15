@@ -29,6 +29,7 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/edt_food_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_mini"
@@ -55,6 +56,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/edt_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/padding_mini"
@@ -81,6 +83,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/edt_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/padding_mini"
@@ -99,10 +102,12 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/edt_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_mini"
                 android:background="@drawable/background_edittext_gray"
+                android:gravity="top"
                 android:lines="2"
                 android:padding="@dimen/padding_small" />
 
