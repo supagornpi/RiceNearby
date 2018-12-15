@@ -65,6 +65,7 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
     @Override
     public void hideProgress() {
 
+
     }
 
     @Override

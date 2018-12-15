@@ -7,13 +7,19 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
+import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.ui.food.FoodActivity;
 
 public class FoodView extends LinearLayout {
 
+    private Food food;
+
     private LinearLayout layoutItem;
+    private TextView tvFoodName;
+    private TextView tvPrice;
 
     public FoodView(Context context) {
         super(context);
@@ -39,7 +45,14 @@ public class FoodView extends LinearLayout {
     private void init() {
         View.inflate(getContext(), R.layout.item_food, this);
 
-//        bindAction();
+        tvFoodName = findViewById(R.id.tv_name);
+        tvPrice = findViewById(R.id.tv_price);
+    }
+
+    public void bind(Food food) {
+       this.food = food;
+        tvFoodName.setText(food.foodName);
+        tvPrice.setText(food.price + ".-");
     }
 
     public void bindAction() {
@@ -48,7 +61,8 @@ public class FoodView extends LinearLayout {
         layoutItem.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                FoodActivity.start();
+                if (food == null) return;
+                FoodActivity.start(food);
             }
         });
     }

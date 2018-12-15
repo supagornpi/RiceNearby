@@ -5,6 +5,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
@@ -13,7 +14,9 @@ import com.warunya.ricenearby.model.RegisterEntity;
 import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FoodManager {
@@ -56,6 +59,27 @@ public class FoodManager {
         childUpdates.put("/user-foods/" + getUid() + "/" + key, postValues);
 
         getInstance().mDatabase.updateChildren(childUpdates);
+    }
+
+    public static void getUserFoods(final QueryListener queryListener) {
+        getInstance().userProfileEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<HashMap<String, Food>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Food>>() {
+                };
+                Map<String, Food> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
+                List<Food> foods = new ArrayList<Food>(objectHashMap.values());
+                if (queryListener == null) return;
+                queryListener.onComplete(foods);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        getInstance().mDatabase.child("user-foods").child(UserManager.getUid()).addValueEventListener(getInstance().userProfileEventListener);
+
     }
 
     public static void getUserProfile(final OnValueEventListener onValueEventListener) {
@@ -122,6 +146,10 @@ public class FoodManager {
 
     public interface OnValueEventListener {
         void onDataChange(DataSnapshot dataSnapshot);
+    }
+
+    public interface QueryListener {
+        void onComplete(List<Food> foods);
     }
 
     public interface Handler {

@@ -11,7 +11,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/view_recyclerview_with_progress" />
+        <com.warunya.ricenearby.customs.view.RecyclerViewProgress
+            android:id="@+id/recyclerViewProgress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 

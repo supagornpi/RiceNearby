@@ -3,15 +3,18 @@ package com.warunya.ricenearby.model;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
+import org.parceler.Parcel;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Parcel
 public class Food {
 
     public String uid;
     public List<String> url;
-    public String name;
+    public String foodName;
     public String detail;
     public int amount;
     public int price;
@@ -19,9 +22,8 @@ public class Food {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("username", name);
         result.put("uid", uid);
-        result.put("foodName", name);
+        result.put("foodName", foodName);
         result.put("timestamp", ServerValue.TIMESTAMP);
         result.put("detail", detail);
         result.put("amount", amount);
@@ -29,9 +31,12 @@ public class Food {
         return result;
     }
 
-    public Food(String uid, String name, int amount, int price, String detail) {
+    public Food() {
+    }
+
+    public Food(String uid, String foodName, int amount, int price, String detail) {
         this.uid = uid;
-        this.name = name;
+        this.foodName = foodName;
         this.detail = detail;
         this.amount = amount;
         this.price = price;
@@ -45,12 +50,12 @@ public class Food {
         this.url = url;
     }
 
-    public String getName() {
-        return name;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
     public String getDetail() {
