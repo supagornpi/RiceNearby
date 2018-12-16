@@ -47,7 +47,6 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     @Override
     protected void setupView() {
         showBackButton();
-        setMenuRightText(R.string.button_edit);
 
         food = Parcels.unwrap(getIntent().getParcelableExtra("food"));
 
@@ -58,14 +57,14 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
             @Override
             public <T> void onBindViewHolder(T item, View itemView, int position) {
                 ImageView ivFood = itemView.findViewById(R.id.iv_food);
-                //set banner height
+//                set banner height
                 ivFood.getLayoutParams().height = ResolutionUtils.getBannerHeightFromRatio(itemView.getContext());
                 GlideLoader.Companion.load(((Upload) item).url, ivFood);
             }
 
             @Override
             public int getLayout() {
-                return R.layout.item_food;
+                return R.layout.item_food_image;
             }
         });
 

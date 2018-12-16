@@ -3,8 +3,10 @@ package com.warunya.ricenearby.firebase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,32 +57,39 @@ public class FoodManager {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
-    public static DatabaseReference getDatabaseReference(String uid) {
-        return getInstance().mDatabase.child("foods").child(uid);
+    public static DatabaseReference getFoodsReference(String key) {
+        return getInstance().mDatabase.child("foods").child(key);
     }
 
-    public static void writeNewFood(Food food) {
+    public static DatabaseReference getUserFoodsReference(String key) {
+        return getInstance().mDatabase.child("user-foods").child(getUid()).child(key);
+    }
+
+    public static void writeNewFood(final Food food) {
         // Create new submitPost at /user-posts/$userid/$postid
         // and at /posts/$postid simultaneously
-        String key = getInstance().mDatabase.child("foods").push().getKey();
+        final String key = getInstance().mDatabase.child("foods").push().getKey();
         Map postValues = food.toMap();
 
         Map childUpdates = new HashMap<String, Object>();
         childUpdates.put("/foods/" + key, postValues);
         childUpdates.put("/user-foods/" + getUid() + "/" + key, postValues);
 
-        getInstance().mDatabase.updateChildren(childUpdates);
-
-        if (food.foodImages == null) return;
-        if (food.foodImages.size() > 0) {
+        getInstance().mDatabase.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (food.foodImages == null) return;
+                if (food.foodImages.size() > 0) {
 //            uploadFile(food.foodImages.get(0).uri, food.foodName);
-            for (FoodImage foodImage : food.foodImages) {
-                uploadFile(foodImage.uri, key, food.foodName);
+                    for (FoodImage foodImage : food.foodImages) {
+                        uploadFile(foodImage.uri, food.foodName, key);
+                    }
+                }
             }
-        }
+        });
     }
 
-    private static void uploadFile(final Uri uri, final String username, final String uid) {
+    private static void uploadFile(final Uri uri, final String username, final String key) {
 //        view.showProgressDialog();
         //getting the storage reference
         StorageReference sRef = getInstance().storageReference.child(FoodManager.STORAGE_PATH_FOOD + username + System.currentTimeMillis());
@@ -95,13 +104,8 @@ public class FoodManager {
                 Upload upload = new Upload(username, uri.getLastPathSegment(), taskSnapshot.getDownloadUrl().toString());
 
                 //adding an upload to firebase database
-                FoodManager.uploadFoodImage(upload, uid, new FoodManager.Handler() {
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
+                FoodManager.uploadFoodImage(getFoodsReference(key), upload);
+                FoodManager.uploadFoodImage(getUserFoodsReference(key), upload);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -142,8 +146,8 @@ public class FoodManager {
 
     }
 
-    public static void uploadFoodImage(final Upload upload, String uid, final Handler handler) {
-        getDatabaseReference(uid).runTransaction(new Transaction.Handler() {
+    public static void uploadFoodImage(DatabaseReference reference, final Upload upload) {
+        reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
                 Food value = mutableData.getValue(Food.class);
@@ -163,8 +167,7 @@ public class FoodManager {
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-                if (handler == null) return;
-                handler.onComplete();
+
             }
         });
     }

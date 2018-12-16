@@ -13,7 +13,6 @@ import java.util.Map;
 public class Food {
 
     public String uid;
-    public List<String> urls;
     public String foodName;
     public String detail;
     public int amount;
@@ -30,7 +29,6 @@ public class Food {
         result.put("detail", detail);
         result.put("amount", amount);
         result.put("price", price);
-        result.put("urls", urls);
         result.put("uploads", uploads);
         return result;
     }
@@ -45,14 +43,6 @@ public class Food {
         this.amount = amount;
         this.price = price;
         this.foodImages = foodImages;
-    }
-
-    public List<String> getUrls() {
-        return urls;
-    }
-
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
     }
 
     public String getFoodName() {
