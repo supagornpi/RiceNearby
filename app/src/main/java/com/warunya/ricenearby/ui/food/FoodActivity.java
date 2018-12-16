@@ -35,6 +35,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     public static void start(Food food) {
         Intent intent = new Intent(MyApplication.applicationContext, FoodActivity.class);
         intent.putExtra("food", Parcels.wrap(food));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         MyApplication.applicationContext.startActivity(intent);
     }
 

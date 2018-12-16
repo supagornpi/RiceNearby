@@ -29,6 +29,7 @@ public class MenuActivity extends AbstractActivity implements MenuContract.View 
 
     public static void start() {
         Intent intent = new Intent(MyApplication.applicationContext, MenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         MyApplication.applicationContext.startActivity(intent);
     }
 

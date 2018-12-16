@@ -20,6 +20,7 @@ public class SellerActivity extends AbstractActivity implements SellerContract.V
 
     public static void start() {
         Intent intent = new Intent(MyApplication.applicationContext, SellerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         MyApplication.applicationContext.startActivity(intent);
     }
 

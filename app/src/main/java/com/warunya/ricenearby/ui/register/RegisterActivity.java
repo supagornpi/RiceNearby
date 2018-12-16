@@ -29,6 +29,7 @@ public class RegisterActivity extends AbstractActivity implements RegisterContra
 
     public static void Start() {
         Intent intent = new Intent(MyApplication.applicationContext, RegisterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         MyApplication.applicationContext.startActivity(intent);
     }
 

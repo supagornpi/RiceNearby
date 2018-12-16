@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.warunya.ricenearby.MyApplication;
@@ -30,6 +29,7 @@ public class LoginActivity extends AbstractActivity implements LoginContract.Vie
 
     public static void start() {
         Intent intent = new Intent(MyApplication.applicationContext, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         MyApplication.applicationContext.startActivity(intent);
     }
 

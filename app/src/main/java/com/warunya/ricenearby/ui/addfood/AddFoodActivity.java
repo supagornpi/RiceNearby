@@ -43,6 +43,7 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
 
     public static void start() {
         Intent intent = new Intent(MyApplication.applicationContext, AddFoodActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         MyApplication.applicationContext.startActivity(intent);
     }
 

@@ -45,6 +45,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
 
     public static void start() {
         Intent intent = new Intent(MyApplication.applicationContext, EditProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         MyApplication.applicationContext.startActivity(intent);
     }
 
