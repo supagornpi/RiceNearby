@@ -62,4 +62,19 @@ public class CustomAdapter<T> extends RecyclerView.Adapter<CustomAdapter<T>.View
         this.list.addAll(list);
         notifyItemRangeChanged(notifyStart, (notifyStart + list.size()));
     }
+
+    public void addItem(T item) {
+        int notifyStart = this.list.size();
+        this.list.add(item);
+        notifyItemRangeChanged(notifyStart, (notifyStart + list.size()));
+    }
+
+    public void deleteItemAt(int position) {
+        this.list.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public List<T> getList() {
+        return list;
+    }
 }

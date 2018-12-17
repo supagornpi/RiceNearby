@@ -24,6 +24,14 @@ class DialogAlert {
             dialog.show()
         }
 
+        fun show(activity: Activity, message: String, listener: DialogInterface.OnClickListener) {
+            val dialog = AlertDialog.Builder(activity)
+            dialog.setMessage(message)
+            dialog.setPositiveButton(activity.resources.getString(android.R.string.ok), listener)
+            dialog.setNegativeButton(activity.getString(android.R.string.cancel), null)
+            dialog.show()
+        }
+
         fun show(activity: Activity, message: String) {
             val dialog = AlertDialog.Builder(activity)
             dialog.setMessage(message)

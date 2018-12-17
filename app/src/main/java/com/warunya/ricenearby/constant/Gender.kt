@@ -1,4 +1,4 @@
-package com.warunya.ricenearby.constance
+package com.warunya.ricenearby.constant
 
 import com.google.gson.annotations.SerializedName
 import java.util.*

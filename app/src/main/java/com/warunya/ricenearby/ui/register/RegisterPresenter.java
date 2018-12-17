@@ -7,7 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.warunya.ricenearby.constance.RequireField;
+import com.warunya.ricenearby.constant.RequireField;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.RegisterEntity;
 import com.warunya.ricenearby.utils.ValidatorUtils;

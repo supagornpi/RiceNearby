@@ -1,7 +1,7 @@
 package com.warunya.ricenearby.ui.register;
 
 import com.warunya.ricenearby.base.BaseView;
-import com.warunya.ricenearby.constance.RequireField;
+import com.warunya.ricenearby.constant.RequireField;
 import com.warunya.ricenearby.model.RegisterEntity;
 
 public interface RegisterContract {

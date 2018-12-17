@@ -1,4 +1,4 @@
-package com.warunya.ricenearby.constance
+package com.warunya.ricenearby.constant
 
 enum class RequireField {
 

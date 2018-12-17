@@ -3,7 +3,9 @@ package com.warunya.ricenearby.model;
 import android.net.Uri;
 
 import com.google.firebase.database.IgnoreExtraProperties;
-import com.warunya.ricenearby.constance.Gender;
+import com.warunya.ricenearby.constant.Gender;
+
+import java.util.List;
 
 @IgnoreExtraProperties
 public class User {
@@ -17,6 +19,7 @@ public class User {
     public Gender gender;
     public String birthday;
     public Upload image;
+    public List<Address> addresses;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)

@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
-import com.warunya.ricenearby.constance.RequireField;
+import com.warunya.ricenearby.constant.RequireField;
 import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.model.RegisterEntity;
 import com.warunya.ricenearby.ui.main.MainActivity;

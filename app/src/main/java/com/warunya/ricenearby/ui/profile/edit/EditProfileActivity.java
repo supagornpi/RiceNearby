@@ -9,14 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
-import com.warunya.ricenearby.constance.Gender;
+import com.warunya.ricenearby.constant.Gender;
 import com.warunya.ricenearby.model.User;
+import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.GlideLoader;
 import com.warunya.ricenearby.utils.IntentUtils;
@@ -41,6 +43,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
     private EditText edtBirthday;
     private Spinner spnGender;
     private ImageView ivProfile;
+    private LinearLayout llAddress;
 
 
     public static void start() {
@@ -74,6 +77,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         edtBirthday = findViewById(R.id.edt_birthday);
         spnGender = findViewById(R.id.spinner_gender);
         ivProfile = findViewById(R.id.iv_profile);
+        llAddress = findViewById(R.id.layout_address);
 
         SpinnerUtils.setSpinner(getApplicationContext(), spnGender, R.array.gender_list, true);
 
@@ -93,6 +97,13 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
                 openGalleryIntent();
             }
         });
+
+        llAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddressActivity.start();
+            }
+        });
     }
 
     @Override
@@ -107,7 +118,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         tvEmail.setText(user.email);
         edtMobile.setText(user.mobile);
 
-        if (user.image ==null) return;
+        if (user.image == null) return;
         GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
 
     }
