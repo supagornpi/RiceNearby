@@ -10,11 +10,16 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.model.Address;
+import com.warunya.ricenearby.ui.address.AddressActivity;
 
 public class AddressView extends LinearLayout {
 
+    private int position = 0;
     private Address address;
     private OnActionListener onActionListener;
 
@@ -52,8 +57,9 @@ public class AddressView extends LinearLayout {
         tvDelete = findViewById(R.id.tv_delete);
     }
 
-    public void fetch(Address address) {
+    public void fetch(Address address, int position) {
         this.address = address;
+        this.position = position;
         tvAddress.setText(address.name);
     }
 
@@ -61,14 +67,15 @@ public class AddressView extends LinearLayout {
         tvEdit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-//                try {
-//                    activity.startActivityForResult(builder.build(activity), AddressActivity.PLACE_PICKER_REQUEST);
-//                } catch (GooglePlayServicesRepairableException e) {
-//                    e.printStackTrace();
-//                } catch (GooglePlayServicesNotAvailableException e) {
-//                    e.printStackTrace();
-//                }
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    activity.startActivityForResult(builder.build(activity),
+                            position);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
                 if (onActionListener == null) return;
                 onActionListener.editItem();
             }

@@ -31,6 +31,8 @@ public class AddressActivity extends AbstractActivity implements AddressContract
 
 
     public static final int PLACE_PICKER_REQUEST = 129;
+    public static final int PLACE_EDIT_REQUEST = 130;
+
     private AddressContract.Presenter presenter = new AddressPresenter(this);
     private CustomAdapter<Address> adapter;
 
@@ -69,7 +71,7 @@ public class AddressActivity extends AbstractActivity implements AddressContract
                 Address address = ((Address) item);
                 if (address == null) return;
                 ((AddressView) itemView).bindAction(AddressActivity.this);
-                ((AddressView) itemView).fetch(address);
+                ((AddressView) itemView).fetch(address, position);
                 ((AddressView) itemView).addOnActionListener(new AddressView.OnActionListener() {
                     @Override
                     public void deleteItem() {
@@ -131,20 +133,22 @@ public class AddressActivity extends AbstractActivity implements AddressContract
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
+            Place place = PlacePicker.getPlace(data, this);
+            String toastMsg = String.format("Place: %s", data.getAction());
+            Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+
+            String addressName = place.getName() + "\n" + place.getAddress().toString();
+            Double latitude = place.getLatLng().latitude;
+            Double longitude = place.getLatLng().longitude;
+
+            Address address = new Address(addressName, latitude, longitude);
             if (requestCode == PLACE_PICKER_REQUEST) {
-                Place place = PlacePicker.getPlace(data, this);
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-
-                String addressName = place.getName() + "\n" + place.getAddress().toString();
-                Double latitude = place.getLatLng().latitude;
-                Double longitude = place.getLatLng().longitude;
-
-                Address address = new Address(addressName, latitude, longitude);
                 adapter.addItem(address);
-
-                presenter.submit(adapter.getList());
+            } else {
+                adapter.editItemAt(requestCode, address);
             }
+
+            presenter.submit(adapter.getList());
         }
     }
 }
