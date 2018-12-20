@@ -3,6 +3,8 @@ package com.warunya.ricenearby;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.FacebookSdk;
+
 public class MyApplication extends Application {
 
     public static Context applicationContext;
@@ -19,5 +21,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         applicationContext = this;
+        FacebookSdk.sdkInitialize(this);
     }
 }

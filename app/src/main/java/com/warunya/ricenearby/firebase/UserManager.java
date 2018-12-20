@@ -81,6 +81,7 @@ public class UserManager {
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
                 if (handler == null) return;
                 handler.onComplete();
             }

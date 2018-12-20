@@ -134,7 +134,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
             file = FileUtils.getResizedBitmap(this, new File(FileUtils.getRealPathFromURI(this, imageUri)));
         }
 
-        return new User(username, name, mobile, gender, birthday, Uri.fromFile(file));
+        return new User(username, name, mobile, gender, birthday, file == null ? null : Uri.fromFile(file));
     }
 
     @Override

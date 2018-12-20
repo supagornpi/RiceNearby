@@ -92,4 +92,17 @@
     <string name="add_detail">รายละเอียด</string>
     <string name="add_type">ประเภทอาหาร</string>
 
+    <!--Food type-->
+    <string name="type_meat">อาหารคาว</string>
+    <string name="type_dessert">อาหารหวาน</string>
+    <string name="type_chinese_food">อาหารจีน</string>
+    <string name="type_healthy_food">อาหารสุขภาพ</string>
+    <string name="type_halal_food">อาหารฮาลาล</string>
+    <string name="type_vegetarian">มังสวิรัต</string>
+    <string name="type_korean_food">อาหารเกาหลี</string>
+    <string name="type_italian_food">อาหารอิตาเลี่ยน</string>
+    <string name="type_vegetarian_food">อาหารเจ</string>
+    <string name="type_japanese_food">อาหารญี่ปุ่น</string>
+    <string name="type_thai_food">อาหารไทย</string>
+
 </resources>

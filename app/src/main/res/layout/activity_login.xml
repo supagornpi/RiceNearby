@@ -80,15 +80,25 @@
             android:text="@string/login_or"
             android:textSize="@dimen/text_small" />
 
-        <Button
-            android:id="@+id/btn_facebook"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_small"
-            android:background="@drawable/button_facebook"
-            android:text="@string/button_login_facebook"
-            android:textColor="@color/color_white"
-            android:textSize="@dimen/text_small" />
+            android:layout_height="wrap_content">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/loginButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+            <Button
+                android:id="@+id/btn_facebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_small"
+                android:background="@drawable/button_facebook"
+                android:text="@string/button_login_facebook"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_small" />
+        </RelativeLayout>
 
     </LinearLayout>
 
