@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,10 +12,38 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/layout_selected_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <CheckBox
+                android:id="@+id/checkbox_selected_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="เลือกทั้งหมด" />
+
+        </LinearLayout>
+
         <com.warunya.ricenearby.customs.view.RecyclerViewProgress
             android:id="@+id/recyclerViewProgress"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_small"
+            android:background="@drawable/button_primary"
+            android:gravity="center"
+            android:padding="@dimen/padding_small"
+            android:text="@string/settime_select"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </LinearLayout>
 

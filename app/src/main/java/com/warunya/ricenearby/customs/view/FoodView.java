@@ -6,12 +6,16 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.ui.food.FoodActivity;
+import com.warunya.ricenearby.utils.GlideLoader;
 
 public class FoodView extends LinearLayout {
 
@@ -20,6 +24,10 @@ public class FoodView extends LinearLayout {
     private LinearLayout layoutItem;
     private TextView tvFoodName;
     private TextView tvPrice;
+    private TextView tvMeal;
+    private TextView tvDate;
+    private ImageView ivFood;
+    private CheckBox checkBox;
 
     public FoodView(Context context) {
         super(context);
@@ -47,12 +55,32 @@ public class FoodView extends LinearLayout {
 
         tvFoodName = findViewById(R.id.tv_name);
         tvPrice = findViewById(R.id.tv_price);
+        tvMeal = findViewById(R.id.tv_meal);
+        tvDate = findViewById(R.id.tv_date);
+        ivFood = findViewById(R.id.iv_food);
+        checkBox = findViewById(R.id.checkbox);
     }
 
-    public void bind(Food food) {
-       this.food = food;
+    public void bind(final Food food) {
+        if (food == null) return;
+        this.food = food;
         tvFoodName.setText(food.foodName);
         tvPrice.setText(food.price + ".-");
+        tvMeal.setText(food.meal == null ? "" : "มื้อ : " + food.meal);
+        tvDate.setText(food.date == null ? "" : food.date);
+
+        if (food.uploads != null && food.uploads.get(0) != null) {
+            GlideLoader.Companion.load(food.uploads.get(0).url, ivFood);
+        } else {
+            ivFood.setImageResource(R.drawable.logo);
+        }
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                food.isSelected = b;
+            }
+        });
     }
 
     public void bindAction() {
@@ -65,5 +93,13 @@ public class FoodView extends LinearLayout {
                 FoodActivity.start(food);
             }
         });
+    }
+
+    public void setSelected(boolean isSelected) {
+        checkBox.setChecked(isSelected);
+    }
+
+    public void showCheckBox() {
+        checkBox.setVisibility(VISIBLE);
     }
 }

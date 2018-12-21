@@ -12,17 +12,22 @@ import java.util.Map;
 @Parcel
 public class Food {
 
+    public String key;
     public String uid;
     public String foodName;
     public String detail;
+    public String date;
+    public String meal;
     public int amount;
     public int price;
     public List<FoodImage> foodImages;
     public List<Upload> uploads;
+    public boolean isSelected;
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("key", key);
         result.put("uid", uid);
         result.put("foodName", foodName);
         result.put("timestamp", ServerValue.TIMESTAMP);
@@ -30,6 +35,8 @@ public class Food {
         result.put("amount", amount);
         result.put("price", price);
         result.put("uploads", uploads);
+        result.put("date", date);
+        result.put("meal", meal);
         return result;
     }
 

@@ -69,6 +69,7 @@ public class FoodManager {
         // Create new submitPost at /user-posts/$userid/$postid
         // and at /posts/$postid simultaneously
         final String key = getInstance().mDatabase.child("foods").push().getKey();
+        food.key = key;
         Map postValues = food.toMap();
 
         Map childUpdates = new HashMap<String, Object>();
@@ -160,6 +161,28 @@ public class FoodManager {
                 } else {
                     value.uploads.add(upload);
                 }
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
+
+    public static void editFoodDate(DatabaseReference reference, final Food food) {
+        reference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Food value = mutableData.getValue(Food.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+                value.date = food.date;
+                value.meal = food.meal;
                 // Set value and report transaction success
                 mutableData.setValue(value);
                 return Transaction.success(mutableData);

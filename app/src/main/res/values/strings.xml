@@ -32,6 +32,7 @@
     <string name="title_add_food">อัพโหลดเมนู</string>
     <string name="title_menu">เมนู</string>
     <string name="title_address">ที่อยู่</string>
+    <string name="title_set_time">กำหนดเวลาขายอาหาร</string>
 
     <!--Login-->
     <string name="login_business_model">คนแถวนี้กินอะไรกัน?</string>
@@ -104,5 +105,16 @@
     <string name="type_vegetarian_food">อาหารเจ</string>
     <string name="type_japanese_food">อาหารญี่ปุ่น</string>
     <string name="type_thai_food">อาหารไทย</string>
+
+    <!--Set time-->
+    <string name="settime_select_date">เลือกวันที่</string>
+    <string name="settime_time">มื้อ</string>
+    <string name="settime_breakfast">เช้า</string>
+    <string name="settime_lunch">กลางวัน</string>
+    <string name="settime_diner">เย็น</string>
+    <string name="settime_late_diner">ค่ำ</string>
+    <string name="settime_select_menu">+ เลือกเมนู</string>
+    <string name="settime_select">เลือก</string>
+
 
 </resources>
