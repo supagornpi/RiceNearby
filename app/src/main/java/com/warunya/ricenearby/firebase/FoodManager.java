@@ -183,6 +183,7 @@ public class FoodManager {
                 }
                 value.date = food.date;
                 value.meal = food.meal;
+
                 // Set value and report transaction success
                 mutableData.setValue(value);
                 return Transaction.success(mutableData);
@@ -194,6 +195,33 @@ public class FoodManager {
             }
         });
     }
+
+    public static void editFood(DatabaseReference reference, final Food food) {
+        reference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Food value = mutableData.getValue(Food.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+                value.foodName = food.foodName;
+                value.amount = food.amount;
+                value.price = food.price;
+                value.detail = food.detail;
+                value.foodTypes = food.foodTypes;
+
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
+
 
     public static void getUserProfile(final OnValueEventListener onValueEventListener) {
         getInstance().userProfileEventListener = new ValueEventListener() {

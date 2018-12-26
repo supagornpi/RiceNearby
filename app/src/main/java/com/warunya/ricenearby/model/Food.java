@@ -22,6 +22,7 @@ public class Food {
     public int price;
     public List<FoodImage> foodImages;
     public List<Upload> uploads;
+    public List<FoodType> foodTypes;
     public boolean isSelected;
 
     @Exclude
@@ -37,19 +38,21 @@ public class Food {
         result.put("uploads", uploads);
         result.put("date", date);
         result.put("meal", meal);
+        result.put("foodTypes", foodTypes);
         return result;
     }
 
     public Food() {
     }
 
-    public Food(String uid, String foodName, int amount, int price, String detail, List<FoodImage> foodImages) {
+    public Food(String uid, String foodName, int amount, int price, String detail, List<FoodType> foodTypes, List<Upload> uploads) {
         this.uid = uid;
         this.foodName = foodName;
         this.detail = detail;
         this.amount = amount;
         this.price = price;
-        this.foodImages = foodImages;
+        this.uploads = uploads;
+        this.foodTypes = foodTypes;
     }
 
     public String getFoodName() {

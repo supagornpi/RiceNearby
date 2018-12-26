@@ -8,15 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.warunya.ricenearby.R;
-import com.warunya.ricenearby.model.FoodImage;
+import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.utils.GlideLoader;
 import com.warunya.ricenearby.utils.ResolutionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHolder> {
 
-    private List<FoodImage> images;
+    private List<Upload> images = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -28,8 +29,7 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
         }
     }
 
-    public AddImageAdapter(List<FoodImage> dataset, OnItemClickListener onItemClickListener) {
-        this.images = dataset;
+    public AddImageAdapter(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -46,8 +46,13 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
         if (images == null) {
             return;
         }
-        if (images.size() > 0 && position != images.size()) {
+        if (images.size() > 0 && position != images.size() && images.get(position).uri != null) {
             GlideLoader.Companion.load(images.get(position).uri, viewHolder.ivImage);
+        }
+
+
+        if (images.size() > 0 && position != images.size() && images.get(position).url != null) {
+            GlideLoader.Companion.load(images.get(position).url, viewHolder.ivImage);
         }
 
         if (images.size() != 4 && position == images.size() || images.size() == 0 && position == 0) {
@@ -69,11 +74,16 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
     }
 
     public void addImageUri(Uri uri) {
-        this.images.add(new FoodImage(uri));
+        this.images.add(new Upload(uri));
         notifyDataSetChanged();
     }
 
-    public List<FoodImage> getFoodImages() {
+    public void setImages(List<Upload> foodImages) {
+        this.images = foodImages;
+        notifyDataSetChanged();
+    }
+
+    public List<Upload> getFoodImages() {
         return this.images;
     }
 

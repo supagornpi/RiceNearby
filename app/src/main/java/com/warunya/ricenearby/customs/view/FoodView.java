@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
 import com.warunya.ricenearby.ui.food.FoodActivity;
 import com.warunya.ricenearby.utils.GlideLoader;
 
@@ -26,6 +27,7 @@ public class FoodView extends LinearLayout {
     private TextView tvPrice;
     private TextView tvMeal;
     private TextView tvDate;
+    private TextView tvEdit;
     private ImageView ivFood;
     private CheckBox checkBox;
 
@@ -57,6 +59,7 @@ public class FoodView extends LinearLayout {
         tvPrice = findViewById(R.id.tv_price);
         tvMeal = findViewById(R.id.tv_meal);
         tvDate = findViewById(R.id.tv_date);
+        tvEdit = findViewById(R.id.tv_edit);
         ivFood = findViewById(R.id.iv_food);
         checkBox = findViewById(R.id.checkbox);
     }
@@ -91,6 +94,13 @@ public class FoodView extends LinearLayout {
             public void onClick(View view) {
                 if (food == null) return;
                 FoodActivity.start(food);
+            }
+        });
+
+        tvEdit.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddFoodActivity.startInEditMode(food);
             }
         });
     }

@@ -91,9 +91,23 @@
     <string name="add_amount">จำนวน</string>
     <string name="add_price">ราคา</string>
     <string name="add_detail">รายละเอียด</string>
-    <string name="add_type">ประเภทอาหาร</string>
+    <string name="add_type">ประเภทอาหาร (เลือกได้สูงสุด 2 ประเภท)</string>
 
     <!--Food type-->
+    <string-array name="food_type_list">
+        <item>อาหารคาว</item>
+        <item>อาหารหวาน</item>
+        <item>อาหารจีน</item>
+        <item>อาหารสุขภาพ</item>
+        <item>อาหารฮาลาล</item>
+        <item>มังสวิรัต</item>
+        <item>อาหารเกาหลี</item>
+        <item>อาหารอิตาเลี่ยน</item>
+        <item>อาหารเจ</item>
+        <item>อาหารญี่ปุ่น</item>
+        <item>อาหารไทย</item>
+
+    </string-array>
     <string name="type_meat">อาหารคาว</string>
     <string name="type_dessert">อาหารหวาน</string>
     <string name="type_chinese_food">อาหารจีน</string>

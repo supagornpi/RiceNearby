@@ -8,6 +8,8 @@ public interface AddFoodContract {
 
     interface Presenter extends BasePresenter {
         void addNewFood(Food food);
+
+        void editFood(Food food);
     }
 
     interface View extends BaseView.Progress {

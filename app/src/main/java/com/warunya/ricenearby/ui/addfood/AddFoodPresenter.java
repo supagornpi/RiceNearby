@@ -1,18 +1,7 @@
 package com.warunya.ricenearby.ui.addfood;
 
-import android.net.Uri;
-import android.support.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.warunya.ricenearby.firebase.FoodManager;
 import com.warunya.ricenearby.model.Food;
-import com.warunya.ricenearby.model.FoodImage;
-import com.warunya.ricenearby.model.Upload;
 
 public class AddFoodPresenter implements AddFoodContract.Presenter {
 
@@ -39,4 +28,10 @@ public class AddFoodPresenter implements AddFoodContract.Presenter {
 
     }
 
+    @Override
+    public void editFood(Food food) {
+        FoodManager.editFood(FoodManager.getUserFoodsReference(food.uid), food);
+        FoodManager.editFood(FoodManager.getFoodsReference(food.uid), food);
+        view.addSuccess();
+    }
 }
