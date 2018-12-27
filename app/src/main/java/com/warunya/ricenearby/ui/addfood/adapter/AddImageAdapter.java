@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.warunya.ricenearby.R;
+import com.warunya.ricenearby.model.FoodImage;
 import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.utils.GlideLoader;
 import com.warunya.ricenearby.utils.ResolutionUtils;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHolder> {
 
-    private List<Upload> images = new ArrayList<>();
+    private List<FoodImage> images = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,16 +75,16 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
     }
 
     public void addImageUri(Uri uri) {
-        this.images.add(new Upload(uri));
+        this.images.add(new FoodImage(uri));
         notifyDataSetChanged();
     }
 
-    public void setImages(List<Upload> foodImages) {
+    public void setImages(List<FoodImage> foodImages) {
         this.images = foodImages;
         notifyDataSetChanged();
     }
 
-    public List<Upload> getFoodImages() {
+    public List<FoodImage> getFoodImages() {
         return this.images;
     }
 

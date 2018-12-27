@@ -45,13 +45,13 @@ public class Food {
     public Food() {
     }
 
-    public Food(String uid, String foodName, int amount, int price, String detail, List<FoodType> foodTypes, List<Upload> uploads) {
+    public Food(String uid, String foodName, int amount, int price, String detail, List<FoodType> foodTypes, List<FoodImage> foodImages) {
         this.uid = uid;
         this.foodName = foodName;
         this.detail = detail;
         this.amount = amount;
         this.price = price;
-        this.uploads = uploads;
+        this.foodImages = foodImages;
         this.foodTypes = foodTypes;
     }
 

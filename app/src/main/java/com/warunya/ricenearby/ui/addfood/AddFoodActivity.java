@@ -18,7 +18,9 @@ import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.model.FoodImage;
 import com.warunya.ricenearby.model.FoodType;
+import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.ui.addfood.adapter.AddImageAdapter;
 import com.warunya.ricenearby.ui.addfood.adapter.FoodTypeAdapter;
 import com.warunya.ricenearby.utils.FileUtils;
@@ -87,7 +89,11 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
 
         if (isEditMode) {
             if (food.uploads != null) {
-                addImageAdapter.setImages(food.uploads);
+                List<FoodImage> foodImages = new ArrayList<>();
+                for (Upload upload : food.uploads) {
+                    foodImages.add(new FoodImage(upload.author, upload.name, upload.url));
+                }
+                addImageAdapter.setImages(foodImages);
             }
             edtFoodName.setText(food.foodName);
             edtAmount.setText(food.amount + "");
@@ -192,6 +198,7 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
                 foodTypes.add(foodType);
             }
         }
+
         return new Food(uid, foodName, amount, price, detail, foodTypes, addImageAdapter.getFoodImages());
     }
 
