@@ -5,11 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.model.FoodImage;
-import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.utils.GlideLoader;
 import com.warunya.ricenearby.utils.ResolutionUtils;
 
@@ -22,11 +22,13 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
     private OnItemClickListener onItemClickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ivImage;
+        private ImageView ivImage;
+        private ImageButton btnRemove;
 
         public ViewHolder(View view) {
             super(view);
             ivImage = view.findViewById(R.id.iv_image);
+            btnRemove = view.findViewById(R.id.btn_remove);
         }
     }
 
@@ -43,17 +45,18 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         if (images == null) {
+            viewHolder.ivImage.setImageResource(R.drawable.ic_add);
             return;
         }
+
         if (images.size() > 0 && position != images.size() && images.get(position).uri != null) {
             GlideLoader.Companion.load(images.get(position).uri, viewHolder.ivImage);
-        }
-
-
-        if (images.size() > 0 && position != images.size() && images.get(position).url != null) {
+        } else if (images.size() > 0 && position != images.size() && images.get(position).url != null) {
             GlideLoader.Companion.load(images.get(position).url, viewHolder.ivImage);
+        } else {
+            viewHolder.ivImage.setImageResource(R.drawable.ic_add);
         }
 
         if (images.size() != 4 && position == images.size() || images.size() == 0 && position == 0) {
@@ -67,11 +70,36 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
         } else {
             viewHolder.ivImage.setOnClickListener(null);
         }
+
+        //show remove button
+        viewHolder.btnRemove.setVisibility((images.size() > 0 && position != images.size()) ? View.VISIBLE : View.GONE);
+
+        viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onItemClickListener == null) return;
+                try {
+                    onItemClickListener.onItemRemove(position);
+                    images.get(position).isRemoved = true;
+                    images.remove(position);
+                    notifyDataSetChanged();
+                } catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
-        return (this.images.size() == 4) ? this.images.size() : this.images.size() + 1;
+        int size = 0;
+        for (FoodImage foodImage : this.images) {
+            if (!foodImage.isRemoved) {
+                size++;
+            }
+        }
+        return (size == 4) ? size : size + 1;
     }
 
     public void addImageUri(Uri uri) {
@@ -90,5 +118,8 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
 
     public interface OnItemClickListener {
         void onItemClicked();
+
+        void onItemRemove(int position);
+
     }
 }

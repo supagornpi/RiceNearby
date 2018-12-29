@@ -22,9 +22,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.FoodImage;
-import com.warunya.ricenearby.model.RegisterEntity;
 import com.warunya.ricenearby.model.Upload;
-import com.warunya.ricenearby.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -222,68 +220,51 @@ public class FoodManager {
         });
     }
 
+    public static void updateFoodImage(Food food, String key) {
+        if (food.foodImages == null) return;
+        if (food.foodImages.size() > 0) {
+            for (FoodImage foodImage : food.foodImages) {
+                if (foodImage.uri != null) {
+                    //upload file to firebase
+                    uploadFile(foodImage.uri, food.foodName, food.key);
+                } else if (foodImage.isRemoved) {
+                    removeFoodImage(getFoodsReference(food.key), foodImage.name);
+                    removeFoodImage(getUserFoodsReference(food.key), foodImage.name);
+                }
+            }
+        }
+    }
 
-    public static void getUserProfile(final OnValueEventListener onValueEventListener) {
-        getInstance().userProfileEventListener = new ValueEventListener() {
+    public static void removeFoodImage(DatabaseReference reference, final String foodName) {
+        reference.runTransaction(new Transaction.Handler() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                onValueEventListener.onDataChange(dataSnapshot);
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Food value = mutableData.getValue(Food.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+                if (value.uploads != null) {
+                    for (int i = 0; i < value.uploads.size(); i++) {
+                        if (value.uploads.get(i).name.equals(foodName)) {
+                            //remove item
+                            value.uploads.remove(i);
+                            //end loop
+                            i = value.uploads.size();
+                        }
+                    }
+                }
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
 
             }
-        };
-        getInstance().mDatabase.child("users").child(FoodManager.getUid()).addValueEventListener(getInstance().userProfileEventListener);
+        });
     }
 
-//    public static void editUserProfile(final User user, final Handler handler) {
-//        getDatabaseReference().runTransaction(new Transaction.Handler() {
-//            @Override
-//            public Transaction.Result doTransaction(MutableData mutableData) {
-//                User value = mutableData.getValue(User.class);
-//                if (value == null) {
-//                    return Transaction.success(mutableData);
-//                }
-////                        ?: return Transaction.success(mutableData);
-//                value.name = user.name;
-//                value.mobile = user.mobile;
-//                value.birthday = user.birthday;
-//                value.gender = user.gender;
-//                // Set value and report transaction success
-//                mutableData.setValue(value);
-//                return Transaction.success(mutableData);
-//            }
-//
-//            @Override
-//            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-//                if (handler == null) return;
-//                handler.onComplete();
-//            }
-//        });
-//    }
-
-    public static void updateUserData(String uid, User user) {
-        getInstance().mDatabase.child("users").child(uid).setValue(user);
-    }
-
-    public static void updateUserData(String uid, RegisterEntity entity) {
-        String email = entity.getEmail();
-        String username = entity.getUsername();
-
-        User user = new User(username, email);
-        updateUserData(uid, user);
-    }
-
-    public static void updateUserImage(Upload upload) {
-        getInstance().mDatabase.child("user-images").child(getUid()).setValue(upload);
-    }
-
-    public static void logout() {
-        FirebaseAuth.getInstance().signOut();
-    }
 
     public interface OnValueEventListener {
         void onDataChange(DataSnapshot dataSnapshot);

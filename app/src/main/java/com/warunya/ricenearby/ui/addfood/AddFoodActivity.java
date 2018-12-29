@@ -43,6 +43,7 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
 
     private boolean isEditMode = false;
     private List<FoodType> foodTypeList = new ArrayList<>();
+    private List<FoodImage> foodImageList = new ArrayList<>();
     private Food food;
 
     private RecyclerViewProgress recyclerViewProgress;
@@ -92,12 +93,13 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
                 List<FoodImage> foodImages = new ArrayList<>();
                 for (Upload upload : food.uploads) {
                     foodImages.add(new FoodImage(upload.author, upload.name, upload.url));
+                    this.foodImageList.add(new FoodImage(upload.author, upload.name, upload.url));
                 }
                 addImageAdapter.setImages(foodImages);
             }
             edtFoodName.setText(food.foodName);
             edtAmount.setText(food.amount + "");
-            edtPrice.setText(food.price + ".-");
+            edtPrice.setText(food.price + "");
             edtDetail.setText(food.detail);
         }
     }
@@ -115,6 +117,11 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
             @Override
             public void onItemClicked() {
                 openGalleryIntent();
+            }
+
+            @Override
+            public void onItemRemove(int position) {
+                foodImageList.get(position).isRemoved = true;
             }
         });
 
@@ -199,7 +206,7 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
             }
         }
 
-        return new Food(uid, foodName, amount, price, detail, foodTypes, addImageAdapter.getFoodImages());
+        return new Food(uid, foodName, amount, price, detail, foodTypes, this.foodImageList);
     }
 
     @Override
@@ -211,7 +218,9 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
                 if (data.getData() != null) {
                     file = FileUtils.getResizedBitmap(this, new File(FileUtils.getRealPathFromURI(this, data.getData())));
                 }
-                addImageAdapter.addImageUri(Uri.fromFile(file));
+                Uri uri = Uri.fromFile(file);
+                addImageAdapter.addImageUri(uri);
+                this.foodImageList.add(new FoodImage(uri));
             }
         }
     }

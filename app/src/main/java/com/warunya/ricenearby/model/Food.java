@@ -47,6 +47,7 @@ public class Food {
 
     public Food(String uid, String foodName, int amount, int price, String detail, List<FoodType> foodTypes, List<FoodImage> foodImages) {
         this.uid = uid;
+        this.key = uid;
         this.foodName = foodName;
         this.detail = detail;
         this.amount = amount;

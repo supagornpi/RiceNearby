@@ -11,6 +11,7 @@ public class FoodImage {
     public String name;
     public Uri uri;
     public String url;
+    public boolean isRemoved;
 
     public FoodImage() {
     }

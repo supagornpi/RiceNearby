@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/padding_mini"
@@ -13,4 +13,12 @@
         android:layout_height="match_parent"
         android:src="@drawable/ic_add" />
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/btn_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/ic_close_circular_button"
+        android:padding="@dimen/padding_small" />
+
+</RelativeLayout>

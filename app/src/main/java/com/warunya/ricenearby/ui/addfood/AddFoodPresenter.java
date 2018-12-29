@@ -30,8 +30,9 @@ public class AddFoodPresenter implements AddFoodContract.Presenter {
 
     @Override
     public void editFood(Food food) {
-        FoodManager.editFood(FoodManager.getUserFoodsReference(food.uid), food);
-        FoodManager.editFood(FoodManager.getFoodsReference(food.uid), food);
+        FoodManager.editFood(FoodManager.getUserFoodsReference(food.key), food);
+        FoodManager.editFood(FoodManager.getFoodsReference(food.key), food);
+        FoodManager.updateFoodImage(food, food.key);
         view.addSuccess();
     }
 }
