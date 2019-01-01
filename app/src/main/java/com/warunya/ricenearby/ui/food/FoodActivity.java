@@ -1,6 +1,7 @@
 package com.warunya.ricenearby.ui.food;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,7 +46,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(Bundle savedInstanceState) {
         showBackButton();
 
         food = Parcels.unwrap(getIntent().getParcelableExtra("food"));

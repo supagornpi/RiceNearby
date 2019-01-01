@@ -145,6 +145,54 @@ public class FoodManager {
 
     }
 
+    public static void getAllFoods(final QueryListener queryListener) {
+        getInstance().userProfileEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<HashMap<String, Food>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Food>>() {
+                };
+                Map<String, Food> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
+                if (objectHashMap == null) return;
+                List<Food> foods = new ArrayList<Food>(objectHashMap.values());
+                if (queryListener == null) return;
+                queryListener.onComplete(foods);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        getInstance().mDatabase.child("foods").addValueEventListener(getInstance().userProfileEventListener);
+
+    }
+
+    public static void filterFoods(String keyWord, final QueryListener queryListener) {
+        getInstance().userProfileEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<HashMap<String, Food>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Food>>() {
+                };
+                Map<String, Food> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
+                if (objectHashMap == null) {
+                    if (queryListener == null) return;
+                    queryListener.onComplete(null);
+                    return;
+                }
+                List<Food> foods = new ArrayList<Food>(objectHashMap.values());
+                if (queryListener == null) return;
+                queryListener.onComplete(foods);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        getInstance().mDatabase.child("foods").orderByChild("foodName").startAt(keyWord).addValueEventListener(getInstance().userProfileEventListener);
+
+    }
+
     public static void uploadFoodImage(DatabaseReference reference, final Upload upload) {
         reference.runTransaction(new Transaction.Handler() {
             @Override

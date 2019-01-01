@@ -3,6 +3,7 @@ package com.warunya.ricenearby.ui.profile.edit;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -58,7 +59,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(Bundle savedInstanceState) {
         setTitle("");
         setToolbarColor(android.R.color.transparent);
         showBackButton();

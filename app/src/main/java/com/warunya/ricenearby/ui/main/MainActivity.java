@@ -1,6 +1,7 @@
 package com.warunya.ricenearby.ui.main;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -33,7 +34,7 @@ public class MainActivity extends AbstractActivity {
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(Bundle savedInstanceState) {
         bindView();
 
         FrameLayout frameLayout = findViewById(R.id.main_content);
@@ -55,9 +56,9 @@ public class MainActivity extends AbstractActivity {
             }
         };
 
-//        if (savedInstanceState == null) {
-//            (fragmentStateManager).changeFragment(0);
-//        }
+        if (savedInstanceState == null) {
+            (fragmentStateManager).changeFragment(0);
+        }
 //
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

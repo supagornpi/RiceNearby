@@ -3,6 +3,7 @@ package com.warunya.ricenearby.ui.settime;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,7 +62,7 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(Bundle savedInstanceState) {
         setTitle(R.string.title_set_time);
         showBackButton();
         bindView();

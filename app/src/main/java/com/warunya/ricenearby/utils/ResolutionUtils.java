@@ -70,4 +70,17 @@ public class ResolutionUtils {
         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         view.setLayoutParams(layoutParams);
     }
+
+    public static void setViewHeight(Context context, float scaleHeight, View view) {
+        //set image size
+        Resources resources = context.getResources();
+        int screenWidth = ResolutionUtils.getScreenSize(context)[0];
+        int viewMargin = resources.getDimensionPixelOffset(R.dimen.padding_small) * 2;
+        int viewHeight = ((int) Math.floor(screenWidth / scaleHeight)) - viewMargin;
+
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        layoutParams.height = viewHeight;
+        view.setLayoutParams(layoutParams);
+    }
 }

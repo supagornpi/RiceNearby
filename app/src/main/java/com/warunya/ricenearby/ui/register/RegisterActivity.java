@@ -1,6 +1,7 @@
 package com.warunya.ricenearby.ui.register;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +40,7 @@ public class RegisterActivity extends AbstractActivity implements RegisterContra
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(Bundle savedInstanceState) {
         bindView();
         bindAction();
 

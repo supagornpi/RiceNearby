@@ -56,10 +56,12 @@ public class RecyclerViewProgress extends LinearLayout {
     }
 
     public void showNotFound() {
+        recyclerView.setVisibility(GONE);
         tvNotFound.setVisibility(VISIBLE);
     }
 
     public void hideNotFound() {
+        recyclerView.setVisibility(VISIBLE);
         tvNotFound.setVisibility(GONE);
     }
 }

@@ -13,13 +13,13 @@ abstract class AbstractActivity : AppCompatActivity() {
     protected lateinit var progressDialog: ProgressDialog
 
     protected abstract fun setLayoutView(): Int
-    protected abstract fun setupView()
+    protected abstract fun setupView(savedInstanceState: Bundle?)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(setLayoutView())
         setProgressDialog()
-        setupView()
+        setupView(savedInstanceState)
     }
 
     // override the base context of application to update default locale for this activity

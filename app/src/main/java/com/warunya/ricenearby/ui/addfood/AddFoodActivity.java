@@ -3,6 +3,7 @@ package com.warunya.ricenearby.ui.addfood;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -78,7 +79,7 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(Bundle savedInstanceState) {
         isEditMode = getIntent().getBooleanExtra(EXTRA_EDIT_MODE, false);
         if (isEditMode) {
             food = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_FOOD));

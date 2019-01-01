@@ -2,6 +2,7 @@ package com.warunya.ricenearby.ui.menu;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class MenuActivity extends AbstractActivity implements MenuContract.View 
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(Bundle savedInstanceState) {
         setTitle(R.string.title_menu);
         showBackButton();
         isSelectFood = getIntent().getBooleanExtra(EXTRA_IS_SELECT_FOOD, false);

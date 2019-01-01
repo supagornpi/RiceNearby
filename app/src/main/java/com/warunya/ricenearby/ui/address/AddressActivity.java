@@ -3,6 +3,7 @@ package com.warunya.ricenearby.ui.address;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,7 +52,7 @@ public class AddressActivity extends AbstractActivity implements AddressContract
     }
 
     @Override
-    protected void setupView() {
+    protected void setupView(Bundle savedInstanceState) {
         setTitle(R.string.title_address);
         showBackButton();
         bindView();
