@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.Tabs;
+import com.warunya.ricenearby.ui.cart.CartFragment;
 import com.warunya.ricenearby.ui.favorite.FavoriteFragment;
 import com.warunya.ricenearby.ui.history.HistoryFragment;
 import com.warunya.ricenearby.ui.home.HomeFragment;
@@ -67,6 +68,9 @@ public class HolderFragment extends Fragment implements FragmentNavigation {
                     break;
                 case Favorite:
                     fragment = new FavoriteFragment();
+                    break;
+                case Cart:
+                    fragment = new CartFragment();
                     break;
                 case History:
                     fragment = new HistoryFragment();

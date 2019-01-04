@@ -31,4 +31,6 @@
 
     <dimen name="profile_image">100dp</dimen>
     <dimen name="food_image_small">60dp</dimen>
+    <dimen name="food_image_normal">90dp</dimen>
+
 </resources>

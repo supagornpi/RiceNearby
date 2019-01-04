@@ -47,8 +47,10 @@ public class MainActivity extends AbstractActivity {
                 } else if (position == 1) {
                     return HolderFragment.newInstance(Tabs.Favorite);
                 } else if (position == 2) {
-                    return HolderFragment.newInstance(Tabs.History);
+                    return HolderFragment.newInstance(Tabs.Cart);
                 } else if (position == 3) {
+                    return HolderFragment.newInstance(Tabs.History);
+                } else if (position == 4) {
                     return HolderFragment.newInstance(Tabs.Profile);
                 } else {
                     return HolderFragment.newInstance(Tabs.Home);
@@ -104,14 +106,17 @@ public class MainActivity extends AbstractActivity {
             case R.id.navigation_home:
                 position = 0;
                 break;
-            case R.id.navigation_customs:
+            case R.id.navigation_favorite:
                 position = 1;
                 break;
-            case R.id.navigation_library:
+            case R.id.navigation_cart:
                 position = 2;
                 break;
-            case R.id.navigation_setting:
+            case R.id.navigation_history:
                 position = 3;
+                break;
+            case R.id.navigation_profile:
+                position = 4;
                 break;
         }
         return position;

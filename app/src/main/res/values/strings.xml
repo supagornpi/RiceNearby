@@ -20,6 +20,7 @@
     <!--Tabs-->
     <string name="tab_home">Home</string>
     <string name="tab_favorite">Fav</string>
+    <string name="tab_cart">Cart</string>
     <string name="tab_history">History</string>
     <string name="tab_profile">Profile</string>
 
@@ -33,6 +34,7 @@
     <string name="title_menu">เมนู</string>
     <string name="title_address">ที่อยู่</string>
     <string name="title_set_time">กำหนดเวลาขายอาหาร</string>
+    <string name="title_cart">ตะกร้าของท่าน</string>
 
     <!--Login-->
     <string name="login_business_model">คนแถวนี้กินอะไรกัน?</string>
@@ -58,6 +60,9 @@
     <string name="button_edit">แก้ไข</string>
     <string name="button_delete">ลบ</string>
     <string name="button_logout">ออกจากระบบ</string>
+    <string name="button_add_cart">เพิ่มลงตะกร้า</string>
+    <string name="button_buy">สั่งซื้อ</string>
+    <string name="button_confirm_order">ยืนยันออเดอร์</string>
 
     <!--Profile-->
     <string name="profile_history">ประวัติการสั่งซื้อ</string>

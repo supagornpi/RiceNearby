@@ -5,103 +5,151 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <include layout="@layout/layout_action_bar" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <com.warunya.ricenearby.customs.widget.WrapContentHeightViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <me.relex.circleindicator.CircleIndicator
-                android:id="@+id/circleindicator"
-                ci_drawable="@drawable/circle_indicator_unactive"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_alignBottom="@+id/viewPager"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/padding_small"
-                app:ci_animator="@null"
-                app:ci_animator_reverse="@null"
-                app:ci_drawable="@drawable/circle_indicator_active"
-                app:ci_drawable_unselected="@drawable/circle_indicator_unactive"
-                app:ci_height="@dimen/circle_indicator_height"
-                app:ci_width="@dimen/circle_indicator_width" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_small">
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_food_name"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="ข้าวผัดกุ้ง"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="45.-"
-                android:textColor="@android:color/holo_red_dark"
-                android:textStyle="bold" />
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_normal"
-            android:text="@string/add_detail"
-            android:textStyle="bold" />
+                    <include layout="@layout/layout_action_bar" />
 
-        <TextView
-            android:id="@+id/tv_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_normal"
-            android:text="- กุ้ง 3 ตัว\n- แหมาะสำหลับรับประทานคนเดียว"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/color_gray"
-            android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.warunya.ricenearby.customs.widget.WrapContentHeightViewPager
+                            android:id="@+id/viewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <me.relex.circleindicator.CircleIndicator
+                            android:id="@+id/circleindicator"
+                            ci_drawable="@drawable/circle_indicator_unactive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_alignBottom="@+id/viewPager"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="@dimen/padding_small"
+                            app:ci_animator="@null"
+                            app:ci_animator_reverse="@null"
+                            app:ci_drawable="@drawable/circle_indicator_active"
+                            app:ci_drawable_unselected="@drawable/circle_indicator_unactive"
+                            app:ci_height="@dimen/circle_indicator_height"
+                            app:ci_width="@dimen/circle_indicator_width" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_small">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_food_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="ข้าวผัดกุ้ง"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="45.-"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_normal"
+                        android:text="@string/add_detail"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_normal"
+                        android:text="- กุ้ง 3 ตัว\n- แหมาะสำหลับรับประทานคนเดียว"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/color_gray"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_xxlarge"
+                        android:gravity="end">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/padding_small"
+                            android:text="ยังไม่ได้กำหนดเวลาขาย"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_xxlarge"
-            android:gravity="end">
+            android:layout_alignParentBottom="true">
 
             <TextView
-                android:layout_width="wrap_content"
+
+                android:id="@+id/btn_add_cart"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/color_white"
+                android:foreground="?android:selectableItemBackground"
+                android:gravity="center"
                 android:padding="@dimen/padding_small"
-                android:text="ยังไม่ได้กำหนดเวลาขาย"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold" />
+                android:text="@string/button_add_cart" />
+
+            <TextView
+                android:id="@+id/btn_buy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:foreground="?android:selectableItemBackground"
+                android:gravity="center"
+                android:padding="@dimen/padding_small"
+                android:text="@string/button_buy"
+                android:textColor="@color/color_white" />
 
         </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

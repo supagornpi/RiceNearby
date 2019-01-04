@@ -26,7 +26,8 @@
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:screenOrientation="portrait" />
@@ -54,7 +55,6 @@
         <activity
             android:name=".ui.settime.SetTimeActivity"
             android:screenOrientation="portrait" />
-
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -6,6 +6,7 @@ import java.util.Map;
 public enum Tabs {
     Home,
     Favorite,
+    Cart,
     History,
     Profile;
 
@@ -13,6 +14,7 @@ public enum Tabs {
         Map<Integer, Tabs> creatorMap = new HashMap<>();
         creatorMap.put(Home.ordinal(), Home);
         creatorMap.put(Favorite.ordinal(), Favorite);
+        creatorMap.put(Cart.ordinal(), Cart);
         creatorMap.put(History.ordinal(), History);
         creatorMap.put(Profile.ordinal(), Profile);
         return creatorMap.get(type);

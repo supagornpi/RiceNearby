@@ -11,6 +11,7 @@ import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.customs.SimplePagerAdapter;
+import com.warunya.ricenearby.dialog.AddCartDialog;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
@@ -30,6 +31,8 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     private TextView tvDetail;
     private ViewPager viewPager;
     private CircleIndicator circleIndicator;
+    private TextView btnAddCart;
+    private TextView btnBuy;
 
     private FoodContract.Presenter presenter = new FoodPresenter(this);
 
@@ -85,6 +88,8 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         tvDetail = findViewById(R.id.tv_detail);
         viewPager = findViewById(R.id.viewPager);
         circleIndicator = findViewById(R.id.circleindicator);
+        btnAddCart = findViewById(R.id.btn_add_cart);
+        btnBuy = findViewById(R.id.btn_buy);
 
         if (food == null) return;
         tvFoodName.setText(food.foodName);
@@ -97,6 +102,21 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
             @Override
             public void onClick(View view) {
                 AddFoodActivity.start();
+            }
+        });
+
+        btnAddCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Cart cart = new Cart(UserManager.getUid(), food, 1);
+                AddCartDialog.show(FoodActivity.this);
+            }
+        });
+
+        btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
