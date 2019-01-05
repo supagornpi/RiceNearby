@@ -38,7 +38,7 @@ public class ResolutionUtils {
     }
 
     public static int getBannerHeightFromRatio(Context context) {
-        Float ratio = 7.0f / 15.0f;
+        Float ratio = 11.5f / 15.0f;
         Float properWith = (float) ResolutionUtils.getScreenSize(context)[0];
         Float properHeight = properWith * ratio;
         return properHeight.intValue();

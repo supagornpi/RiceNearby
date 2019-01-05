@@ -1,6 +1,7 @@
 package com.warunya.ricenearby.ui.food;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -12,9 +13,11 @@ import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.customs.SimplePagerAdapter;
 import com.warunya.ricenearby.dialog.AddCartDialog;
+import com.warunya.ricenearby.dialog.ImageBitmapDialog;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
+import com.warunya.ricenearby.utils.BitmapUtils;
 import com.warunya.ricenearby.utils.GlideLoader;
 import com.warunya.ricenearby.utils.ResolutionUtils;
 
@@ -63,6 +66,8 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
                 ImageView ivFood = itemView.findViewById(R.id.iv_food);
 //                set banner height
                 ivFood.getLayoutParams().height = ResolutionUtils.getBannerHeightFromRatio(itemView.getContext());
+
+                if (((Upload) item) == null) return;
                 GlideLoader.Companion.load(((Upload) item).url, ivFood);
             }
 
@@ -107,9 +112,18 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
 
         btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-//                Cart cart = new Cart(UserManager.getUid(), food, 1);
-                AddCartDialog.show(FoodActivity.this);
+            public void onClick(final View view) {
+                if (food == null) return;
+                AddCartDialog.show(FoodActivity.this, food, new AddCartDialog.OnClickListener() {
+                    @Override
+                    public void onClickedAddToCart(int amount) {
+                        presenter.addToCart(food, amount);
+                        //play animate add to cart
+                        Bitmap bitmap = BitmapUtils.getBitmapFromView(viewPager);
+                        ImageBitmapDialog imageBitmapDialog = new ImageBitmapDialog(FoodActivity.this, bitmap);
+                        imageBitmapDialog.show();
+                    }
+                });
             }
         });
 
@@ -138,6 +152,11 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
 
     @Override
     public void hideNotFound() {
+
+    }
+
+    @Override
+    public void addCartSuccess() {
 
     }
 }

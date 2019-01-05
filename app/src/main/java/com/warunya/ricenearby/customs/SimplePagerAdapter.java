@@ -33,7 +33,7 @@ public class SimplePagerAdapter<T> extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return (listItems == null) ? 0 : listItems.size();
+        return (listItems == null) ? 1 : listItems.size();
     }
 
     @Override
@@ -45,7 +45,10 @@ public class SimplePagerAdapter<T> extends PagerAdapter {
     public View instantiateItem(ViewGroup container, int position) {
         Context mContext = container.getContext();
         View view = null;
-        final T item = listItems.get(position);
+        T item = null;
+        if (listItems != null) {
+            item = listItems.get(position);
+        }
 
         //create view and bind item
         if (onBindViewListener != null) {
@@ -58,10 +61,11 @@ public class SimplePagerAdapter<T> extends PagerAdapter {
         }
 
         if (onItemClickListener != null && view != null) {
+            final T finalItem = item;
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onItemClicked(item);
+                    onItemClickListener.onItemClicked(finalItem);
                 }
             });
         }

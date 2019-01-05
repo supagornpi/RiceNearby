@@ -136,4 +136,7 @@
     <string name="settime_select">เลือก</string>
 
     <string name="home_search_hint">อาหารที่คุณต้องการ...</string>
+
+    <!--Cart-->
+    <string name="cart_total_amount">จำนวนคงเหลือทั้งหมด %d จาน</string>
 </resources>

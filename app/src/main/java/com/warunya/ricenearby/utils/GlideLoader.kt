@@ -40,20 +40,21 @@ class GlideLoader {
         fun load(uri: Uri, imageView: ImageView) {
             Glide.with(MyApplication.applicationContext)
                     .load(uri)
+                    .apply(RequestOptions().error(R.drawable.logo))
                     .into(imageView)
         }
 
         fun loadImageCircle(url: String, imageView: ImageView) {
             Glide.with(MyApplication.applicationContext)
                     .load(url)
-                    .apply(RequestOptions().fitCenter().circleCrop())
+                    .apply(RequestOptions().fitCenter().circleCrop().error(R.drawable.logo))
                     .into(imageView)
         }
 
         fun loadImageCircle(uri: Uri, imageView: ImageView) {
             Glide.with(MyApplication.applicationContext)
                     .load(uri)
-                    .apply(RequestOptions().fitCenter().circleCrop())
+                    .apply(RequestOptions().fitCenter().circleCrop().error(R.drawable.logo))
                     .into(imageView)
         }
 

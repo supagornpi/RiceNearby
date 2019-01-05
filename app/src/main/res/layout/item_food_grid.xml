@@ -13,7 +13,7 @@
         android:id="@+id/iv_food"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerInside" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,10 +43,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/badge_red"
             android:minWidth="40dp"
-            android:paddingBottom="@dimen/padding_tiny"
-            android:paddingEnd="@dimen/padding_small"
             android:paddingStart="@dimen/padding_small"
             android:paddingTop="@dimen/padding_tiny"
+            android:paddingEnd="@dimen/padding_small"
+            android:paddingBottom="@dimen/padding_tiny"
             android:textAlignment="center"
             android:textColor="@color/color_white"
             tools:text="40.-" />
