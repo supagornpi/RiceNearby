@@ -9,10 +9,10 @@ import java.util.List;
 public interface CartContract {
 
     interface Presenter extends BasePresenter {
-
+        void removeCart(String key);
     }
 
-    interface View extends BaseView.Progress {
+    interface View extends BaseView {
         void fetchCart(List<Cart> carts);
     }
 }

@@ -46,6 +46,10 @@ public class UserManager {
     }
 
     public static void getUserProfile(final OnValueEventListener onValueEventListener) {
+        getUserProfile(getUid(), onValueEventListener);
+    }
+
+    public static void getUserProfile(String uid, final OnValueEventListener onValueEventListener) {
         getInstance().userProfileEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -58,7 +62,7 @@ public class UserManager {
 
             }
         };
-        getInstance().mDatabase.child("users").child(UserManager.getUid()).addValueEventListener(getInstance().userProfileEventListener);
+        getInstance().mDatabase.child("users").child(uid).addValueEventListener(getInstance().userProfileEventListener);
     }
 
     public static void editUserProfile(final User user, final Handler handler) {

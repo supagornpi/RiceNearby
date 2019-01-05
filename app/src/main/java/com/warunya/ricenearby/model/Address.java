@@ -1,5 +1,8 @@
 package com.warunya.ricenearby.model;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class Address {
 
     public String name;

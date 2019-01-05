@@ -3,9 +3,12 @@ package com.warunya.ricenearby.model;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
+import org.parceler.Parcel;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Parcel
 public class Cart {
 
     public String key;
@@ -13,6 +16,9 @@ public class Cart {
     public String uid;
     public Food food;
     public int amount;
+
+    public Cart() {
+    }
 
     public Cart(String uid, Food food, int amount) {
         this.uid = uid;

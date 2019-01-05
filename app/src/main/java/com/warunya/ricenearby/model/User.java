@@ -5,9 +5,12 @@ import android.net.Uri;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.warunya.ricenearby.constant.Gender;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 
 @IgnoreExtraProperties
+@Parcel
 public class User {
 
     public Uri imageUri;

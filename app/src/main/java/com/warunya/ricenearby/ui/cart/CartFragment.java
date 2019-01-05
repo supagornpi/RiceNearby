@@ -1,5 +1,6 @@
 package com.warunya.ricenearby.ui.cart;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -10,9 +11,9 @@ import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractFragment;
 import com.warunya.ricenearby.customs.CustomAdapter;
-import com.warunya.ricenearby.customs.view.AddressView;
 import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
+import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.model.Cart;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,11 +22,15 @@ import java.util.List;
 
 public class CartFragment extends AbstractFragment implements CartContract.View {
 
-
+    private final int deliveryPrice = 30;
     private CartContract.Presenter presenter = new CartPresenter(this);
     private CustomAdapter<Cart> adapter;
+
     private TextView tvConfirmOrder;
     private RecyclerViewProgress recyclerViewProgress;
+    private TextView tvFoodPrice;
+    private TextView tvDeliveryPrice;
+    private TextView tvTotalPrice;
 
     public static void start() {
         Intent intent = new Intent(MyApplication.applicationContext, CartFragment.class);
@@ -52,42 +57,51 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     private void bindView(View view) {
         recyclerViewProgress = view.findViewById(R.id.recyclerViewProgress);
         tvConfirmOrder = view.findViewById(R.id.tv_confirm_order);
+        tvFoodPrice = view.findViewById(R.id.tv_food_price);
+        tvDeliveryPrice = view.findViewById(R.id.tv_delivery_price);
+        tvTotalPrice = view.findViewById(R.id.tv_total_price);
 
         adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
             public <T> void onBindViewHolder(T item, View itemView, int viewType, final int position) {
-                Cart cart = ((Cart) item);
+                final Cart cart = ((Cart) item);
                 if (cart == null) return;
                 ((CartView) itemView).bindAction();
                 ((CartView) itemView).bind(cart);
-//                ((CartView) itemView).addOnActionListener(new AddressView.OnActionListener() {
-//                    @Override
-//                    public void deleteItem() {
-//                        DialogAlert.Companion.show(CartFragment.this, "คุณต้องการลบที่อยู่นี้ใช่หรือไม่", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                adapter.deleteItemAt(position);
-//                                presenter.submit(adapter.getList());
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void editItem() {
-//
-//                    }
-//                });
+                ((CartView) itemView).setOnButtonClickListener(new CartView.OnButtonClickListener() {
+                    @Override
+                    public void onClickedPlus() {
+                        caculatePrice();
+                    }
 
+                    @Override
+                    public void onClickedMinus() {
+                        caculatePrice();
+                    }
+
+                    @Override
+                    public void onClickedDelete() {
+                        DialogAlert.Companion.show(getActivity(), "คุณต้องการลบใช่หรือไม่", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                adapter.deleteItemAt(position);
+                                presenter.removeCart(cart.key);
+                            }
+                        });
+                    }
+                });
             }
 
             @Override
             public View onCreateView(ViewGroup parent) {
-                return new AddressView(parent.getContext());
+                return new CartView(parent.getContext());
             }
         });
 
         recyclerViewProgress.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewProgress.recyclerView.setAdapter(adapter);
+
+        tvDeliveryPrice.setText(deliveryPrice + "฿");
 
     }
 
@@ -104,25 +118,35 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     @Override
     public void fetchCart(List<Cart> carts) {
         adapter.setListItem(carts);
+        caculatePrice();
     }
 
     @Override
-    public void error(@NotNull String message) {
-
+    public void showProgress() {
+        recyclerViewProgress.showProgress();
     }
 
     @Override
-    public void updateProgress(@NotNull String message) {
-
+    public void hideProgress() {
+        recyclerViewProgress.hideProgress();
     }
 
     @Override
-    public void showProgressDialog() {
-
+    public void showNotFound() {
+        recyclerViewProgress.showNotFound();
     }
 
     @Override
-    public void hideProgressDialog() {
+    public void hideNotFound() {
+        recyclerViewProgress.hideNotFound();
+    }
 
+    private void caculatePrice() {
+        int price = 0;
+        for (Cart cart : adapter.getList()) {
+            price += cart.food.price * cart.amount;
+        }
+        tvFoodPrice.setText(String.valueOf(price) + "฿");
+        tvTotalPrice.setText(String.valueOf(price + deliveryPrice) + "฿");
     }
 }
