@@ -15,6 +15,7 @@ import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.model.Cart;
+import com.warunya.ricenearby.ui.confirmorder.ConfirmOrderActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -67,16 +68,18 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
                 final Cart cart = ((Cart) item);
                 if (cart == null) return;
                 ((CartView) itemView).bindAction();
-                ((CartView) itemView).bind(cart);
+                ((CartView) itemView).bind(cart, true);
                 ((CartView) itemView).setOnButtonClickListener(new CartView.OnButtonClickListener() {
                     @Override
                     public void onClickedPlus() {
                         caculatePrice();
+                        presenter.editAmount(cart.key, cart.amount);
                     }
 
                     @Override
                     public void onClickedMinus() {
                         caculatePrice();
+                        presenter.editAmount(cart.key, cart.amount);
                     }
 
                     @Override
@@ -109,7 +112,7 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
         tvConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ConfirmOrderActivity.start();
             }
         });
 

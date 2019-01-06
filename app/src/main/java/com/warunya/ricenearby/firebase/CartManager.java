@@ -98,16 +98,15 @@ public class CartManager {
     }
 
 
-    public static void editFoodDate(DatabaseReference reference, final Food food) {
+    public static void editAmount(DatabaseReference reference, final int  amount) {
         reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
-                Food value = mutableData.getValue(Food.class);
+                Cart value = mutableData.getValue(Cart.class);
                 if (value == null) {
                     return Transaction.success(mutableData);
                 }
-                value.date = food.date;
-                value.meal = food.meal;
+                value.amount = amount;
 
                 // Set value and report transaction success
                 mutableData.setValue(value);

@@ -78,7 +78,7 @@ public class CartView extends LinearLayout {
         tvPlus = findViewById(R.id.tv_plus);
     }
 
-    public void bind(final Cart cart) {
+    public void bind(final Cart cart, boolean canChangeAmount) {
         if (cart == null) return;
         this.cart = cart;
         Food food = cart.food;
@@ -93,6 +93,9 @@ public class CartView extends LinearLayout {
         } else {
             ivFood.setImageResource(R.drawable.logo);
         }
+
+        tvPlus.setVisibility(canChangeAmount ? VISIBLE : GONE);
+        tvMinus.setVisibility(canChangeAmount ? VISIBLE : GONE);
 
         UserManager.getUserProfile(food.uid, new UserManager.OnValueEventListener() {
             @Override

@@ -39,4 +39,10 @@ public class CartPresenter implements CartContract.Presenter {
     public void removeCart(String key) {
         CartManager.removeCart(key);
     }
+
+    @Override
+    public void editAmount(String key, int amount) {
+        CartManager.editAmount(CartManager.getCartReference(key), amount);
+        CartManager.editAmount(CartManager.getUserCartReference(key), amount);
+    }
 }
