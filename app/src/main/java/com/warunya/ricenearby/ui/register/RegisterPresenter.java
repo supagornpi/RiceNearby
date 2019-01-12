@@ -1,5 +1,6 @@
 package com.warunya.ricenearby.ui.register;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -8,6 +9,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.warunya.ricenearby.constant.RequireField;
+import com.warunya.ricenearby.constant.UserType;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.RegisterEntity;
 import com.warunya.ricenearby.utils.ValidatorUtils;
@@ -15,10 +17,11 @@ import com.warunya.ricenearby.utils.ValidatorUtils;
 public class RegisterPresenter implements RegisterContract.Presenter {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
     private RegisterContract.View view;
+    public Uri uriCopyIdCard = null;
+    public Uri uriCopyBookBank = null;
 
-    RegisterPresenter(RegisterContract.View view) {
+    public RegisterPresenter(RegisterContract.View view) {
         this.view = view;
     }
 
@@ -41,6 +44,30 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                 }
             });
         }
+    }
+
+    @Override
+    public void registerSeller(RegisterEntity registerEntity) {
+        if (validateSeller(registerEntity, uriCopyIdCard, uriCopyBookBank)) {
+            view.showProgress();
+            UserManager.updateUserType(UserType.Seller, new UserManager.Handler() {
+                @Override
+                public void onComplete() {
+                    view.hideProgress();
+                    view.registerSuccess();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void setCopyIdCardUri(Uri uri) {
+        this.uriCopyIdCard = uri;
+    }
+
+    @Override
+    public void setCopyBookBankUri(Uri uri) {
+        this.uriCopyBookBank = uri;
     }
 
     private Boolean validate(RegisterEntity entity) {
@@ -71,4 +98,25 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         }
         return isValid;
     }
+
+    private Boolean validateSeller(RegisterEntity entity, Uri copyIdCardUri, Uri copyBookBankUri) {
+        boolean isValid = false;
+        if (entity.idCard.isEmpty() || entity.idCard.length() != 13) {
+            view.requireField(RequireField.IdentityId);
+        } else if (entity.bankAccount.isEmpty() || entity.bankAccount.length() != 10) {
+            view.requireField(RequireField.BankAccount);
+        } else if (entity.bankName.isEmpty()) {
+            view.requireField(RequireField.BankName);
+        } else if (entity.bankBranch.isEmpty()) {
+            view.requireField(RequireField.BankBranch);
+        } else if (copyIdCardUri == null) {
+            view.requireField(RequireField.CopyIDCard);
+        } else if (copyBookBankUri == null) {
+            view.requireField(RequireField.CopyBookBank);
+        } else {
+            isValid = true;
+        }
+        return isValid;
+    }
+
 }

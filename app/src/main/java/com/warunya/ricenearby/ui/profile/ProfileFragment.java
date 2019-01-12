@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
@@ -12,9 +13,13 @@ import com.warunya.ricenearby.base.AbstractFragment;
 import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.User;
+import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
 import com.warunya.ricenearby.ui.login.LoginActivity;
+import com.warunya.ricenearby.ui.menu.MenuActivity;
 import com.warunya.ricenearby.ui.profile.edit.EditProfileActivity;
+import com.warunya.ricenearby.ui.register.seller.RegisterSellerActivity;
 import com.warunya.ricenearby.ui.seller.SellerActivity;
+import com.warunya.ricenearby.ui.settime.SetTimeActivity;
 import com.warunya.ricenearby.utils.GlideLoader;
 
 public class ProfileFragment extends AbstractFragment implements ProfileContract.View {
@@ -24,6 +29,10 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     private Button btnLogout;
     private TextView tvName;
     private ImageView ivProfile;
+    private Button btnAddFood;
+    private LinearLayout layoutSeller;
+    private LinearLayout layoutMenu;
+    private LinearLayout layoutSetTime;
 
     private ProfileContract.Presenter presenter = new ProfilePresenter(this);
 
@@ -45,6 +54,10 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         btnLogout = view.findViewById(R.id.btn_logout);
         tvName = view.findViewById(R.id.tv_name);
         ivProfile = view.findViewById(R.id.iv_profile);
+        btnAddFood = view.findViewById(R.id.btn_add_food);
+        layoutSeller = view.findViewById(R.id.layoutSeller);
+        layoutMenu = view.findViewById(R.id.layout_menu);
+        layoutSetTime = view.findViewById(R.id.layout_set_time);
 
     }
 
@@ -59,7 +72,26 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         btnSeller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SellerActivity.start();
+                presenter.registerSeller();
+            }
+        });
+
+        btnAddFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddFoodActivity.start();
+            }
+        });
+        layoutMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MenuActivity.start();
+            }
+        });
+        layoutSetTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SetTimeActivity.start();
             }
         });
 
@@ -75,6 +107,12 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
                 });
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.start();
     }
 
     @Override
@@ -103,5 +141,30 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         tvName.setText(user.name.isEmpty() ? user.username : user.name);
         if (user.image == null) return;
         GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
+
+    }
+
+    @Override
+    public void enableRegisterSellerButton() {
+        btnSeller.setText(getContext().getResources().getString(R.string.button_register_seller));
+        btnSeller.setEnabled(true);
+        layoutSeller.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void disableRegisterSellerButton() {
+        btnSeller.setText(getContext().getResources().getString(R.string.profile_you_are_seller));
+        btnSeller.setEnabled(false);
+        layoutSeller.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void openSellerActivity() {
+        SellerActivity.start();
+    }
+
+    @Override
+    public void openRegisterSellerActivity() {
+        RegisterSellerActivity.Start();
     }
 }

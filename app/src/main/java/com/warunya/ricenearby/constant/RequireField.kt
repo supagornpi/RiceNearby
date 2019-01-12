@@ -5,6 +5,12 @@ enum class RequireField {
     Username,
     Email,
     Password,
-    ConfirmPassword;
+    ConfirmPassword,
+    IdentityId,
+    BankAccount,
+    BankName,
+    BankBranch,
+    CopyIDCard,
+    CopyBookBank;
 
 }

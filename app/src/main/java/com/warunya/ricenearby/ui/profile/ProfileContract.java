@@ -7,12 +7,20 @@ import com.warunya.ricenearby.model.User;
 public interface ProfileContract {
 
     interface Presenter extends BasePresenter {
-
+        void registerSeller();
     }
 
     interface View extends BaseView {
 
         void bindUserData(User user);
+
+        void enableRegisterSellerButton();
+
+        void disableRegisterSellerButton();
+
+        void openSellerActivity();
+
+        void openRegisterSellerActivity();
 
     }
 }

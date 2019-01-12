@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.warunya.ricenearby.constant.Gender;
+import com.warunya.ricenearby.constant.UserType;
 
 import org.parceler.Parcel;
 
@@ -23,6 +24,7 @@ public class User {
     public String birthday;
     public Upload image;
     public List<Address> addresses;
+    public UserType userType;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)

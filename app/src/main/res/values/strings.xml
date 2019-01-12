@@ -78,6 +78,8 @@
     <string name="profile_mobile_label">เบอร์โทรศัพท์</string>
     <string name="profile_email_label">อีเมล</string>
     <string name="profile_birthday_label">วันเกิด</string>
+    <string name="profile_you_are_seller">คุณเป็นผู้ขายอาหารแล้ว</string>
+
     <string-array name="gender_list">
         <item>เลือกเพศของคุณ</item>
         <item>ชาย</item>
@@ -140,4 +142,14 @@
 
     <!--Cart-->
     <string name="cart_total_amount">จำนวนคงเหลือทั้งหมด %d จาน</string>
+
+    <!--Seller-->
+    <string name="seller_id_card">เลขบัตรประชาชน</string>
+    <string name="seller_bank_account">เลขที่บัญชี</string>
+    <string name="seller_bank_name">ชื่อธนาคาร</string>
+    <string name="seller_bank_branch">สาขา</string>
+
+    <string name="seller_add_copy_id_card">+ อัพโหลดสำเนาบัตรประชาชน</string>
+    <string name="seller_add_copy_book_bank">+ อัพโหลดสำเนาสมุดบัญชี</string>
+
 </resources>

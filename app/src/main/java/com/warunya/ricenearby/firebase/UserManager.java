@@ -8,6 +8,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.warunya.ricenearby.constant.UserType;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.RegisterEntity;
 import com.warunya.ricenearby.model.Upload;
@@ -138,6 +139,29 @@ public class UserManager {
                     return Transaction.success(mutableData);
                 }
                 value.image = upload;
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                if (handler == null) return;
+                handler.onComplete();
+            }
+        });
+    }
+
+    public static void updateUserType(final UserType userType, final Handler handler) {
+        getDatabaseReference().runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                User value = mutableData.getValue(User.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                value.userType = userType;
                 // Set value and report transaction success
                 mutableData.setValue(value);
                 return Transaction.success(mutableData);

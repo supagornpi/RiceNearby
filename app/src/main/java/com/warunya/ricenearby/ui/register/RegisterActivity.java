@@ -75,13 +75,13 @@ public class RegisterActivity extends AbstractActivity implements RegisterContra
                 editText = edtUsername;
                 break;
             case Email:
-                editText = edtUsername;
+                editText = edtEmail;
                 break;
             case Password:
-                editText = edtUsername;
+                editText = edtPassword;
                 break;
             case ConfirmPassword:
-                editText = edtUsername;
+                editText = edtConfirmPassword;
                 break;
         }
         ValidatorUtils.setErrorInput(getApplicationContext(), editText, R.string.error_please_fill);

@@ -8,11 +8,19 @@ public class RegisterEntity {
     private String password;
     private String confirmPassword;
 
+    //seller
+    public String idCard;
+    public String bankAccount;
+    public String bankName;
+    public String bankBranch;
+    public String copyIdCardUrl;
+    public String copyBookBankUrl;
+
     public RegisterEntity() {
     }
 
     public RegisterEntity(String username, String email, String password, String confirmPassword) {
-        Username = username;
+        this.Username = username;
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;

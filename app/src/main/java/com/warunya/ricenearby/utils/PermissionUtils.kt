@@ -15,6 +15,12 @@ class PermissionUtils {
 
         /** work in activity only **/
         fun isRequestPermissionReadExternalStorage(activity: Activity): Boolean {
+            isRequestPermissionReadExternalStorage(activity, PERMISSION_READ_EXTERNAL_STORAGE)
+            return true
+        }
+
+        /** work in activity only **/
+        fun isRequestPermissionReadExternalStorage(activity: Activity, requestCode: Int): Boolean {
             if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERMISSION_READ_EXTERNAL_STORAGE)
