@@ -18,7 +18,6 @@ import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
-import com.warunya.ricenearby.model.FoodImage;
 import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.IntentUtils;
@@ -32,6 +31,7 @@ import java.util.List;
 public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrderContract.View {
 
     private static final int REQUEST_IMAGE_GALLERY = 1;
+    private static final String EXTRA_KEY = "EXTRA_KEY";
     private final int deliveryPrice = 20;
     private ConfirmOrderContract.Presenter presenter = new ConfirmOrderPresenter(this);
     private CustomAdapter<Cart> adapter;
@@ -42,9 +42,10 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     private TextView tvAddress;
     private TextView tvEditAddress;
 
-    public static void start() {
+    public static void start(String key) {
         Intent intent = new Intent(MyApplication.applicationContext, ConfirmOrderActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(EXTRA_KEY, key);
         MyApplication.applicationContext.startActivity(intent);
     }
 
@@ -59,7 +60,8 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         bindAction();
         showBackButton();
         setTitle("การสั่งซื้ออาหารของท่าน");
-
+        String key = getIntent().getStringExtra(EXTRA_KEY);
+        presenter.findOrder(key);
         presenter.start();
     }
 
@@ -156,7 +158,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
                     file = FileUtils.getResizedBitmap(this, new File(FileUtils.getRealPathFromURI(this, data.getData())));
                 }
                 Uri uri = Uri.fromFile(file);
-                
+
             }
         }
     }

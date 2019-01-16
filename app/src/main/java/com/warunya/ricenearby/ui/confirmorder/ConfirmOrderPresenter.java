@@ -2,8 +2,10 @@ package com.warunya.ricenearby.ui.confirmorder;
 
 import com.google.firebase.database.DataSnapshot;
 import com.warunya.ricenearby.firebase.CartManager;
+import com.warunya.ricenearby.firebase.OrderManager;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Cart;
+import com.warunya.ricenearby.model.Order;
 import com.warunya.ricenearby.model.User;
 
 import java.util.List;
@@ -18,20 +20,6 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
 
     @Override
     public void start() {
-        view.showProgress();
-        CartManager.getUserCarts(new CartManager.QueryListener() {
-            @Override
-            public void onComplete(List<Cart> carts) {
-                view.hideProgress();
-                if (carts != null) {
-                    view.hideNotFound();
-                    view.fetchCart(carts);
-                } else {
-                    view.showNotFound();
-                }
-            }
-        });
-
         getAddress();
     }
 
@@ -40,7 +28,7 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
 
     }
 
-    private void getAddress(){
+    private void getAddress() {
         UserManager.getUserProfile(new UserManager.OnValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -49,6 +37,24 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
                 if (user.addresses == null) return;
                 view.fetchAddress(user.addresses);
 
+            }
+        });
+    }
+
+    @Override
+    public void findOrder(String key) {
+        view.showProgress();
+        OrderManager.getUserOrder(key, new OrderManager.QueryListener() {
+            @Override
+            public void onComplete(Order order) {
+                view.hideProgress();
+                if (order == null) return;
+                if (order.carts != null) {
+                    view.hideNotFound();
+                    view.fetchCart(order.carts);
+                } else {
+                    view.showNotFound();
+                }
             }
         });
     }

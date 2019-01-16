@@ -10,7 +10,7 @@ import java.util.List;
 public interface ConfirmOrderContract {
 
     interface Presenter extends BasePresenter {
-
+        void findOrder(String key);
     }
 
     interface View extends BaseView {

@@ -18,5 +18,7 @@ public interface CartContract {
 
     interface View extends BaseView {
         void fetchCart(List<Cart> carts);
+
+        void goToConfirmOrderActivity(String key);
     }
 }

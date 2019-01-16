@@ -18,7 +18,8 @@
         <ImageView
             android:id="@+id/iv_seller_profile"
             android:layout_width="@dimen/profile_image_mini"
-            android:layout_height="@dimen/profile_image_mini" />
+            android:layout_height="@dimen/profile_image_mini"
+            android:src="@drawable/logo" />
 
         <TextView
             android:id="@+id/tv_seller_name"
@@ -50,7 +51,8 @@
         <ImageView
             android:id="@+id/iv_food"
             android:layout_width="@dimen/food_image_normal"
-            android:layout_height="@dimen/food_image_normal" />
+            android:layout_height="@dimen/food_image_normal"
+            android:src="@drawable/logo" />
 
         <LinearLayout
             android:layout_width="0dp"

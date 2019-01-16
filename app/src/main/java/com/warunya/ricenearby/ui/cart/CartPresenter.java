@@ -54,7 +54,12 @@ public class CartPresenter implements CartContract.Presenter {
     public void confirmOrder(List<Cart> carts) {
         String uid = UserManager.getUid();
         Order order = new Order(uid, OrderStatus.NotPaid, carts);
-        OrderManager.createOrder(order);
+        OrderManager.createOrder(order, new OrderManager.OnCreateOrderListener() {
+            @Override
+            public void onSuccess(String key) {
+                view.goToConfirmOrderActivity(key);
+            }
+        });
 
         for (Cart cart : carts) {
             CartManager.confirmedOrder(cart.key);

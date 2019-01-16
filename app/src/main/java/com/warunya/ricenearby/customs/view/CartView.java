@@ -96,6 +96,7 @@ public class CartView extends LinearLayout {
 
         tvPlus.setVisibility(canChangeAmount ? VISIBLE : GONE);
         tvMinus.setVisibility(canChangeAmount ? VISIBLE : GONE);
+        tvDelete.setVisibility(canChangeAmount ? VISIBLE : GONE);
 
         UserManager.getUserProfile(food.uid, new UserManager.OnValueEventListener() {
             @Override
@@ -104,7 +105,7 @@ public class CartView extends LinearLayout {
                 if (user == null) return;
                 tvSellerName.setText(user.name == null ? user.username : user.name);
                 if (user.image != null) {
-                    GlideLoader.Companion.loadImageCircle(user.image.url, ivFood);
+                    GlideLoader.Companion.loadImageCircle(user.image.url, ivSellerProfile);
                 } else {
                     ivSellerProfile.setImageResource(R.drawable.logo);
                 }
@@ -115,7 +116,7 @@ public class CartView extends LinearLayout {
     public void bindAction() {
         layoutItem = findViewById(R.id.layout_item);
 
-        layoutItem.setOnClickListener(new OnClickListener() {
+        ivFood.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (cart == null) return;

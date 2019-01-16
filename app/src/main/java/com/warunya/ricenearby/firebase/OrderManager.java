@@ -3,8 +3,10 @@ package com.warunya.ricenearby.firebase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,7 +20,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.FoodImage;
 import com.warunya.ricenearby.model.Order;
@@ -58,7 +59,7 @@ public class OrderManager {
         return getInstance().mDatabase.child("user-orders").child(UserManager.getUid()).child(key);
     }
 
-    public static void createOrder(final Order order) {
+    public static void createOrder(final Order order, final OnCreateOrderListener onCreateOrderListener) {
         // Create new submitPost at /user-posts/$userid/$postid
         // and at /posts/$postid simultaneously
         final String key = getInstance().mDatabase.child("orders").push().getKey();
@@ -70,7 +71,14 @@ public class OrderManager {
         childUpdates.put("/orders/" + key, postValues);
         childUpdates.put("/user-orders/" + UserManager.getUid() + "/" + key, postValues);
 
-        getInstance().mDatabase.updateChildren(childUpdates);
+        getInstance().mDatabase.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (onCreateOrderListener != null) {
+                    onCreateOrderListener.onSuccess(key);
+                }
+            }
+        });
     }
 
     private static void uploadFile(final Uri uri, final String username, final String key) {
@@ -108,17 +116,13 @@ public class OrderManager {
         });
     }
 
-    public static void getUserFoods(final QueryListener queryListener) {
+    public static void getUserOrder(String key, final QueryListener queryListener) {
         getInstance().userProfileEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<HashMap<String, Food>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Food>>() {
-                };
-                Map<String, Food> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
-                if (objectHashMap == null) return;
-                List<Food> foods = new ArrayList<Food>(objectHashMap.values());
+                Order orders = dataSnapshot.getValue(Order.class);
                 if (queryListener == null) return;
-                queryListener.onComplete(foods);
+                queryListener.onComplete(orders);
             }
 
             @Override
@@ -126,55 +130,8 @@ public class OrderManager {
 
             }
         };
-        getInstance().mDatabase.child("user-foods").child(UserManager.getUid()).addValueEventListener(getInstance().userProfileEventListener);
-
-    }
-
-    public static void getAllFoods(final QueryListener queryListener) {
-        getInstance().userProfileEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<HashMap<String, Food>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Food>>() {
-                };
-                Map<String, Food> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
-                if (objectHashMap == null) return;
-                List<Food> foods = new ArrayList<Food>(objectHashMap.values());
-                if (queryListener == null) return;
-                queryListener.onComplete(foods);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        getInstance().mDatabase.child("foods").addValueEventListener(getInstance().userProfileEventListener);
-
-    }
-
-    public static void filterFoods(String keyWord, final QueryListener queryListener) {
-        getInstance().userProfileEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<HashMap<String, Food>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Food>>() {
-                };
-                Map<String, Food> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
-                if (objectHashMap == null) {
-                    if (queryListener == null) return;
-                    queryListener.onComplete(null);
-                    return;
-                }
-                List<Food> foods = new ArrayList<Food>(objectHashMap.values());
-                if (queryListener == null) return;
-                queryListener.onComplete(foods);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        getInstance().mDatabase.child("foods").orderByChild("foodName").startAt(keyWord).addValueEventListener(getInstance().userProfileEventListener);
+        getInstance().mDatabase.child("user-orders").child(UserManager.getUid()).child(key)
+                .addListenerForSingleValueEvent(getInstance().userProfileEventListener);
 
     }
 
@@ -303,8 +260,12 @@ public class OrderManager {
         void onDataChange(DataSnapshot dataSnapshot);
     }
 
+    public interface OnCreateOrderListener {
+        void onSuccess(String key);
+    }
+
     public interface QueryListener {
-        void onComplete(List<Food> foods);
+        void onComplete(Order order);
     }
 
     public interface Handler {

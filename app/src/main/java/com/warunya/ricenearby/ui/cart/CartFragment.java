@@ -50,8 +50,6 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
         bindView(view);
         bindAction();
 
-        presenter.start();
-
     }
 
 
@@ -117,7 +115,6 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 presenter.confirmOrder(adapter.getList());
-                                ConfirmOrderActivity.start();
                             }
                         });
             }
@@ -137,6 +134,11 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     }
 
     @Override
+    public void goToConfirmOrderActivity(String key) {
+        ConfirmOrderActivity.start(key);
+    }
+
+    @Override
     public void showProgress() {
         recyclerViewProgress.showProgress();
     }
@@ -149,11 +151,15 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     @Override
     public void showNotFound() {
         recyclerViewProgress.showNotFound();
+        tvConfirmOrder.setEnabled(false);
+        tvConfirmOrder.setBackgroundColor(getResources().getColor(R.color.color_gray));
     }
 
     @Override
     public void hideNotFound() {
         recyclerViewProgress.hideNotFound();
+        tvConfirmOrder.setEnabled(true);
+        tvConfirmOrder.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
     }
 
     private void calculatePrice() {
