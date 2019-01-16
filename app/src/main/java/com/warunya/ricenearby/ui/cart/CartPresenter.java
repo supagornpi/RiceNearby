@@ -24,7 +24,7 @@ public class CartPresenter implements CartContract.Presenter {
             @Override
             public void onComplete(List<Cart> carts) {
                 view.hideProgress();
-                if (carts != null) {
+                if (carts != null && carts.size() > 0) {
                     view.hideNotFound();
                     view.fetchCart(carts);
                 } else {

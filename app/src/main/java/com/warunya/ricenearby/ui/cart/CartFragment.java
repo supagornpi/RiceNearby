@@ -125,6 +125,12 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.start();
+    }
+
+    @Override
     public void fetchCart(List<Cart> carts) {
         adapter.setListItem(carts);
         calculatePrice();
