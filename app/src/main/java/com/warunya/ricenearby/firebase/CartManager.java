@@ -1,10 +1,5 @@
 package com.warunya.ricenearby.firebase;
 
-import android.net.Uri;
-import android.support.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,12 +10,8 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.warunya.ricenearby.model.Cart;
-import com.warunya.ricenearby.model.Food;
-import com.warunya.ricenearby.model.Upload;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,7 +68,11 @@ public class CartManager {
                 GenericTypeIndicator<HashMap<String, Cart>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Cart>>() {
                 };
                 Map<String, Cart> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
-                if (objectHashMap == null) return;
+                if (objectHashMap == null) {
+                    if (queryListener == null) return;
+                    queryListener.onComplete(new ArrayList<Cart>());
+                    return;
+                }
                 List<Cart> carts = new ArrayList<Cart>(objectHashMap.values());
                 if (queryListener == null) return;
                 queryListener.onComplete(carts);
@@ -88,8 +83,9 @@ public class CartManager {
 
             }
         };
-        getInstance().mDatabase.child("user-carts").child(UserManager.getUid()).addValueEventListener(getInstance().userProfileEventListener);
-
+        getInstance().mDatabase.child("user-carts").child(UserManager.getUid())
+                .orderByChild("isConfirmOrder").equalTo(false)
+                .addListenerForSingleValueEvent(getInstance().userProfileEventListener);
     }
 
     public static void removeCart(String key) {
@@ -97,8 +93,7 @@ public class CartManager {
         getCartReference(key).removeValue();
     }
 
-
-    public static void editAmount(DatabaseReference reference, final int  amount) {
+    public static void editAmount(DatabaseReference reference, final int amount) {
         reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -120,19 +115,15 @@ public class CartManager {
         });
     }
 
-    public static void editFood(DatabaseReference reference, final Food food) {
+    public static void addAmount(DatabaseReference reference, final int amount) {
         reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
-                Food value = mutableData.getValue(Food.class);
+                Cart value = mutableData.getValue(Cart.class);
                 if (value == null) {
                     return Transaction.success(mutableData);
                 }
-                value.foodName = food.foodName;
-                value.amount = food.amount;
-                value.price = food.price;
-                value.detail = food.detail;
-                value.foodTypes = food.foodTypes;
+                value.amount += amount;
 
                 // Set value and report transaction success
                 mutableData.setValue(value);
@@ -142,6 +133,57 @@ public class CartManager {
             @Override
             public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
 
+            }
+        });
+    }
+
+    public static void confirmedOrder(final String key) {
+        confirmedOrder(getCartReference(key));
+        confirmedOrder(getUserCartReference(key));
+    }
+
+    private static void confirmedOrder(DatabaseReference reference) {
+        reference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Cart value = mutableData.getValue(Cart.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+                value.isConfirmOrder = true;
+
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
+
+    public static void addToCart(final Cart newCart, final int amount) {
+        getUserCarts(new QueryListener() {
+            @Override
+            public void onComplete(List<Cart> carts) {
+                boolean isInCart = false;
+                String cartKey = null;
+                for (Cart cart : carts) {
+                    if (cart.food.key.equals(newCart.food.key)) {
+                        isInCart = true;
+                        cartKey = cart.key;
+                    }
+                }
+
+                if (!isInCart) {
+                    writeNewCart(newCart);
+                } else {
+                    if (cartKey == null) return;
+                    addAmount(getCartReference(cartKey), amount);
+                    addAmount(getUserCartReference(cartKey), amount);
+                }
             }
         });
     }

@@ -2,41 +2,38 @@ package com.warunya.ricenearby.model;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
-
-import org.parceler.Parcel;
+import com.warunya.ricenearby.constant.OrderStatus;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Parcel
-public class Cart {
+public class Order {
 
     public String key;
-    public User seller;
     public String uid;
-    public Food food;
-    public int amount;
-    public boolean isConfirmOrder;
+    public OrderStatus orderStatus;
+    public List<Cart> carts;
 
-    public Cart() {
+    public Order() {
     }
 
-    public Cart(String uid, Food food, int amount) {
+    public Order(String uid, OrderStatus orderStatus, List<Cart> carts) {
         this.uid = uid;
-        this.food = food;
-        this.amount = amount;
+        this.orderStatus = orderStatus;
+        this.carts = carts;
     }
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("key", key);
-        result.put("seller", seller);
         result.put("uid", uid);
-        result.put("food", food);
+        result.put("orderStatus", orderStatus);
         result.put("timestamp", ServerValue.TIMESTAMP);
-        result.put("amount", amount);
-        result.put("isConfirmOrder", isConfirmOrder);
+        result.put("carts", carts);
+
         return result;
     }
+
 }

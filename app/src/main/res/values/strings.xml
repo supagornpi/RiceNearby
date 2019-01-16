@@ -28,6 +28,7 @@
     <string name="dialog_login_failed">User not found.</string>
     <string name="dialog_register_failed">Register failed.</string>
     <string name="dialog_logout">คุณต้องการออกจากระบบใช่หรือไม่?</string>
+    <string name="dialog_title_confirm_order">ยืนยันการสั่งซื้อ</string>
 
     <!--Title-->
     <string name="title_add_food">อัพโหลดเมนู</string>

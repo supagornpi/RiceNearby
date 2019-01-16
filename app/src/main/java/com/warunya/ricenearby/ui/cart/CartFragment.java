@@ -23,7 +23,7 @@ import java.util.List;
 
 public class CartFragment extends AbstractFragment implements CartContract.View {
 
-    private final int deliveryPrice = 30;
+    private final int deliveryPrice = 20;
     private CartContract.Presenter presenter = new CartPresenter(this);
     private CustomAdapter<Cart> adapter;
 
@@ -72,13 +72,13 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
                 ((CartView) itemView).setOnButtonClickListener(new CartView.OnButtonClickListener() {
                     @Override
                     public void onClickedPlus() {
-                        caculatePrice();
+                        calculatePrice();
                         presenter.editAmount(cart.key, cart.amount);
                     }
 
                     @Override
                     public void onClickedMinus() {
-                        caculatePrice();
+                        calculatePrice();
                         presenter.editAmount(cart.key, cart.amount);
                     }
 
@@ -112,16 +112,22 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
         tvConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfirmOrderActivity.start();
+                DialogAlert.Companion.show(getActivity(), R.string.dialog_title_confirm_order,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                presenter.confirmOrder(adapter.getList());
+                                ConfirmOrderActivity.start();
+                            }
+                        });
             }
         });
-
     }
 
     @Override
     public void fetchCart(List<Cart> carts) {
         adapter.setListItem(carts);
-        caculatePrice();
+        calculatePrice();
     }
 
     @Override
@@ -144,7 +150,7 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
         recyclerViewProgress.hideNotFound();
     }
 
-    private void caculatePrice() {
+    private void calculatePrice() {
         int price = 0;
         for (Cart cart : adapter.getList()) {
             price += cart.food.price * cart.amount;

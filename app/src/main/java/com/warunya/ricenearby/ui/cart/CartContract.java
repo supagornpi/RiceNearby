@@ -12,6 +12,8 @@ public interface CartContract {
         void removeCart(String key);
 
         void editAmount(String key, int amount);
+
+        void confirmOrder(List<Cart> carts);
     }
 
     interface View extends BaseView {

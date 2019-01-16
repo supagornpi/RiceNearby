@@ -21,6 +21,7 @@ import com.google.firebase.storage.UploadTask;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.FoodImage;
+import com.warunya.ricenearby.model.Order;
 import com.warunya.ricenearby.model.Upload;
 
 import java.util.ArrayList;
@@ -54,24 +55,20 @@ public class OrderManager {
     }
 
     public static DatabaseReference getBuyerReference(String key) {
-        return getInstance().mDatabase.child("buyer-orders").child(UserManager.getUid()).child(key);
+        return getInstance().mDatabase.child("user-orders").child(UserManager.getUid()).child(key);
     }
 
-    public static DatabaseReference getSellerReference(String sellerKey, String key) {
-        return getInstance().mDatabase.child("seller-orders").child(sellerKey).child(key);
-    }
-
-    public static void writeNewOrder(final Cart cart, String sellerKey) {
+    public static void createOrder(final Order order) {
         // Create new submitPost at /user-posts/$userid/$postid
         // and at /posts/$postid simultaneously
         final String key = getInstance().mDatabase.child("orders").push().getKey();
-        cart.key = key;
-        Map postValues = cart.toMap();
+
+        order.key = key;
+        Map postValues = order.toMap();
 
         Map childUpdates = new HashMap<String, Object>();
         childUpdates.put("/orders/" + key, postValues);
-        childUpdates.put("/buyer-orders/" + UserManager.getUid() + "/" + key, postValues);
-        childUpdates.put("/seller-orders/" + sellerKey + "/" + key, postValues);
+        childUpdates.put("/user-orders/" + UserManager.getUid() + "/" + key, postValues);
 
         getInstance().mDatabase.updateChildren(childUpdates);
     }

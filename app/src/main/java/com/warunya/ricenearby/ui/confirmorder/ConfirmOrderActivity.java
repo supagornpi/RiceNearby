@@ -1,7 +1,10 @@
 package com.warunya.ricenearby.ui.confirmorder;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +18,21 @@ import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
+import com.warunya.ricenearby.model.FoodImage;
 import com.warunya.ricenearby.ui.address.AddressActivity;
+import com.warunya.ricenearby.utils.FileUtils;
+import com.warunya.ricenearby.utils.IntentUtils;
+import com.warunya.ricenearby.utils.PermissionUtils;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.List;
 
 public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrderContract.View {
 
-    private final int deliveryPrice = 30;
+    private static final int REQUEST_IMAGE_GALLERY = 1;
+    private final int deliveryPrice = 20;
     private ConfirmOrderContract.Presenter presenter = new ConfirmOrderPresenter(this);
     private CustomAdapter<Cart> adapter;
 
@@ -85,7 +94,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         tvConfirmPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                openGalleryIntent();
             }
         });
 
@@ -136,4 +145,34 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         }
         tvTotalPrice.setText(String.valueOf(price + deliveryPrice) + "฿");
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @android.support.annotation.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_GALLERY && data != null) {
+                File file = null;
+                if (data.getData() != null) {
+                    file = FileUtils.getResizedBitmap(this, new File(FileUtils.getRealPathFromURI(this, data.getData())));
+                }
+                Uri uri = Uri.fromFile(file);
+                
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PermissionUtils.Companion.getPERMISSION_READ_EXTERNAL_STORAGE()) {
+            if (PermissionUtils.Companion.isGrantAll(permissions)) {
+                openGalleryIntent();
+            }
+        }
+    }
+
+    private void openGalleryIntent() {
+        IntentUtils.INSTANCE.startIntentGallery(this, REQUEST_IMAGE_GALLERY);
+    }
+
 }
