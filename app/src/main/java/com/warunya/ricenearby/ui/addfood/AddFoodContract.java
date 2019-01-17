@@ -2,6 +2,7 @@ package com.warunya.ricenearby.ui.addfood;
 
 import com.warunya.ricenearby.base.BasePresenter;
 import com.warunya.ricenearby.base.BaseView;
+import com.warunya.ricenearby.constant.RequireField;
 import com.warunya.ricenearby.model.Food;
 
 public interface AddFoodContract {
@@ -14,5 +15,8 @@ public interface AddFoodContract {
 
     interface View extends BaseView.Progress {
         void addSuccess();
+
+        void requireField(RequireField requireField);
+
     }
 }

@@ -105,7 +105,7 @@
     <!--Food type-->
     <string-array name="food_type_list">
         <item>อาหารคาว</item>
-        <item>อาหารหวาน</item>
+        <item>ของหวาน</item>
         <item>อาหารจีน</item>
         <item>อาหารสุขภาพ</item>
         <item>อาหารฮาลาล</item>

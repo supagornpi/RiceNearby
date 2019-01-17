@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,6 +8,7 @@
     <include layout="@layout/layout_action_bar" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -44,33 +46,33 @@
                 android:layout_marginTop="@dimen/padding_small"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:orientation="vertical">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/add_amount"
-                        android:textStyle="bold" />
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/add_amount"-->
+                <!--android:textStyle="bold" />-->
 
-                    <EditText
-                        android:id="@+id/edt_amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_mini"
-                        android:background="@drawable/background_edittext_gray"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:padding="@dimen/padding_small" />
+                <!--<EditText-->
+                <!--android:id="@+id/edt_amount"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/padding_mini"-->
+                <!--android:background="@drawable/background_edittext_gray"-->
+                <!--android:inputType="number"-->
+                <!--android:maxLength="3"-->
+                <!--android:padding="@dimen/padding_small" />-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
 
-                <View
-                    android:layout_width="@dimen/padding_normal"
-                    android:layout_height="0dp" />
+                <!--<View-->
+                <!--android:layout_width="@dimen/padding_normal"-->
+                <!--android:layout_height="0dp" />-->
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -138,8 +140,8 @@
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_large"
                 android:layout_marginTop="@dimen/padding_normal"
+                android:layout_marginBottom="@dimen/padding_large"
                 android:background="@drawable/button_primary"
                 android:text="@string/button_save"
                 android:textColor="@color/color_white"

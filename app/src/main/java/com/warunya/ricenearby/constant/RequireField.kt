@@ -11,6 +11,10 @@ enum class RequireField {
     BankName,
     BankBranch,
     CopyIDCard,
-    CopyBookBank;
+    CopyBookBank,
+    FoodName,
+    Price,
+    Detail,
+    FoodType;
 
 }

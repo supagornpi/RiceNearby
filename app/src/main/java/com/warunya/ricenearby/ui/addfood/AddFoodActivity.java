@@ -12,10 +12,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
+import com.warunya.ricenearby.constant.RequireField;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Food;
@@ -24,9 +28,11 @@ import com.warunya.ricenearby.model.FoodType;
 import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.ui.addfood.adapter.AddImageAdapter;
 import com.warunya.ricenearby.ui.addfood.adapter.FoodTypeAdapter;
+import com.warunya.ricenearby.utils.DismissKeyboardListener;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.IntentUtils;
 import com.warunya.ricenearby.utils.PermissionUtils;
+import com.warunya.ricenearby.utils.ValidatorUtils;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
@@ -49,11 +55,13 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
 
     private RecyclerViewProgress recyclerViewProgress;
     private EditText edtFoodName;
-    private EditText edtAmount;
+    //    private EditText edtAmount;
     private EditText edtPrice;
     private EditText edtDetail;
     private Button btnSave;
     private RecyclerView recyclerViewType;
+    private LinearLayout rootView;
+    private ScrollView scrollView;
 
     private AddFoodContract.Presenter presenter = new AddFoodPresenter(this);
     private AddImageAdapter addImageAdapter;
@@ -99,7 +107,7 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
                 addImageAdapter.setImages(foodImages);
             }
             edtFoodName.setText(food.foodName);
-            edtAmount.setText(food.amount + "");
+//            edtAmount.setText(food.amount + "");
             edtPrice.setText(food.price + "");
             edtDetail.setText(food.detail);
         }
@@ -109,10 +117,12 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
         recyclerViewProgress = findViewById(R.id.recyclerViewProgress);
         recyclerViewType = findViewById(R.id.recyclerViewType);
         edtFoodName = findViewById(R.id.edt_food_name);
-        edtAmount = findViewById(R.id.edt_amount);
+//        edtAmount = findViewById(R.id.edt_amount);
         edtPrice = findViewById(R.id.edt_price);
         edtDetail = findViewById(R.id.edt_detail);
         btnSave = findViewById(R.id.btn_save);
+        rootView = findViewById(R.id.rootView);
+        scrollView = findViewById(R.id.scrollView);
 
         addImageAdapter = new AddImageAdapter(new AddImageAdapter.OnItemClickListener() {
             @Override
@@ -175,6 +185,9 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
     }
 
     private void bindAction() {
+        rootView.setOnTouchListener(new DismissKeyboardListener(this));
+        scrollView.setOnTouchListener(new DismissKeyboardListener(this));
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -193,7 +206,7 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
         int amount = 0;
         int price = 0;
         try {
-            amount = Integer.parseInt(edtAmount.getText().toString().trim());
+//            amount = Integer.parseInt(edtAmount.getText().toString().trim());
             price = Integer.parseInt(edtPrice.getText().toString().trim().replace(".-", ""));
         } catch (NumberFormatException e) {
             //do nothing
@@ -248,5 +261,27 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
     @Override
     public void addSuccess() {
         finish();
+    }
+
+    @Override
+    public void requireField(RequireField requireField) {
+        EditText editText = null;
+        switch (requireField) {
+            case FoodName:
+                editText = edtFoodName;
+                break;
+            case Price:
+                editText = edtPrice;
+                break;
+            case Detail:
+                editText = edtDetail;
+                break;
+            case FoodType:
+                Toast.makeText(this, "เลือกประเภทอาหาร", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        if (editText != null) {
+            ValidatorUtils.setErrorInput(getApplicationContext(), editText, R.string.error_please_fill);
+        }
     }
 }
