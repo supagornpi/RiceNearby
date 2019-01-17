@@ -12,6 +12,7 @@ class PermissionUtils {
     companion object {
         val PERMISSION_READ_EXTERNAL_STORAGE_AND_CAMERA = 44
         val PERMISSION_READ_EXTERNAL_STORAGE = 33
+        val PERMISSION_LOCATION = 77
 
         /** work in activity only **/
         fun isRequestPermissionReadExternalStorage(activity: Activity): Boolean {
@@ -35,6 +36,17 @@ class PermissionUtils {
             if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA), PERMISSION_READ_EXTERNAL_STORAGE_AND_CAMERA)
+                }
+                return false
+            }
+            return true
+        }
+
+        /** work in activity only **/
+        fun isRequestPermissionLocation(activity: Activity): Boolean {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), PERMISSION_LOCATION)
                 }
                 return false
             }

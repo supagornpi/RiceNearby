@@ -20,6 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.warunya.ricenearby.constant.AppInstance;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.FoodImage;
 import com.warunya.ricenearby.model.Upload;
@@ -68,6 +69,11 @@ public class FoodManager {
         // and at /posts/$postid simultaneously
         final String key = getInstance().mDatabase.child("foods").push().getKey();
         food.key = key;
+        //set address to food object
+        AppInstance appInstance = AppInstance.getInstance();
+        food.latitude = appInstance.getMyLocation().getLatitude();
+        food.longitude = appInstance.getMyLocation().getLongitude();
+
         Map postValues = food.toMap();
 
         Map childUpdates = new HashMap<String, Object>();

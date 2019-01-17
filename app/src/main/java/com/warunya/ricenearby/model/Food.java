@@ -24,6 +24,9 @@ public class Food {
     public List<Upload> uploads;
     public List<FoodType> foodTypes;
     public boolean isSelected;
+    public Double latitude;
+    public Double longitude;
+    public Float distance;
 
     @Exclude
     public Map<String, Object> toMap() {
@@ -39,6 +42,9 @@ public class Food {
         result.put("date", date);
         result.put("meal", meal);
         result.put("foodTypes", foodTypes);
+        result.put("latitude", latitude);
+        result.put("longitude", longitude);
+
         return result;
     }
 

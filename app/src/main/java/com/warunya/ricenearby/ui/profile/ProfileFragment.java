@@ -14,6 +14,7 @@ import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
+import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.ui.login.LoginActivity;
 import com.warunya.ricenearby.ui.menu.MenuActivity;
 import com.warunya.ricenearby.ui.profile.edit.EditProfileActivity;
@@ -24,6 +25,7 @@ import com.warunya.ricenearby.utils.GlideLoader;
 
 public class ProfileFragment extends AbstractFragment implements ProfileContract.View {
 
+    private boolean hasAddress = false;
     private Button btnEditProfile;
     private Button btnSeller;
     private Button btnLogout;
@@ -45,7 +47,6 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     protected void setupView(@NonNull View view) {
         bindView(view);
         bindAction();
-        presenter.start();
     }
 
     private void bindView(View view) {
@@ -79,7 +80,16 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddFoodActivity.start();
+                if (hasAddress) {
+                    AddFoodActivity.start();
+                } else {
+                    DialogAlert.Companion.show(getActivity(), "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            AddressActivity.start();
+                        }
+                    });
+                }
             }
         });
         layoutMenu.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +152,9 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         if (user.image == null) return;
         GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
 
+        if (user.addresses != null && user.addresses.size() > 0) {
+            hasAddress = true;
+        }
     }
 
     @Override

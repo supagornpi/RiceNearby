@@ -123,6 +123,7 @@ public class AddressActivity extends AbstractActivity implements AddressContract
     @Override
     public void fetchAddress(List<Address> addresses) {
         adapter.setListItem(addresses);
+        btnAddAddress.setVisibility(adapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -148,6 +149,8 @@ public class AddressActivity extends AbstractActivity implements AddressContract
             } else {
                 adapter.editItemAt(requestCode, address);
             }
+
+            btnAddAddress.setVisibility(adapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
 
             presenter.submit(adapter.getList());
         }

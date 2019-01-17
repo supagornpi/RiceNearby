@@ -1,6 +1,9 @@
 package com.warunya.ricenearby.ui.address;
 
+import android.location.Location;
+
 import com.google.firebase.database.DataSnapshot;
+import com.warunya.ricenearby.constant.AppInstance;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.User;
@@ -43,5 +46,13 @@ public class AddressPresenter implements AddressContract.Presenter {
                 view.hideProgressDialog();
             }
         });
+
+        if (addresses.size() > 0) {
+            //save my location
+            Location location = new Location("");
+            location.setLatitude(addresses.get(0).latitude);
+            location.setLongitude(addresses.get(0).longitude);
+            AppInstance.getInstance().setMyLocation(location);
+        }
     }
 }

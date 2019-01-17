@@ -23,6 +23,7 @@ public class FoodGridView extends LinearLayout {
     private TextView tvFoodName;
     private TextView tvPrice;
     private TextView tvMeal;
+    private TextView tvDistance;
     //    private TextView tvDate;
 //    private TextView tvEdit;
     private ImageView ivFood;
@@ -54,6 +55,7 @@ public class FoodGridView extends LinearLayout {
         tvFoodName = findViewById(R.id.tv_food_name);
         tvPrice = findViewById(R.id.tv_price);
         tvMeal = findViewById(R.id.tv_meal);
+        tvDistance = findViewById(R.id.tv_distance);
 //        tvDate = findViewById(R.id.tv_date);
 //        tvEdit = findViewById(R.id.tv_edit);
         ivFood = findViewById(R.id.iv_food);
@@ -66,6 +68,11 @@ public class FoodGridView extends LinearLayout {
         tvFoodName.setText(food.foodName);
         tvPrice.setText(food.price + ".-");
         tvMeal.setText(food.meal == null ? "" : "มื้อ : " + food.meal);
+
+        if (food.distance != null) {
+            String distance = food.distance >= 1000 ? food.distance.intValue() / 1000 + "m" : food.distance.intValue() + "m";
+            tvDistance.setText(distance);
+        }
 
         if (food.uploads != null && food.uploads.get(0) != null) {
             GlideLoader.Companion.load(food.uploads.get(0).url, ivFood);
