@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractFragment;
+import com.warunya.ricenearby.constant.AppInstance;
 import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
@@ -23,7 +24,6 @@ import java.util.List;
 
 public class CartFragment extends AbstractFragment implements CartContract.View {
 
-    private final int deliveryPrice = 20;
     private CartContract.Presenter presenter = new CartPresenter(this);
     private CustomAdapter<Cart> adapter;
 
@@ -102,7 +102,7 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
         recyclerViewProgress.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewProgress.recyclerView.setAdapter(adapter);
 
-        tvDeliveryPrice.setText(deliveryPrice + "฿");
+        tvDeliveryPrice.setText(AppInstance.DELIVERY_PRICE + "฿");
 
     }
 
@@ -114,7 +114,7 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                presenter.confirmOrder(adapter.getList());
+                                presenter.confirmOrder(adapter.getList(), getTotalPrice());
                             }
                         });
             }
@@ -163,11 +163,19 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     }
 
     private void calculatePrice() {
+        tvFoodPrice.setText(String.valueOf(getFoodPrice()) + "฿");
+        tvTotalPrice.setText(String.valueOf(getTotalPrice()) + "฿");
+    }
+
+    private int getFoodPrice() {
         int price = 0;
         for (Cart cart : adapter.getList()) {
             price += cart.food.price * cart.amount;
         }
-        tvFoodPrice.setText(String.valueOf(price) + "฿");
-        tvTotalPrice.setText(String.valueOf(price + deliveryPrice) + "฿");
+        return price;
+    }
+
+    private int getTotalPrice() {
+        return getFoodPrice() + AppInstance.DELIVERY_PRICE;
     }
 }

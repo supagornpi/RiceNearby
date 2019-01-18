@@ -13,7 +13,7 @@ public interface CartContract {
 
         void editAmount(String key, int amount);
 
-        void confirmOrder(List<Cart> carts);
+        void confirmOrder(List<Cart> carts, int totalPrice);
     }
 
     interface View extends BaseView {

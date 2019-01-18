@@ -1,6 +1,7 @@
 package com.warunya.ricenearby.ui.confirmorder;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,9 +14,11 @@ import android.widget.TextView;
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
+import com.warunya.ricenearby.constant.AppInstance;
 import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
+import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.ui.address.AddressActivity;
@@ -32,7 +35,6 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
 
     private static final int REQUEST_IMAGE_GALLERY = 1;
     private static final String EXTRA_KEY = "EXTRA_KEY";
-    private final int deliveryPrice = 20;
     private ConfirmOrderContract.Presenter presenter = new ConfirmOrderPresenter(this);
     private CustomAdapter<Cart> adapter;
 
@@ -121,6 +123,17 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     }
 
     @Override
+    public void paymentSuccess() {
+        DialogAlert.Companion.showOnlyPossitive(this, "ยืนยันการชำระเงินสำเร็จแล้ว",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+    }
+
+    @Override
     public void showProgress() {
         recyclerViewProgress.showProgress();
     }
@@ -145,7 +158,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         for (Cart cart : adapter.getList()) {
             price += cart.food.price * cart.amount;
         }
-        tvTotalPrice.setText(String.valueOf(price + deliveryPrice) + "฿");
+        tvTotalPrice.setText(String.valueOf(price + AppInstance.DELIVERY_PRICE) + "฿");
     }
 
     @Override
@@ -158,7 +171,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
                     file = FileUtils.getResizedBitmap(this, new File(FileUtils.getRealPathFromURI(this, data.getData())));
                 }
                 Uri uri = Uri.fromFile(file);
-
+                presenter.confirmPayment(uri);
             }
         }
     }

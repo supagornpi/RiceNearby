@@ -12,16 +12,22 @@ public class Order {
 
     public String key;
     public String uid;
+    public long timestamp;
     public OrderStatus orderStatus;
     public List<Cart> carts;
+    public int totalPrice;
+    public int deliveryPrice;
+    public Upload billingImage;
 
     public Order() {
     }
 
-    public Order(String uid, OrderStatus orderStatus, List<Cart> carts) {
+    public Order(String uid, OrderStatus orderStatus, List<Cart> carts, int totalPrice, int deliveryPrice) {
         this.uid = uid;
         this.orderStatus = orderStatus;
         this.carts = carts;
+        this.totalPrice = totalPrice;
+        this.deliveryPrice = deliveryPrice;
     }
 
     @Exclude
@@ -32,6 +38,9 @@ public class Order {
         result.put("orderStatus", orderStatus);
         result.put("timestamp", ServerValue.TIMESTAMP);
         result.put("carts", carts);
+        result.put("totalPrice", totalPrice);
+        result.put("deliveryPrice", deliveryPrice);
+        result.put("billingImage", billingImage);
 
         return result;
     }

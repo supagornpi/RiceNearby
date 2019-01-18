@@ -1,5 +1,6 @@
 package com.warunya.ricenearby.ui.cart;
 
+import com.warunya.ricenearby.constant.AppInstance;
 import com.warunya.ricenearby.constant.OrderStatus;
 import com.warunya.ricenearby.firebase.CartManager;
 import com.warunya.ricenearby.firebase.OrderManager;
@@ -51,9 +52,9 @@ public class CartPresenter implements CartContract.Presenter {
     }
 
     @Override
-    public void confirmOrder(List<Cart> carts) {
+    public void confirmOrder(List<Cart> carts, int totalPrice) {
         String uid = UserManager.getUid();
-        Order order = new Order(uid, OrderStatus.NotPaid, carts);
+        Order order = new Order(uid, OrderStatus.NotPaid, carts, totalPrice, AppInstance.DELIVERY_PRICE);
         OrderManager.createOrder(order, new OrderManager.OnCreateOrderListener() {
             @Override
             public void onSuccess(String key) {

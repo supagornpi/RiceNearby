@@ -20,8 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.warunya.ricenearby.model.Food;
-import com.warunya.ricenearby.model.FoodImage;
+import com.warunya.ricenearby.constant.OrderStatus;
 import com.warunya.ricenearby.model.Order;
 import com.warunya.ricenearby.model.Upload;
 
@@ -36,7 +35,7 @@ public class OrderManager {
 
     private static final OrderManager ourInstance = new OrderManager();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    private ValueEventListener userProfileEventListener = null;
+    private ValueEventListener userOrderEventListener = null;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     static OrderManager getInstance() {
@@ -55,7 +54,7 @@ public class OrderManager {
         return getInstance().mDatabase.child("orders").child(key);
     }
 
-    public static DatabaseReference getBuyerReference(String key) {
+    public static DatabaseReference getUserOrderReference(String key) {
         return getInstance().mDatabase.child("user-orders").child(UserManager.getUid()).child(key);
     }
 
@@ -81,7 +80,7 @@ public class OrderManager {
         });
     }
 
-    private static void uploadFile(final Uri uri, final String username, final String key) {
+    public static void uploadBillingImage(final Uri uri, final String username, final String key, final Handler handler) {
 //        view.showProgressDialog();
         //getting the storage reference
         StorageReference sRef = getInstance().storageReference.child(OrderManager.STORAGE_PATH_FOOD + username + System.currentTimeMillis());
@@ -96,14 +95,22 @@ public class OrderManager {
                 Upload upload = new Upload(username, uri.getLastPathSegment(), taskSnapshot.getDownloadUrl().toString());
 
                 //adding an upload to firebase database
-                OrderManager.uploadFoodImage(getOrdersReference(key), upload);
-                OrderManager.uploadFoodImage(getBuyerReference(key), upload);
+                OrderManager.uploadBillingImage(getOrdersReference(key), upload);
+                OrderManager.uploadBillingImage(getUserOrderReference(key), upload);
+
+                //change order status to Paid
+                changeOrderStatus(getOrdersReference(key), OrderStatus.Paid);
+                changeOrderStatus(getUserOrderReference(key), OrderStatus.Paid);
+
+                handler.onComplete();
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
 //                view.hideProgressDialog();
 //                view.error(e.getMessage());
+                handler.onFailure();
 
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -116,8 +123,8 @@ public class OrderManager {
         });
     }
 
-    public static void getUserOrder(String key, final QueryListener queryListener) {
-        getInstance().userProfileEventListener = new ValueEventListener() {
+    public static void getUserOrderByKey(String key, final QueryListener queryListener) {
+        getInstance().userOrderEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Order orders = dataSnapshot.getValue(Order.class);
@@ -131,24 +138,46 @@ public class OrderManager {
             }
         };
         getInstance().mDatabase.child("user-orders").child(UserManager.getUid()).child(key)
-                .addListenerForSingleValueEvent(getInstance().userProfileEventListener);
+                .addListenerForSingleValueEvent(getInstance().userOrderEventListener);
 
     }
 
-    public static void uploadFoodImage(DatabaseReference reference, final Upload upload) {
+    public static void getUserOrders(final QueryListListener queryListListener) {
+        getInstance().userOrderEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<HashMap<String, Order>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Order>>() {
+                };
+                Map<String, Order> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
+                if (objectHashMap == null) {
+                    if (queryListListener == null) return;
+                    queryListListener.onComplete(new ArrayList<Order>());
+                    return;
+                }
+                List<Order> carts = new ArrayList<Order>(objectHashMap.values());
+                if (queryListListener == null) return;
+                queryListListener.onComplete(carts);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        getInstance().mDatabase.child("user-orders").child(UserManager.getUid())
+                .addListenerForSingleValueEvent(getInstance().userOrderEventListener);
+
+    }
+
+    private static void uploadBillingImage(DatabaseReference reference, final Upload upload) {
         reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
-                Food value = mutableData.getValue(Food.class);
+                Order value = mutableData.getValue(Order.class);
                 if (value == null) {
                     return Transaction.success(mutableData);
                 }
-                if (value.uploads == null) {
-                    value.uploads = new ArrayList<>();
-                    value.uploads.add(upload);
-                } else {
-                    value.uploads.add(upload);
-                }
+                value.billingImage = upload;
                 // Set value and report transaction success
                 mutableData.setValue(value);
                 return Transaction.success(mutableData);
@@ -161,16 +190,15 @@ public class OrderManager {
         });
     }
 
-    public static void editFoodDate(DatabaseReference reference, final Food food) {
+    public static void changeOrderStatus(DatabaseReference reference, final OrderStatus orderStatus) {
         reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
-                Food value = mutableData.getValue(Food.class);
+                Order value = mutableData.getValue(Order.class);
                 if (value == null) {
                     return Transaction.success(mutableData);
                 }
-                value.date = food.date;
-                value.meal = food.meal;
+                value.orderStatus = orderStatus;
 
                 // Set value and report transaction success
                 mutableData.setValue(value);
@@ -183,78 +211,6 @@ public class OrderManager {
             }
         });
     }
-
-    public static void editFood(DatabaseReference reference, final Food food) {
-        reference.runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                Food value = mutableData.getValue(Food.class);
-                if (value == null) {
-                    return Transaction.success(mutableData);
-                }
-                value.foodName = food.foodName;
-                value.amount = food.amount;
-                value.price = food.price;
-                value.detail = food.detail;
-                value.foodTypes = food.foodTypes;
-
-                // Set value and report transaction success
-                mutableData.setValue(value);
-                return Transaction.success(mutableData);
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
-            }
-        });
-    }
-
-    public static void updateFoodImage(Food food, String key) {
-        if (food.foodImages == null) return;
-        if (food.foodImages.size() > 0) {
-            for (FoodImage foodImage : food.foodImages) {
-                if (foodImage.uri != null) {
-                    //upload file to firebase
-                    uploadFile(foodImage.uri, food.foodName, food.key);
-                } else if (foodImage.isRemoved) {
-                    removeFoodImage(getOrdersReference(food.key), foodImage.name);
-                    removeFoodImage(getBuyerReference(food.key), foodImage.name);
-                }
-            }
-        }
-    }
-
-    public static void removeFoodImage(DatabaseReference reference, final String foodName) {
-        reference.runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                Food value = mutableData.getValue(Food.class);
-                if (value == null) {
-                    return Transaction.success(mutableData);
-                }
-                if (value.uploads != null) {
-                    for (int i = 0; i < value.uploads.size(); i++) {
-                        if (value.uploads.get(i).name.equals(foodName)) {
-                            //remove item
-                            value.uploads.remove(i);
-                            //end loop
-                            i = value.uploads.size();
-                        }
-                    }
-                }
-                // Set value and report transaction success
-                mutableData.setValue(value);
-                return Transaction.success(mutableData);
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
-            }
-        });
-    }
-
 
     public interface OnValueEventListener {
         void onDataChange(DataSnapshot dataSnapshot);
@@ -268,7 +224,13 @@ public class OrderManager {
         void onComplete(Order order);
     }
 
+    public interface QueryListListener {
+        void onComplete(List<Order> orders);
+    }
+
     public interface Handler {
         void onComplete();
+
+        void onFailure();
     }
 }

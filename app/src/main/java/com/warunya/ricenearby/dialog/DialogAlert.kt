@@ -42,5 +42,12 @@ class DialogAlert {
         fun show(activity: Activity, message: Int) {
             show(activity, activity.resources.getString(message))
         }
+
+        fun showOnlyPossitive(activity: Activity, message: String, listener: DialogInterface.OnClickListener) {
+            val dialog = AlertDialog.Builder(activity)
+            dialog.setMessage(message)
+            dialog.setPositiveButton(activity.resources.getString(android.R.string.ok), listener)
+            dialog.show()
+        }
     }
 }

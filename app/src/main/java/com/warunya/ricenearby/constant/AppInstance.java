@@ -4,6 +4,7 @@ import android.location.Location;
 
 public class AppInstance {
 
+    public static final int DELIVERY_PRICE = 20;
     private static final AppInstance ourInstance = new AppInstance();
     private Location myLocation;
     private Location currentLocation;

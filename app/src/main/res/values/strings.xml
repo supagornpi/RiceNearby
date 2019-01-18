@@ -136,7 +136,7 @@
     <string name="settime_lunch">กลางวัน</string>
     <string name="settime_diner">เย็น</string>
     <string name="settime_late_diner">ค่ำ</string>
-    <string name="settime_select_menu">+ เลือกเมนู</string>
+    <string name="settime_select_menu">+ เพิ่มเมนู</string>
     <string name="settime_select">เลือก</string>
 
     <string name="home_search_hint">อาหารที่คุณต้องการ...</string>
@@ -152,5 +152,11 @@
 
     <string name="seller_add_copy_id_card">+ อัพโหลดสำเนาบัตรประชาชน</string>
     <string name="seller_add_copy_book_bank">+ อัพโหลดสำเนาสมุดบัญชี</string>
+
+    <!--Order Status-->
+    <string name="order_status_not_paid">ยังไม่ชำระเงิน</string>
+    <string name="order_status_Paid">ชำระเงินแล้ว</string>
+    <string name="order_status_not_received">ยังไม่ได้รับ</string>
+    <string name="order_status_received">ได้รับแล้ว</string>
 
 </resources>
