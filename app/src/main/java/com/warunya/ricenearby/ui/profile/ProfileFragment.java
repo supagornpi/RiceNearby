@@ -148,7 +148,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     @Override
     public void bindUserData(User user) {
         if (user == null) return;
-        tvName.setText(user.name.isEmpty() ? user.username : user.name);
+        tvName.setText(user.name == null || user.name.isEmpty() ? user.username : user.name);
         if (user.image == null) return;
         GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
 
