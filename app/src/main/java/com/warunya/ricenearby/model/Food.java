@@ -27,6 +27,12 @@ public class Food {
     public Double latitude;
     public Double longitude;
     public Float distance;
+    public boolean isBreakfast;
+    public boolean isLaunch;
+    public boolean isDinner;
+    public List<Meal> breakfasts;
+    public List<Meal> lunches;
+    public List<Meal> dinners;
 
     @Exclude
     public Map<String, Object> toMap() {

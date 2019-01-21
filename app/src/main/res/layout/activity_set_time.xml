@@ -19,107 +19,148 @@
             android:padding="@dimen/padding_small">
 
             <Button
-                android:id="@+id/btn_select_date"
-                android:layout_width="180dp"
+                android:id="@+id/btn_add_breakfast"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_mini"
+                android:layout_marginTop="@dimen/padding_small"
                 android:background="@drawable/background_edittext_gray"
                 android:gravity="center_vertical|start"
                 android:padding="@dimen/padding_small"
-                android:text="@string/settime_select_date" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_small"
-                android:paddingStart="@dimen/padding_small"
-                android:text="@string/settime_time" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_breakfast"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settime_breakfast" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_lunch"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settime_lunch" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_small"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_dinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settime_diner" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_late_dinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settime_late_diner" />
-                </LinearLayout>
-
-            </LinearLayout>
+                android:text="เพิ่มอาหารเช้า" />
 
             <Button
-                android:id="@+id/btn_add_menu"
+                android:id="@+id/btn_add_lunch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_small"
                 android:layout_marginStart="@dimen/padding_mini"
                 android:layout_marginTop="@dimen/padding_small"
                 android:background="@drawable/background_edittext_gray"
                 android:gravity="center_vertical|start"
                 android:padding="@dimen/padding_small"
-                android:text="@string/settime_select_menu" />
+                android:text="เพิ่มอาหารกลางวัน" />
 
-            <android.support.v4.widget.NestedScrollView
+            <Button
+                android:id="@+id/btn_add_dinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_mini"
+                android:layout_marginTop="@dimen/padding_small"
+                android:layout_marginBottom="@dimen/padding_small"
+                android:background="@drawable/background_edittext_gray"
+                android:gravity="center_vertical|start"
+                android:padding="@dimen/padding_small"
+                android:text="เพิ่มอาหารเย็น" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btn_select_date"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_mini"
+                    android:background="@drawable/background_edittext_gray"
+                    android:gravity="center_vertical|start"
+                    android:padding="@dimen/padding_small"
+                    android:text="@string/settime_select_date" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_small"
+                    android:paddingStart="@dimen/padding_small"
+                    android:text="@string/settime_time" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false" />
-            </android.support.v4.widget.NestedScrollView>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <CheckBox
+                            android:id="@+id/checkbox_breakfast"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settime_breakfast" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <CheckBox
+                            android:id="@+id/checkbox_lunch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settime_lunch" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_small"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <CheckBox
+                            android:id="@+id/checkbox_dinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settime_diner" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <CheckBox
+                            android:id="@+id/checkbox_late_dinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settime_late_diner" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_add_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_mini"
+                    android:layout_marginTop="@dimen/padding_small"
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:background="@drawable/background_edittext_gray"
+                    android:gravity="center_vertical|start"
+                    android:padding="@dimen/padding_small"
+                    android:text="@string/settime_select_menu" />
+
+                <android.support.v4.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false" />
+                </android.support.v4.widget.NestedScrollView>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
@@ -132,6 +173,7 @@
         android:background="@drawable/button_primary"
         android:gravity="center"
         android:padding="@dimen/padding_small"
-        android:text="@string/button_save" />
+        android:text="@string/button_save"
+        android:visibility="gone" />
 
 </LinearLayout>

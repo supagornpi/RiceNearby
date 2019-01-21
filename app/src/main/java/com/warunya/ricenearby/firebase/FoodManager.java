@@ -21,8 +21,10 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.warunya.ricenearby.constant.AppInstance;
+import com.warunya.ricenearby.constant.MealTime;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.FoodImage;
+import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Upload;
 
 import java.util.ArrayList;
@@ -272,6 +274,113 @@ public class FoodManager {
 
             }
         });
+    }
+
+    public static void addMeal(final DatabaseReference reference, final Meal meal, final MealTime mealTime) {
+        reference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Food value = mutableData.getValue(Food.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+                meal.key = reference.push().getKey();
+                if (mealTime == MealTime.Breakfast) {
+                    if (value.breakfasts == null) {
+                        value.breakfasts = new ArrayList<>();
+                    }
+                    value.breakfasts.add(meal);
+                } else if (mealTime == MealTime.Lunch) {
+                    if (value.lunches == null) {
+                        value.lunches = new ArrayList<>();
+                    }
+                    value.lunches.add(meal);
+                } else if (mealTime == MealTime.Dinner) {
+                    if (value.dinners == null) {
+                        value.dinners = new ArrayList<>();
+                    }
+                    value.dinners.add(meal);
+                }
+
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
+
+    public static void removeMeal(DatabaseReference reference, final String mealKey, final MealTime mealTime) {
+        reference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Food value = mutableData.getValue(Food.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                if (mealTime == MealTime.Breakfast) {
+                    value.breakfasts = removeMeal(mealKey, value.breakfasts);
+                } else if (mealTime == MealTime.Lunch) {
+                    value.lunches = removeMeal(mealKey, value.lunches);
+                } else if (mealTime == MealTime.Dinner) {
+                    value.dinners = removeMeal(mealKey, value.dinners);
+                }
+
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
+
+    public static void removeAllMeal(DatabaseReference reference, final MealTime mealTime) {
+        reference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Food value = mutableData.getValue(Food.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                if (mealTime == MealTime.Breakfast) {
+                    value.breakfasts = null;
+                } else if (mealTime == MealTime.Lunch) {
+                    value.lunches = null;
+                } else if (mealTime == MealTime.Dinner) {
+                    value.dinners = null;
+                }
+
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
+
+    private static List<Meal> removeMeal(String key, List<Meal> meals) {
+        int index = 0;
+        for (Meal item : meals) {
+            if (key.equals(item.key)) {
+                meals.remove(index);
+            }
+            index++;
+        }
+        return meals;
     }
 
     public static void updateFoodImage(Food food, String key) {

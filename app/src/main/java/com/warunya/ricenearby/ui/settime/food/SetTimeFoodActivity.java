@@ -1,4 +1,4 @@
-package com.warunya.ricenearby.ui.settime;
+package com.warunya.ricenearby.ui.settime.food;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -11,8 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -21,10 +19,10 @@ import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.constant.MealTime;
 import com.warunya.ricenearby.customs.CustomAdapter;
-import com.warunya.ricenearby.customs.view.FoodView;
+import com.warunya.ricenearby.customs.view.FoodMealView;
 import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.ui.menu.MenuActivity;
-import com.warunya.ricenearby.ui.settime.food.SetTimeFoodActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
@@ -35,74 +33,76 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class SetTimeActivity extends AbstractActivity implements SetTimeContract.View {
+public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFoodContract.View {
 
-    private SetTimeContract.Presenter presenter = new SetTimePresenter(this);
-    private List<CheckBox> checkBoxList = new ArrayList<>();
+    private SetTimeFoodContract.Presenter presenter = new SetTimeFoodPresenter(this);
     private Calendar myCalendar = Calendar.getInstance();
     private CustomAdapter<Food> adapter;
-    private boolean isSelectedDate = false;
+    private MealTime mealTime;
+    private String currentSelectedDate = "";
 
-    private CheckBox cbBreakfast;
-    private CheckBox cbLunch;
-    private CheckBox cbDinner;
-    private CheckBox cbLateDinner;
-    private Button btnAddBreakfast;
-    private Button btnAddLunch;
-    private Button btnAddDinner;
-
-    private Button btnSelectDate;
     private Button btnAddMenu;
-    private Button btnSave;
     private RecyclerView recyclerView;
 
-    public static void start() {
-        Intent intent = new Intent(MyApplication.applicationContext, SetTimeActivity.class);
+    public static void start(MealTime mealTime) {
+        Intent intent = new Intent(MyApplication.applicationContext, SetTimeFoodActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("MealTime", mealTime.ordinal());
         MyApplication.applicationContext.startActivity(intent);
     }
 
     @Override
     protected int setLayoutView() {
-        return R.layout.activity_set_time;
+        return R.layout.activity_set_time_food;
     }
 
     @Override
     protected void setupView(Bundle savedInstanceState) {
         setTitle(R.string.title_set_time);
         showBackButton();
+
+        mealTime = MealTime.Companion.parse(getIntent().getIntExtra("MealTime", 0));
         bindView();
         bindAction();
     }
 
-    private void bindView() {
-        cbBreakfast = findViewById(R.id.checkbox_breakfast);
-        cbLunch = findViewById(R.id.checkbox_lunch);
-        cbDinner = findViewById(R.id.checkbox_dinner);
-        cbLateDinner = findViewById(R.id.checkbox_late_dinner);
-        btnAddBreakfast = findViewById(R.id.btn_add_breakfast);
-        btnAddLunch = findViewById(R.id.btn_add_lunch);
-        btnAddDinner = findViewById(R.id.btn_add_dinner);
-        btnSelectDate = findViewById(R.id.btn_select_date);
-        btnAddMenu = findViewById(R.id.btn_add_menu);
-        btnSave = findViewById(R.id.btn_save);
-        recyclerView = findViewById(R.id.recyclerView);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.findFoodWithMealTime(mealTime);
 
-        checkBoxList.add(cbBreakfast);
-        checkBoxList.add(cbLunch);
-        checkBoxList.add(cbDinner);
-        checkBoxList.add(cbLateDinner);
+    }
+
+    private void bindView() {
+        btnAddMenu = findViewById(R.id.btn_add_menu);
+        recyclerView = findViewById(R.id.recyclerView);
 
         adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
             public <T> void onBindViewHolder(T item, View itemView, int viewType, int position) {
-                ((FoodView) itemView).bindAction();
-                ((FoodView) itemView).bind((Food) item);
+                ((FoodMealView) itemView).bindAction(new FoodMealView.OnButtonClickListener() {
+                    @Override
+                    public void onClickedAddDate(Food food) {
+                        showDatePickerDialog(food);
+                    }
+
+                    @Override
+                    public void onClickedDelete(String key) {
+                        presenter.removeAllMeals(key);
+                    }
+
+                    @Override
+                    public void onClickedDeleteChild(String key, String childKey) {
+                        presenter.removeMeal(key, childKey);
+
+                    }
+                });
+                ((FoodMealView) itemView).bind((Food) item, mealTime);
             }
 
             @Override
             public View onCreateView(ViewGroup parent) {
-                return new FoodView(getApplicationContext());
+                return new FoodMealView(parent.getContext());
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -111,53 +111,15 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
     }
 
     private void bindAction() {
-        setOnClickCheckbox(cbBreakfast);
-        setOnClickCheckbox(cbLunch);
-        setOnClickCheckbox(cbDinner);
-        setOnClickCheckbox(cbLateDinner);
-
-        btnSelectDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
-
         btnAddMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MenuActivity.startToSelectFood(SetTimeActivity.this);
-            }
-        });
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.submit(isSelectedDate, btnSelectDate.getText().toString(), checkBoxList, adapter.getList());
-            }
-        });
-
-        btnAddBreakfast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SetTimeFoodActivity.start(MealTime.Breakfast);
-            }
-        });
-        btnAddBreakfast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SetTimeFoodActivity.start(MealTime.Lunch);
-            }
-        });
-        btnAddBreakfast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SetTimeFoodActivity.start(MealTime.Dinner);
+                showDatePickerDialog(null);
             }
         });
     }
 
-    private void showDatePickerDialog() {
+    private void showDatePickerDialog(final Food food) {
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -167,9 +129,14 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateLabel();
+                if (food == null) {
+                    MenuActivity.startToSelectFood(SetTimeFoodActivity.this);
+                } else {
+                    addMealTime(food, mealTime, currentSelectedDate);
+                }
             }
         };
-        new DatePickerDialog(SetTimeActivity.this, date, myCalendar
+        new DatePickerDialog(SetTimeFoodActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
@@ -178,21 +145,7 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
         String myFormat = "EE dd MMMM yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
 
-        isSelectedDate = true;
-        btnSelectDate.setText(sdf.format(myCalendar.getTime()));
-    }
-
-    private void setOnClickCheckbox(final CheckBox clickedCheckBox) {
-        clickedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    for (CheckBox checkBox : checkBoxList) {
-                        checkBox.setChecked(clickedCheckBox == (checkBox));
-                    }
-                }
-            }
-        });
+        currentSelectedDate = sdf.format(myCalendar.getTime());
     }
 
     @Override
@@ -202,10 +155,12 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
             if (requestCode == 99) {
                 if (data == null) return;
                 List<Food> foodList = Parcels.unwrap(data.getParcelableExtra("foods"));
-                adapter.setListItem(foodList);
+
+                for (Food food : foodList) {
+                    addMealTime(food, mealTime, currentSelectedDate);
+                }
             }
         }
-
     }
 
     @Override
@@ -217,6 +172,11 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
     @Override
     public void error(@NotNull String message) {
 
+    }
+
+    @Override
+    public void fetchFoods(List<Food> foods) {
+        adapter.setListItem(foods);
     }
 
     @Override
@@ -238,5 +198,46 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
     @Override
     public void submitSuccess() {
         finish();
+    }
+
+    private void addMealTime(Food food, MealTime mealTime, String date) {
+        boolean isInAdapter = false;
+        int index = 0;
+        for (Food foodInAdapter : adapter.getList()) {
+            if (foodInAdapter.key.equals(food.key)) {
+                isInAdapter = true;
+                food = foodInAdapter;
+            }
+            index++;
+        }
+
+        Meal meal = new Meal(date);
+        if (mealTime == MealTime.Breakfast) {
+            //new array if it null
+            if (food.breakfasts == null) {
+                food.breakfasts = new ArrayList<>();
+            }
+            food.breakfasts.add(new Meal(date));
+        } else if (mealTime == MealTime.Lunch) {
+            //new array if it null
+            if (food.lunches == null) {
+                food.lunches = new ArrayList<>();
+            }
+            food.lunches.add(new Meal(date));
+        } else if (mealTime == MealTime.Dinner) {
+            //new array if it null
+            if (food.dinners == null) {
+                food.dinners = new ArrayList<>();
+            }
+            food.dinners.add(new Meal(date));
+        }
+
+        if (isInAdapter) {
+            adapter.editItemAt(index - 1, food);
+            adapter.notifyDataSetChanged();
+        } else {
+            adapter.addItem(food);
+        }
+        presenter.addMeal(food.key, meal, mealTime);
     }
 }

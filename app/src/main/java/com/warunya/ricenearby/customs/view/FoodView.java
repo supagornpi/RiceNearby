@@ -21,6 +21,7 @@ import com.warunya.ricenearby.utils.GlideLoader;
 public class FoodView extends LinearLayout {
 
     private Food food;
+    private boolean checkboxIsShown = false;
 
     private LinearLayout layoutItem;
     private TextView tvFoodName;
@@ -93,7 +94,11 @@ public class FoodView extends LinearLayout {
             @Override
             public void onClick(View view) {
                 if (food == null) return;
-                FoodActivity.start(food);
+                if (!checkboxIsShown) {
+                    FoodActivity.start(food);
+                } else {
+                    checkBox.setChecked(!checkBox.isChecked());
+                }
             }
         });
 
@@ -110,6 +115,8 @@ public class FoodView extends LinearLayout {
     }
 
     public void showCheckBox() {
+        checkboxIsShown = true;
         checkBox.setVisibility(VISIBLE);
+        tvEdit.setVisibility(INVISIBLE);
     }
 }
