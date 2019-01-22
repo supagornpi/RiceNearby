@@ -80,7 +80,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
         adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
             public <T> void onBindViewHolder(T item, View itemView, int viewType, int position) {
-                ((FoodMealView) itemView).bindAction(new FoodMealView.OnButtonClickListener() {
+                ((FoodMealView) itemView).bind((Food) item, mealTime, new FoodMealView.OnButtonClickListener() {
                     @Override
                     public void onClickedAddDate(Food food) {
                         showDatePickerDialog(food);
@@ -94,10 +94,8 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
                     @Override
                     public void onClickedDeleteChild(String key, String childKey) {
                         presenter.removeMeal(key, childKey);
-
                     }
                 });
-                ((FoodMealView) itemView).bind((Food) item, mealTime);
             }
 
             @Override
@@ -217,19 +215,25 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
             if (food.breakfasts == null) {
                 food.breakfasts = new ArrayList<>();
             }
-            food.breakfasts.add(new Meal(date));
+            if (!isAddedMealTime(food.breakfasts, date)) {
+                food.breakfasts.add(new Meal(date));
+            }
         } else if (mealTime == MealTime.Lunch) {
             //new array if it null
             if (food.lunches == null) {
                 food.lunches = new ArrayList<>();
             }
-            food.lunches.add(new Meal(date));
+            if (!isAddedMealTime(food.lunches, date)) {
+                food.lunches.add(new Meal(date));
+            }
         } else if (mealTime == MealTime.Dinner) {
             //new array if it null
             if (food.dinners == null) {
                 food.dinners = new ArrayList<>();
             }
-            food.dinners.add(new Meal(date));
+            if (!isAddedMealTime(food.dinners, date)) {
+                food.dinners.add(new Meal(date));
+            }
         }
 
         if (isInAdapter) {
@@ -238,6 +242,18 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
         } else {
             adapter.addItem(food);
         }
+
         presenter.addMeal(food.key, meal, mealTime);
+    }
+
+    //check duplicate item
+    private boolean isAddedMealTime(List<Meal> meals, String date) {
+        boolean isAddedDate = false;
+        for (Meal meal : meals) {
+            if (meal.date.equals(date)) {
+                isAddedDate = true;
+            }
+        }
+        return isAddedDate;
     }
 }

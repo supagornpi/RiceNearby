@@ -75,8 +75,7 @@ public class SetTimeFoodPresenter implements SetTimeFoodContract.Presenter {
 
     @Override
     public void addMeal(String key, Meal meal, MealTime mealTime) {
-        FoodManager.addMeal(FoodManager.getFoodsReference(key), meal, mealTime);
-        FoodManager.addMeal(FoodManager.getUserFoodsReference(key), meal, mealTime);
+        FoodManager.addMealTime(key, meal, mealTime);
     }
 
     @Override
@@ -87,8 +86,7 @@ public class SetTimeFoodPresenter implements SetTimeFoodContract.Presenter {
 
     @Override
     public void removeMeal(String foodKey, String mealKey) {
-        FoodManager.removeMeal(FoodManager.getFoodsReference(foodKey), mealKey, mealTime);
-        FoodManager.removeMeal(FoodManager.getUserFoodsReference(foodKey), mealKey, mealTime);
+        FoodManager.removeMealTime(foodKey, mealKey, mealTime);
     }
 
     private boolean isValidate(boolean isSelectedDate, List<CheckBox> checkBoxListMeal, List<Food> foodList) {

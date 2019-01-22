@@ -29,7 +29,6 @@ public class FoodMealView extends LinearLayout {
     private TextView tvAddDate;
     private ImageView ivFood;
     private RecyclerView recyclerViewChild;
-    private OnButtonClickListener onButtonClickListener;
 
     public FoodMealView(Context context) {
         super(context);
@@ -62,7 +61,7 @@ public class FoodMealView extends LinearLayout {
         recyclerViewChild = findViewById(R.id.recyclerViewChild);
     }
 
-    public void bind(final Food food, MealTime mealTime) {
+    public void bind(final Food food, MealTime mealTime, final OnButtonClickListener onButtonClickListener) {
         if (food == null) return;
         this.food = food;
 
@@ -74,12 +73,12 @@ public class FoodMealView extends LinearLayout {
             ivFood.setImageResource(R.drawable.logo);
         }
 
-        generateChild(food, mealTime);
+        generateChild(food, mealTime, onButtonClickListener);
+        bindAction(onButtonClickListener);
+
     }
 
     public void bindAction(final OnButtonClickListener onButtonClickListener) {
-        this.onButtonClickListener = onButtonClickListener;
-
         tvAddDate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,19 +97,19 @@ public class FoodMealView extends LinearLayout {
         });
     }
 
-    private void generateChild(final Food food, MealTime mealTime) {
+    private void generateChild(final Food food, final MealTime mealTime, final OnButtonClickListener onChildButtonClickListener) {
         //init adapter
         CustomAdapter<Meal> adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
             public <T> void onBindViewHolder(T item, View itemView, int viewType, int position) {
-                ((FoodMealTimeView) itemView).bindAction(new FoodMealTimeView.OnButtonClickListener() {
+                ((FoodMealTimeView) itemView).bind((Meal) item);
+                ((FoodMealTimeView) itemView).bindAction(new FoodMealTimeView.OnChildButtonClickListener() {
                     @Override
                     public void onClickedDeleteChild(String childKey) {
-                        if (onButtonClickListener == null) return;
-                        onButtonClickListener.onClickedDeleteChild(food.key, childKey);
+                        if (onChildButtonClickListener == null) return;
+                        onChildButtonClickListener.onClickedDeleteChild(food.key, childKey);
                     }
                 });
-                ((FoodMealTimeView) itemView).bind((Meal) item);
             }
 
             @Override

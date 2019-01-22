@@ -276,7 +276,16 @@ public class FoodManager {
         });
     }
 
-    public static void addMeal(final DatabaseReference reference, final Meal meal, final MealTime mealTime) {
+    public static void addMealTime(String key, final Meal meal, final MealTime mealTime) {
+        DatabaseReference foodsReference = FoodManager.getFoodsReference(key);
+        DatabaseReference userFoodsReference = FoodManager.getUserFoodsReference(key);
+        meal.key = foodsReference.push().getKey();
+
+        addMeal(foodsReference, meal, mealTime);
+        addMeal(userFoodsReference, meal, mealTime);
+    }
+
+    private static void addMeal(final DatabaseReference reference, final Meal meal, final MealTime mealTime) {
         reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -284,22 +293,27 @@ public class FoodManager {
                 if (value == null) {
                     return Transaction.success(mutableData);
                 }
-                meal.key = reference.push().getKey();
                 if (mealTime == MealTime.Breakfast) {
                     if (value.breakfasts == null) {
                         value.breakfasts = new ArrayList<>();
                     }
-                    value.breakfasts.add(meal);
+                    if (!isAddedMealTime(value.breakfasts, meal.date)) {
+                        value.breakfasts.add(meal);
+                    }
                 } else if (mealTime == MealTime.Lunch) {
                     if (value.lunches == null) {
                         value.lunches = new ArrayList<>();
                     }
-                    value.lunches.add(meal);
+                    if (!isAddedMealTime(value.lunches, meal.date)) {
+                        value.lunches.add(meal);
+                    }
                 } else if (mealTime == MealTime.Dinner) {
                     if (value.dinners == null) {
                         value.dinners = new ArrayList<>();
                     }
-                    value.dinners.add(meal);
+                    if (!isAddedMealTime(value.dinners, meal.date)) {
+                        value.dinners.add(meal);
+                    }
                 }
 
                 // Set value and report transaction success
@@ -314,7 +328,26 @@ public class FoodManager {
         });
     }
 
-    public static void removeMeal(DatabaseReference reference, final String mealKey, final MealTime mealTime) {
+    //check duplicate item
+    private static boolean isAddedMealTime(List<Meal> meals, String date) {
+        boolean isAddedDate = false;
+        for (Meal meal : meals) {
+            if (meal.date.equals(date)) {
+                isAddedDate = true;
+            }
+        }
+        return isAddedDate;
+    }
+
+    public static void removeMealTime(String key, final String mealKey, final MealTime mealTime) {
+        DatabaseReference foodsReference = FoodManager.getFoodsReference(key);
+        DatabaseReference userFoodsReference = FoodManager.getUserFoodsReference(key);
+
+        removeMeal(foodsReference, mealKey, mealTime);
+        removeMeal(userFoodsReference, mealKey, mealTime);
+    }
+
+    private static void removeMeal(DatabaseReference reference, final String mealKey, final MealTime mealTime) {
         reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -374,13 +407,14 @@ public class FoodManager {
 
     private static List<Meal> removeMeal(String key, List<Meal> meals) {
         int index = 0;
+        List<Meal> copyMeals = new ArrayList<>(meals);
         for (Meal item : meals) {
             if (key.equals(item.key)) {
-                meals.remove(index);
+                copyMeals.remove(index);
             }
             index++;
         }
-        return meals;
+        return copyMeals;
     }
 
     public static void updateFoodImage(Food food, String key) {

@@ -38,10 +38,6 @@ import java.util.Locale;
 public class SetTimeActivity extends AbstractActivity implements SetTimeContract.View {
 
     private SetTimeContract.Presenter presenter = new SetTimePresenter(this);
-    private List<CheckBox> checkBoxList = new ArrayList<>();
-    private Calendar myCalendar = Calendar.getInstance();
-    private CustomAdapter<Food> adapter;
-    private boolean isSelectedDate = false;
 
     private CheckBox cbBreakfast;
     private CheckBox cbLunch;
@@ -76,66 +72,66 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
     }
 
     private void bindView() {
-        cbBreakfast = findViewById(R.id.checkbox_breakfast);
-        cbLunch = findViewById(R.id.checkbox_lunch);
-        cbDinner = findViewById(R.id.checkbox_dinner);
-        cbLateDinner = findViewById(R.id.checkbox_late_dinner);
+//        cbBreakfast = findViewById(R.id.checkbox_breakfast);
+//        cbLunch = findViewById(R.id.checkbox_lunch);
+//        cbDinner = findViewById(R.id.checkbox_dinner);
+//        cbLateDinner = findViewById(R.id.checkbox_late_dinner);
         btnAddBreakfast = findViewById(R.id.btn_add_breakfast);
         btnAddLunch = findViewById(R.id.btn_add_lunch);
         btnAddDinner = findViewById(R.id.btn_add_dinner);
-        btnSelectDate = findViewById(R.id.btn_select_date);
-        btnAddMenu = findViewById(R.id.btn_add_menu);
-        btnSave = findViewById(R.id.btn_save);
-        recyclerView = findViewById(R.id.recyclerView);
+//        btnSelectDate = findViewById(R.id.btn_select_date);
+//        btnAddMenu = findViewById(R.id.btn_add_menu);
+//        btnSave = findViewById(R.id.btn_save);
+//        recyclerView = findViewById(R.id.recyclerView);
 
-        checkBoxList.add(cbBreakfast);
-        checkBoxList.add(cbLunch);
-        checkBoxList.add(cbDinner);
-        checkBoxList.add(cbLateDinner);
+//        checkBoxList.add(cbBreakfast);
+//        checkBoxList.add(cbLunch);
+//        checkBoxList.add(cbDinner);
+//        checkBoxList.add(cbLateDinner);
 
-        adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
-            @Override
-            public <T> void onBindViewHolder(T item, View itemView, int viewType, int position) {
-                ((FoodView) itemView).bindAction();
-                ((FoodView) itemView).bind((Food) item);
-            }
-
-            @Override
-            public View onCreateView(ViewGroup parent) {
-                return new FoodView(getApplicationContext());
-            }
-        });
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+//        adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
+//            @Override
+//            public <T> void onBindViewHolder(T item, View itemView, int viewType, int position) {
+//                ((FoodView) itemView).bindAction();
+//                ((FoodView) itemView).bind((Food) item);
+//            }
+//
+//            @Override
+//            public View onCreateView(ViewGroup parent) {
+//                return new FoodView(getApplicationContext());
+//            }
+//        });
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setAdapter(adapter);
 
     }
 
     private void bindAction() {
-        setOnClickCheckbox(cbBreakfast);
-        setOnClickCheckbox(cbLunch);
-        setOnClickCheckbox(cbDinner);
-        setOnClickCheckbox(cbLateDinner);
+//        setOnClickCheckbox(cbBreakfast);
+//        setOnClickCheckbox(cbLunch);
+//        setOnClickCheckbox(cbDinner);
+//        setOnClickCheckbox(cbLateDinner);
 
-        btnSelectDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
-
-        btnAddMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MenuActivity.startToSelectFood(SetTimeActivity.this);
-            }
-        });
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.submit(isSelectedDate, btnSelectDate.getText().toString(), checkBoxList, adapter.getList());
-            }
-        });
+//        btnSelectDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showDatePickerDialog();
+//            }
+//        });
+//
+//        btnAddMenu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                MenuActivity.startToSelectFood(SetTimeActivity.this);
+//            }
+//        });
+//
+//        btnSave.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                presenter.submit(isSelectedDate, btnSelectDate.getText().toString(), checkBoxList, adapter.getList());
+//            }
+//        });
 
         btnAddBreakfast.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,13 +139,13 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
                 SetTimeFoodActivity.start(MealTime.Breakfast);
             }
         });
-        btnAddBreakfast.setOnClickListener(new View.OnClickListener() {
+        btnAddLunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SetTimeFoodActivity.start(MealTime.Lunch);
             }
         });
-        btnAddBreakfast.setOnClickListener(new View.OnClickListener() {
+        btnAddDinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SetTimeFoodActivity.start(MealTime.Dinner);
@@ -157,56 +153,56 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
         });
     }
 
-    private void showDatePickerDialog() {
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+//    private void showDatePickerDialog() {
+//        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+//
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int monthOfYear,
+//                                  int dayOfMonth) {
+//                myCalendar.set(Calendar.YEAR, year);
+//                myCalendar.set(Calendar.MONTH, monthOfYear);
+//                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                updateLabel();
+//            }
+//        };
+//        new DatePickerDialog(SetTimeActivity.this, date, myCalendar
+//                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+//                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+//    }
 
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-        };
-        new DatePickerDialog(SetTimeActivity.this, date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
+//    private void updateLabel() {
+//        String myFormat = "EE dd MMMM yyyy"; //In which you need put here
+//        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+//
+//        isSelectedDate = true;
+//        btnSelectDate.setText(sdf.format(myCalendar.getTime()));
+//    }
 
-    private void updateLabel() {
-        String myFormat = "EE dd MMMM yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+//    private void setOnClickCheckbox(final CheckBox clickedCheckBox) {
+//        clickedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if (b) {
+//                    for (CheckBox checkBox : checkBoxList) {
+//                        checkBox.setChecked(clickedCheckBox == (checkBox));
+//                    }
+//                }
+//            }
+//        });
+//    }
 
-        isSelectedDate = true;
-        btnSelectDate.setText(sdf.format(myCalendar.getTime()));
-    }
-
-    private void setOnClickCheckbox(final CheckBox clickedCheckBox) {
-        clickedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    for (CheckBox checkBox : checkBoxList) {
-                        checkBox.setChecked(clickedCheckBox == (checkBox));
-                    }
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 99) {
-                if (data == null) return;
-                List<Food> foodList = Parcels.unwrap(data.getParcelableExtra("foods"));
-                adapter.setListItem(foodList);
-            }
-        }
-
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == Activity.RESULT_OK) {
+//            if (requestCode == 99) {
+//                if (data == null) return;
+//                List<Food> foodList = Parcels.unwrap(data.getParcelableExtra("foods"));
+//                adapter.setListItem(foodList);
+//            }
+//        }
+//
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

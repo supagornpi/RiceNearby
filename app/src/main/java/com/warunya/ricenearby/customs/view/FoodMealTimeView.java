@@ -4,10 +4,8 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,10 +18,6 @@ public class FoodMealTimeView extends LinearLayout {
 
     private TextView tvDate;
     private TextView tvDelete;
-    private TextView tvAddDate;
-    private ImageView ivFood;
-    private RecyclerView recyclerViewChild;
-    private OnButtonClickListener onButtonClickListener;
 
     public FoodMealTimeView(Context context) {
         super(context);
@@ -60,18 +54,18 @@ public class FoodMealTimeView extends LinearLayout {
 
     }
 
-    public void bindAction(final OnButtonClickListener onButtonClickListener) {
+    public void bindAction(final OnChildButtonClickListener onChildButtonClickListener) {
         tvDelete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (meal == null) return;
-                if (onButtonClickListener == null) return;
-                onButtonClickListener.onClickedDeleteChild(meal.key);
+                if (onChildButtonClickListener == null) return;
+                onChildButtonClickListener.onClickedDeleteChild(meal.key);
             }
         });
     }
 
-    public interface OnButtonClickListener {
+    public interface OnChildButtonClickListener {
         void onClickedDeleteChild(String childKey);
     }
 }
