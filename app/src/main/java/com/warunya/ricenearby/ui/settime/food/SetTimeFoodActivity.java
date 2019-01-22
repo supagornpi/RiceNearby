@@ -58,10 +58,20 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
 
     @Override
     protected void setupView(Bundle savedInstanceState) {
-        setTitle(R.string.title_set_time);
         showBackButton();
 
         mealTime = MealTime.Companion.parse(getIntent().getIntExtra("MealTime", 0));
+        String title = "";
+        if (mealTime == MealTime.Breakfast) {
+            title = "อาหารเช้า";
+        } else if (mealTime == MealTime.Lunch) {
+            title = "อาหารกลางวัน";
+        } else if (mealTime == MealTime.Dinner) {
+            title = "อาหารเย็น";
+        }
+        setTitle(title);
+
+
         bindView();
         bindAction();
     }
