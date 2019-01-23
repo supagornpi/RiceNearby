@@ -22,6 +22,14 @@
         tools:text="วันที่" />
 
     <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:padding="@dimen/padding_mini"
+        android:text="จำนวน 0 จาน" />
+
+    <TextView
         android:id="@+id/tv_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

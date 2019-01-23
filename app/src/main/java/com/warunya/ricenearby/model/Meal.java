@@ -6,12 +6,13 @@ import org.parceler.Parcel;
 public class Meal {
     public String key;
     public String date;
-    public String amount;
+    public int amount;
 
     public Meal() {
     }
 
-    public Meal(String date) {
+    public Meal(String date, int amount) {
         this.date = date;
+        this.amount = amount;
     }
 }

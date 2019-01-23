@@ -20,6 +20,7 @@ import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.constant.MealTime;
 import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.customs.view.FoodMealView;
+import com.warunya.ricenearby.dialog.AddAmountDialog;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.ui.menu.MenuActivity;
@@ -140,7 +141,12 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
                 if (food == null) {
                     MenuActivity.startToSelectFood(SetTimeFoodActivity.this);
                 } else {
-                    addMealTime(food, mealTime, currentSelectedDate);
+                    AddAmountDialog.show(SetTimeFoodActivity.this, new AddAmountDialog.OnClickListener() {
+                        @Override
+                        public void onClickedAddToCart(int amount) {
+                            addMealTime(food, mealTime, currentSelectedDate, amount);
+                        }
+                    });
                 }
             }
         };
@@ -162,11 +168,15 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 99) {
                 if (data == null) return;
-                List<Food> foodList = Parcels.unwrap(data.getParcelableExtra("foods"));
-
-                for (Food food : foodList) {
-                    addMealTime(food, mealTime, currentSelectedDate);
-                }
+                final List<Food> foodList = Parcels.unwrap(data.getParcelableExtra("foods"));
+                AddAmountDialog.show(SetTimeFoodActivity.this, new AddAmountDialog.OnClickListener() {
+                    @Override
+                    public void onClickedAddToCart(int amount) {
+                        for (Food food : foodList) {
+                            addMealTime(food, mealTime, currentSelectedDate, amount);
+                        }
+                    }
+                });
             }
         }
     }
@@ -208,7 +218,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
         finish();
     }
 
-    private void addMealTime(Food food, MealTime mealTime, String date) {
+    private void addMealTime(Food food, MealTime mealTime, String date, int amount) {
         boolean isInAdapter = false;
         int index = 0;
         for (Food foodInAdapter : adapter.getList()) {
@@ -219,14 +229,14 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
             index++;
         }
 
-        Meal meal = new Meal(date);
+        Meal meal = new Meal(date, amount);
         if (mealTime == MealTime.Breakfast) {
             //new array if it null
             if (food.breakfasts == null) {
                 food.breakfasts = new ArrayList<>();
             }
             if (!isAddedMealTime(food.breakfasts, date)) {
-                food.breakfasts.add(new Meal(date));
+                food.breakfasts.add(meal);
             }
         } else if (mealTime == MealTime.Lunch) {
             //new array if it null
@@ -234,7 +244,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
                 food.lunches = new ArrayList<>();
             }
             if (!isAddedMealTime(food.lunches, date)) {
-                food.lunches.add(new Meal(date));
+                food.lunches.add(meal);
             }
         } else if (mealTime == MealTime.Dinner) {
             //new array if it null
@@ -242,7 +252,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
                 food.dinners = new ArrayList<>();
             }
             if (!isAddedMealTime(food.dinners, date)) {
-                food.dinners.add(new Meal(date));
+                food.dinners.add(meal);
             }
         }
 

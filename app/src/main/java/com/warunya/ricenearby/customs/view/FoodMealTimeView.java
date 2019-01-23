@@ -18,6 +18,7 @@ public class FoodMealTimeView extends LinearLayout {
 
     private TextView tvDate;
     private TextView tvDelete;
+    private TextView tvAmount;
 
     public FoodMealTimeView(Context context) {
         super(context);
@@ -45,13 +46,14 @@ public class FoodMealTimeView extends LinearLayout {
 
         tvDate = findViewById(R.id.tv_date);
         tvDelete = findViewById(R.id.tv_delete);
+        tvAmount = findViewById(R.id.tv_amount);
     }
 
     public void bind(final Meal meal) {
         if (meal == null) return;
         this.meal = meal;
         tvDate.setText(meal.date);
-
+        tvAmount.setText("จำนวน " + meal.amount + " จาน");
     }
 
     public void bindAction(final OnChildButtonClickListener onChildButtonClickListener) {
