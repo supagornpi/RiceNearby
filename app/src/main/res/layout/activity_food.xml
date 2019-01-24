@@ -99,6 +99,22 @@
                         android:textColor="@color/color_gray"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_normal"
+                        android:background="@drawable/button_white_small_corner"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/ic_star"
+                        android:drawablePadding="@dimen/padding_normal"
+                        android:gravity="start|center_vertical"
+                        android:paddingStart="@dimen/padding_large"
+                        android:paddingTop="@dimen/padding_small"
+                        android:paddingEnd="@dimen/padding_large"
+                        android:paddingBottom="@dimen/padding_small"
+                        android:text="0/5 กดดูรีวิว"
+                        android:textColor="@color/color_gray" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

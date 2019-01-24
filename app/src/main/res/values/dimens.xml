@@ -8,6 +8,7 @@
     <dimen name="circle_indicator_height">5dp</dimen>
 
     <dimen name="corner_small">7dp</dimen>
+    <dimen name="corner_normal">10dp</dimen>
     <dimen name="corner_large">15dp</dimen>
     <dimen name="corner_oval">50dp</dimen>
 
