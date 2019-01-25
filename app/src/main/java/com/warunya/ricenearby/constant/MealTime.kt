@@ -2,11 +2,11 @@ package com.warunya.ricenearby.constant
 
 import java.util.*
 
-enum class MealTime {
+enum class MealTime(val mealTimeText: String) {
 
-    Breakfast,
-    Lunch,
-    Dinner;
+    Breakfast("มื้อเช้า"),
+    Lunch("มื้อกลางวัน"),
+    Dinner("มื้อเย็น");
 
     companion object {
         fun parse(type: Int): MealTime {

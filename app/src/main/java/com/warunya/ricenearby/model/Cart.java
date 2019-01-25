@@ -6,6 +6,7 @@ import com.google.firebase.database.ServerValue;
 import org.parceler.Parcel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Parcel
@@ -17,6 +18,7 @@ public class Cart {
     public Food food;
     public int amount;
     public boolean isConfirmOrder;
+    public List<Meal> meals;
 
     public Cart() {
     }
@@ -25,6 +27,13 @@ public class Cart {
         this.uid = uid;
         this.food = food;
         this.amount = amount;
+    }
+
+    public Cart(String uid, Food food, int amount, List<Meal> meals) {
+        this.uid = uid;
+        this.food = food;
+        this.amount = amount;
+        this.meals = meals;
     }
 
     @Exclude
@@ -37,6 +46,7 @@ public class Cart {
         result.put("timestamp", ServerValue.TIMESTAMP);
         result.put("amount", amount);
         result.put("isConfirmOrder", isConfirmOrder);
+        result.put("meals", meals);
         return result;
     }
 }

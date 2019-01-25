@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +18,18 @@ import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.model.Meal;
+import com.warunya.ricenearby.ui.food.MealTimeAdapter;
 import com.warunya.ricenearby.utils.GlideLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddCartDialog extends Dialog {
 
     private int amount = 1;
+    private int totalAmount = 0;
+    private Meal currentSelectedMeal;
     private Food food;
     private OnClickListener onClickListener;
 
@@ -33,6 +43,7 @@ public class AddCartDialog extends Dialog {
     private TextView tvTotalAmount;
     private ImageView ivFood;
     private Button btnAddtoCart;
+    private RecyclerView recyclerView;
 
     public AddCartDialog(@NonNull Context context) {
         super(context);
@@ -77,6 +88,7 @@ public class AddCartDialog extends Dialog {
         tvTotalAmount = findViewById(R.id.tv_total_amount);
         ivFood = findViewById(R.id.iv_food);
         btnAddtoCart = findViewById(R.id.btn_add_cart);
+        recyclerView = findViewById(R.id.recyclerView);
 
         tvAmount.setText(String.valueOf(amount));
         if (food == null) return;
@@ -85,8 +97,11 @@ public class AddCartDialog extends Dialog {
         tvMeal.setText(food.meal);
         tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, food.amount));
 
-        if (food.uploads == null) return;
-        GlideLoader.Companion.load(food.uploads.get(0).url, ivFood);
+        bindAdapter();
+
+        if (food.uploads != null) {
+            GlideLoader.Companion.load(food.uploads.get(0).url, ivFood);
+        }
 
     }
 
@@ -101,7 +116,7 @@ public class AddCartDialog extends Dialog {
         tvPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (amount >= food.amount) {
+                if (amount >= totalAmount) {
                     return;
                 } else {
                     amount++;
@@ -126,13 +141,50 @@ public class AddCartDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 if (onClickListener == null) return;
-                onClickListener.onClickedAddToCart(amount);
+                onClickListener.onClickedAddToCart(amount, currentSelectedMeal);
                 dismiss();
             }
         });
     }
 
+    private void bindAdapter() {
+        List<Meal> meals = new ArrayList<>();
+        if (food.breakfasts != null) {
+            meals.addAll(food.breakfasts);
+        }
+        if (food.lunches != null) {
+            meals.addAll(food.lunches);
+        }
+        if (food.dinners != null) {
+            meals.addAll(food.dinners);
+        }
+
+        if (meals.size() == 0) return;
+        tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, meals.get(0).amount));
+        totalAmount = meals.get(0).amount;
+        currentSelectedMeal = meals.get(0);
+
+        MealTimeAdapter adapter = new MealTimeAdapter();
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
+                LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+        adapter.setList(meals);
+
+        adapter.setOnItemClickListener(new MealTimeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClicked(MealTimeAdapter.ViewHolder viewHolder, Meal meal,
+                                      int position, boolean isSelected) {
+                currentSelectedMeal = meal;
+                tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, meal.amount));
+                amount = 1;
+                totalAmount = meal.amount;
+                tvAmount.setText(String.valueOf(amount));
+            }
+        });
+
+    }
+
     public interface OnClickListener {
-        void onClickedAddToCart(int amount);
+        void onClickedAddToCart(int amount, Meal meal);
     }
 }

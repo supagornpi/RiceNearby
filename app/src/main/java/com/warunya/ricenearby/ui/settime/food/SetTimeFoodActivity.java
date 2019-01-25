@@ -229,7 +229,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
             index++;
         }
 
-        Meal meal = new Meal(date, amount);
+        Meal meal = new Meal(date, amount, mealTime);
         if (mealTime == MealTime.Breakfast) {
             //new array if it null
             if (food.breakfasts == null) {

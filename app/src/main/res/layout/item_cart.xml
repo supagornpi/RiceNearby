@@ -84,7 +84,7 @@
                 android:layout_marginBottom="@dimen/padding_small"
                 android:paddingStart="@dimen/padding_small"
                 android:paddingEnd="@dimen/padding_small"
-                android:text="จำนวน"
+                android:text="จำนวนทั้งหมด"
                 android:textColor="@color/color_gray" />
 
         </LinearLayout>
@@ -118,7 +118,8 @@
                     android:paddingTop="@dimen/padding_mini"
                     android:paddingEnd="@dimen/padding_small"
                     android:paddingBottom="@dimen/padding_mini"
-                    android:text="-" />
+                    android:text="-"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_amount"
@@ -136,12 +137,18 @@
                     android:paddingTop="@dimen/padding_mini"
                     android:paddingEnd="@dimen/padding_small"
                     android:paddingBottom="@dimen/padding_mini"
-                    android:text="+" />
+                    android:text="+"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewChild"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

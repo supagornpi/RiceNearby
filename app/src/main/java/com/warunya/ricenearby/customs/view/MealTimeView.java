@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
+import com.warunya.ricenearby.constant.MealTime;
 import com.warunya.ricenearby.model.Meal;
 
 import java.text.ParseException;
@@ -17,58 +18,61 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class FoodMealTimeView extends LinearLayout {
+public class MealTimeView extends LinearLayout {
 
     private Meal meal;
 
     private TextView tvDate;
-    private TextView tvDelete;
     private TextView tvAmount;
+    private LinearLayout layoutItem;
 
-    public FoodMealTimeView(Context context) {
+    public MealTimeView(Context context) {
         super(context);
         init();
     }
 
-    public FoodMealTimeView(Context context, @Nullable AttributeSet attrs) {
+    public MealTimeView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public FoodMealTimeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MealTimeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public FoodMealTimeView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MealTimeView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
     private void init() {
-        View.inflate(getContext(), R.layout.item_food_meal_time, this);
+        View.inflate(getContext(), R.layout.item_meal_time, this);
 
-        tvDate = findViewById(R.id.tv_date);
-        tvDelete = findViewById(R.id.tv_delete);
+        tvDate = findViewById(R.id.tv_meal_time);
         tvAmount = findViewById(R.id.tv_amount);
+        layoutItem = findViewById(R.id.layout_item);
     }
 
     public void bind(final Meal meal) {
         if (meal == null) return;
         this.meal = meal;
-        tvDate.setText(meal.date);
-        tvAmount.setText("จำนวน " + meal.amount + " จาน");
-
+        tvDate.setText(getNewDateFormat(meal.date) + " " + meal.mealTime.getMealTimeText());
+//        tvAmount.setText(meal.amount + " จาน");
     }
 
-    public void bindInCart(final Meal meal) {
-        if (meal == null) return;
-        this.meal = meal;
-        tvDate.setText(meal.date);
-        tvAmount.setText("จำนวน " + meal.amount + " จาน");
+    public void bindAction(final OnItemClickListener onItemClickListener) {
+        layoutItem.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onClicked();
+            }
+        });
+    }
 
-        tvDate.setText(getNewDateFormat(meal.date) + " " + meal.mealTime.getMealTimeText());
+    public void setSelected(boolean isSelected) {
+        layoutItem.setSelected(isSelected);
     }
 
     private String getNewDateFormat(String date) {
@@ -86,19 +90,7 @@ public class FoodMealTimeView extends LinearLayout {
         return date;
     }
 
-    public void bindAction(final OnChildButtonClickListener onChildButtonClickListener) {
-        tvDelete.setVisibility(VISIBLE);
-        tvDelete.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (meal == null) return;
-                if (onChildButtonClickListener == null) return;
-                onChildButtonClickListener.onClickedDeleteChild(meal.key);
-            }
-        });
-    }
-
-    public interface OnChildButtonClickListener {
-        void onClickedDeleteChild(String childKey);
+    public interface OnItemClickListener {
+        void onClicked();
     }
 }

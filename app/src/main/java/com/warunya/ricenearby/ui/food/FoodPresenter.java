@@ -4,6 +4,7 @@ import com.warunya.ricenearby.firebase.CartManager;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.model.Meal;
 
 public class FoodPresenter implements FoodContract.Presenter {
 
@@ -24,8 +25,9 @@ public class FoodPresenter implements FoodContract.Presenter {
     }
 
     @Override
-    public void addToCart(Food food, int amount) {
+    public void addToCart(Food food, int amount, Meal meal) {
         Cart cart = new Cart(UserManager.getUid(), food, amount);
-        CartManager.addToCart(cart, amount);
+
+        CartManager.addToCart(cart, meal, amount);
     }
 }

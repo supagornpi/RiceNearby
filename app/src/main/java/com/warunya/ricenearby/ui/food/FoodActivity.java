@@ -15,6 +15,7 @@ import com.warunya.ricenearby.customs.SimplePagerAdapter;
 import com.warunya.ricenearby.dialog.AddCartDialog;
 import com.warunya.ricenearby.dialog.ImageBitmapDialog;
 import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
 import com.warunya.ricenearby.utils.BitmapUtils;
@@ -116,8 +117,8 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
                 if (food == null) return;
                 AddCartDialog.show(FoodActivity.this, food, new AddCartDialog.OnClickListener() {
                     @Override
-                    public void onClickedAddToCart(int amount) {
-                        presenter.addToCart(food, amount);
+                    public void onClickedAddToCart(int amount, Meal meal) {
+                        presenter.addToCart(food, amount, meal);
                         //play animate add to cart
                         Bitmap bitmap = BitmapUtils.getBitmapFromView(viewPager);
                         ImageBitmapDialog imageBitmapDialog = new ImageBitmapDialog(FoodActivity.this, bitmap);

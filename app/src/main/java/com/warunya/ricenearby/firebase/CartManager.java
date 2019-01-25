@@ -12,6 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.warunya.ricenearby.model.Cart;
+import com.warunya.ricenearby.model.Meal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,6 +138,45 @@ public class CartManager {
         });
     }
 
+    public static void addMealAndAmount(DatabaseReference reference, final Meal meal, final int amount) {
+        reference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Cart value = mutableData.getValue(Cart.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                boolean isInCart = false;
+                for (Meal mealInCart : value.meals) {
+                    if (mealInCart.key.equals(meal.key)) {
+                        isInCart = true;
+                        mealInCart.amount += amount;
+                        //maximum amount
+                        if (mealInCart.amount > meal.amount) {
+                            mealInCart.amount = meal.amount;
+                        }
+                    }
+                }
+
+
+                if (!isInCart) {
+                    value.meals.add(meal);
+                }
+
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
+
+
     public static void confirmedOrder(final String key) {
         confirmedOrder(getCartReference(key));
         confirmedOrder(getUserCartReference(key));
@@ -164,7 +204,7 @@ public class CartManager {
         });
     }
 
-    public static void addToCart(final Cart newCart, final int amount) {
+    public static void addToCart(final Cart newCart, final Meal meal, final int amount) {
         getUserCarts(new QueryListener() {
             @Override
             public void onComplete(List<Cart> carts) {
@@ -178,11 +218,18 @@ public class CartManager {
                 }
 
                 if (!isInCart) {
+                    if (newCart.meals == null) {
+                        newCart.meals = new ArrayList<>();
+                    }
+                    meal.amount = amount;
+                    newCart.meals.add(meal);
                     writeNewCart(newCart);
                 } else {
                     if (cartKey == null) return;
-                    addAmount(getCartReference(cartKey), amount);
-                    addAmount(getUserCartReference(cartKey), amount);
+                    addMealAndAmount(getCartReference(cartKey), meal, amount);
+                    addMealAndAmount(getUserCartReference(cartKey), meal, amount);
+//                    addAmount(getCartReference(cartKey), amount);
+//                    addAmount(getUserCartReference(cartKey), amount);
                 }
             }
         });

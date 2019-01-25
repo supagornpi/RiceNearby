@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
-    android:gravity="center_vertical"
+    android:layout_marginStart="@dimen/padding_mini"
+    android:layout_marginEnd="@dimen/padding_mini"
+    android:layout_marginBottom="@dimen/padding_mini"
+    android:background="@drawable/selector_background_yellow"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
     android:orientation="horizontal"
     android:padding="@dimen/padding_mini">
 
-    <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:src="@drawable/ic_clock" />
-
     <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="0dp"
+        android:id="@+id/tv_meal_time"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:padding="@dimen/padding_mini"
+        android:textColor="@color/selector_text"
         tools:text="วันที่" />
 
     <TextView
@@ -27,14 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_small"
         android:padding="@dimen/padding_mini"
-        android:text="จำนวน 0 จาน" />
-
-    <TextView
-        android:id="@+id/tv_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_mini"
-        android:text="ลบ"
-        android:textColor="@color/color_red"
+        android:text="0 จาน"
+        android:textColor="@color/selector_text"
         android:visibility="gone" />
+
 </LinearLayout>
