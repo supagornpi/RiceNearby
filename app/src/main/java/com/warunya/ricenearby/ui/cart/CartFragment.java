@@ -110,6 +110,8 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
 
         recyclerViewProgress.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewProgress.recyclerView.setAdapter(adapter);
+        recyclerViewProgress.setTextNotFound("ไม่มีอาหารที่คุณเลือกในตะกร้า");
+        recyclerViewProgress.setBackgroundNotFound(R.drawable.ic_not_found_cart);
 
         tvDeliveryPrice.setText(AppInstance.DELIVERY_PRICE + "฿");
 
@@ -161,10 +163,8 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     public void showNotFound() {
         recyclerViewProgress.showNotFound();
         tvConfirmOrder.setEnabled(false);
-        try {
+        if (isAdded()) {
             tvConfirmOrder.setBackgroundColor(getResources().getColor(R.color.color_gray));
-        } catch (Exception e) {
-            //do nothing
         }
     }
 
@@ -172,10 +172,8 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     public void hideNotFound() {
         recyclerViewProgress.hideNotFound();
         tvConfirmOrder.setEnabled(true);
-        try {
+        if (isAdded()) {
             tvConfirmOrder.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        } catch (Exception e) {
-            //do nothing
         }
     }
 
