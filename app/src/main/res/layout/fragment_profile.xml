@@ -144,14 +144,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_mini">
 
-                <Button
-                    android:id="@+id/btn_seller"
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/color_white"
-                    android:text="@string/button_register_seller"
-                    android:textStyle="bold" />
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/btn_seller"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_white"
+                        android:text="@string/button_register_seller"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_seller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                </RelativeLayout>
 
                 <Button
                     android:id="@+id/btn_sender"
@@ -360,27 +374,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/seller_review" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@android:drawable/arrow_down_float" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_mini"
-                    android:background="@color/color_white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/padding_small">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/profile_sell_income" />
 
                     <ImageView
                         android:layout_width="wrap_content"

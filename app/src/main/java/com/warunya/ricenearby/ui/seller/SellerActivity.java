@@ -34,9 +34,9 @@ public class SellerActivity extends AbstractActivity implements SellerContract.V
 
     @Override
     protected void setupView(Bundle savedInstanceState) {
-        setTitle("");
+        setTitle("ผู้ขาย");
         showBackButton();
-        setToolbarColor(android.R.color.transparent);
+//        setToolbarColor(android.R.color.transparent);
         bindView();
         bindAction();
     }

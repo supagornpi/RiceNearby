@@ -80,7 +80,7 @@
     <string name="profile_mobile_label">เบอร์โทรศัพท์</string>
     <string name="profile_email_label">อีเมล</string>
     <string name="profile_birthday_label">วันเกิด</string>
-    <string name="profile_you_are_seller">คุณเป็นผู้ขายอาหารแล้ว</string>
+    <string name="profile_you_are_seller">สำหรับผู้ขาย</string>
 
     <string-array name="gender_list">
         <item>เลือกเพศของคุณ</item>

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
@@ -35,6 +36,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     private LinearLayout layoutSeller;
     private LinearLayout layoutMenu;
     private LinearLayout layoutSetTime;
+    private ProgressBar progressBarSeller;
 
     private ProfileContract.Presenter presenter = new ProfilePresenter(this);
 
@@ -59,6 +61,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         layoutSeller = view.findViewById(R.id.layoutSeller);
         layoutMenu = view.findViewById(R.id.layout_menu);
         layoutSetTime = view.findViewById(R.id.layout_set_time);
+        progressBarSeller = view.findViewById(R.id.progress_seller);
 
     }
 
@@ -161,15 +164,25 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     @Override
     public void enableRegisterSellerButton() {
         btnSeller.setText(getContext().getResources().getString(R.string.button_register_seller));
-        btnSeller.setEnabled(true);
-        layoutSeller.setVisibility(View.GONE);
+        progressBarSeller.setVisibility(View.GONE);
+        btnSeller.setVisibility(View.VISIBLE);
+//        btnSeller.setEnabled(true);
+//        layoutSeller.setVisibility(View.GONE);
     }
 
     @Override
     public void disableRegisterSellerButton() {
         btnSeller.setText(getContext().getResources().getString(R.string.profile_you_are_seller));
-        btnSeller.setEnabled(false);
-        layoutSeller.setVisibility(View.VISIBLE);
+        btnSeller.setVisibility(View.VISIBLE);
+        progressBarSeller.setVisibility(View.GONE);
+        btnSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SellerActivity.start();
+            }
+        });
+//        btnSeller.setEnabled(false);
+//        layoutSeller.setVisibility(View.VISIBLE);
     }
 
     @Override

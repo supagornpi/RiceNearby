@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,121 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/layout_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_xxlarge"
-                android:orientation="horizontal"
-                android:padding="@dimen/padding_normal">
-
-                <ImageView
-                    android:layout_width="@dimen/profile_image"
-                    android:layout_height="@dimen/profile_image"
-                    android:src="@android:drawable/ic_input_add" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/padding_small">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/color_white"
-                        tools:text="name" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/color_white"
-                        tools:text="23 คนกำลังติดตาม" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/color_white"
-                        tools:text="19 คุณกำลังติดตาม" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <include layout="@layout/layout_action_bar" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_white"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_small">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="คะแนนการขาย" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="3.7" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="คะแนนการส่ง" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="ไม่ได้เป็นผู้ส่ง" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="ยอดขายทั้งหมด" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="40 ออเดอร์" />
-
-            </LinearLayout>
-        </LinearLayout>
+        <include layout="@layout/layout_action_bar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -137,15 +22,15 @@
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"
                 android:gravity="center_vertical"
-                android:paddingEnd="@dimen/padding_normal"
                 android:paddingStart="@dimen/padding_normal"
+                android:paddingEnd="@dimen/padding_normal"
                 android:text="@string/button_add_food"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_set_time"
+            android:id="@+id/layout_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_mini"
@@ -158,7 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/seller_set_time" />
+                android:text="@string/seller_menu" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -180,6 +65,28 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/seller_order" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/arrow_down_float" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_set_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_mini"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/seller_set_time" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -243,28 +150,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/seller_review" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/arrow_down_float" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_mini"
-            android:background="@color/color_white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_small">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/seller_menu" />
 
             <ImageView
                 android:layout_width="wrap_content"
