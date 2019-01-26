@@ -113,8 +113,8 @@
                 android:layout_marginTop="@dimen/padding_mini"
                 android:background="@drawable/background_edittext_gray"
                 android:gravity="top"
-                android:inputType="text"
-                android:lines="2"
+                android:inputType="textMultiLine"
+                android:lines="5"
                 android:padding="@dimen/padding_small" />
 
             <TextView
