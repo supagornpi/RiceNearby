@@ -70,7 +70,7 @@ public class FoodGridView extends LinearLayout {
         tvMeal.setText(food.meal == null ? "" : "มื้อ : " + food.meal);
 
         if (food.distance != null) {
-            String distance = food.distance >= 1000 ? food.distance.intValue() / 1000 + "m" : food.distance.intValue() + "m";
+            String distance = food.distance >= 1000 ? food.distance.intValue() / 1000 + "km" : food.distance.intValue() + "m";
             tvDistance.setText(distance);
         }
 
