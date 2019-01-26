@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
+import com.warunya.ricenearby.constant.AppInstance;
 import com.warunya.ricenearby.model.Meal;
 
 import java.text.ParseException;
@@ -72,7 +73,7 @@ public class FoodMealTimeView extends LinearLayout {
     }
 
     private String getNewDateFormat(String date) {
-        String myFormat = "EE dd MMMM yyyy"; //In which you need put here
+        String myFormat = AppInstance.DATE_FORMAT_DEFAULT; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
 
         try {
