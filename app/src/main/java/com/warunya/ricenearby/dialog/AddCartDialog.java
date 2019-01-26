@@ -141,6 +141,7 @@ public class AddCartDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 if (onClickListener == null) return;
+                if (amount == 0) return;
                 onClickListener.onClickedAddToCart(amount, currentSelectedMeal);
                 dismiss();
             }
@@ -159,28 +160,33 @@ public class AddCartDialog extends Dialog {
             meals.addAll(food.dinners);
         }
 
-        if (meals.size() == 0) return;
-        tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, meals.get(0).amount));
-        totalAmount = meals.get(0).amount;
-        currentSelectedMeal = meals.get(0);
+        if (meals.size() != 0) {
+            tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, meals.get(0).amount));
+            totalAmount = meals.get(0).amount;
+            currentSelectedMeal = meals.get(0);
 
-        MealTimeAdapter adapter = new MealTimeAdapter();
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
-                LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
-        adapter.setList(meals);
+            MealTimeAdapter adapter = new MealTimeAdapter();
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
+                    LinearLayoutManager.VERTICAL, false));
+            recyclerView.setAdapter(adapter);
+            adapter.setList(meals);
 
-        adapter.setOnItemClickListener(new MealTimeAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClicked(MealTimeAdapter.ViewHolder viewHolder, Meal meal,
-                                      int position, boolean isSelected) {
-                currentSelectedMeal = meal;
-                tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, meal.amount));
-                amount = 1;
-                totalAmount = meal.amount;
-                tvAmount.setText(String.valueOf(amount));
-            }
-        });
+            adapter.setOnItemClickListener(new MealTimeAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClicked(MealTimeAdapter.ViewHolder viewHolder, Meal meal,
+                                          int position, boolean isSelected) {
+                    currentSelectedMeal = meal;
+                    tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, meal.amount));
+                    amount = 1;
+                    totalAmount = meal.amount;
+                    tvAmount.setText(String.valueOf(amount));
+                }
+            });
+        } else {
+            tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, 0));
+            tvAmount.setText(String.valueOf(0));
+            amount = 0;
+        }
 
     }
 
