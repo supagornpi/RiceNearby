@@ -23,6 +23,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
+                if (user == null) return;
                 view.bindUserData(user);
                 checkSellerStatus();
 
@@ -50,8 +51,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     private void checkSellerStatus() {
-        if (user.userType == null) return;
-        if (user.userType == UserType.Seller) {
+        if (user.userType != null && user.userType == UserType.Seller) {
             view.disableRegisterSellerButton();
         } else {
             view.enableRegisterSellerButton();
