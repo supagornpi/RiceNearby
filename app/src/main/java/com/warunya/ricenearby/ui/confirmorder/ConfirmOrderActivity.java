@@ -21,6 +21,7 @@ import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
+import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.IntentUtils;
@@ -29,6 +30,7 @@ import com.warunya.ricenearby.utils.PermissionUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrderContract.View {
@@ -156,7 +158,9 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     private void calculatePrice() {
         int price = 0;
         for (Cart cart : adapter.getList()) {
-            price += cart.food.price * cart.amount;
+            for (Meal meal : cart.meals) {
+                price += cart.food.price * meal.amount;
+            }
         }
         tvTotalPrice.setText(String.valueOf(price + AppInstance.DELIVERY_PRICE) + "฿");
     }

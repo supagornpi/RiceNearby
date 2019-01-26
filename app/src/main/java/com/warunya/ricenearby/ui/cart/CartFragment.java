@@ -16,10 +16,12 @@ import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.model.Cart;
+import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.ui.confirmorder.ConfirmOrderActivity;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartFragment extends AbstractFragment implements CartContract.View {
@@ -170,7 +172,9 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     private int getFoodPrice() {
         int price = 0;
         for (Cart cart : adapter.getList()) {
-            price += cart.food.price * cart.amount;
+            for (Meal meal : cart.meals) {
+                price += cart.food.price * meal.amount;
+            }
         }
         return price;
     }
