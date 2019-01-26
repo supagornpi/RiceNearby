@@ -101,6 +101,7 @@
     <string name="add_amount">จำนวน</string>
     <string name="add_price">ราคา</string>
     <string name="add_detail">รายละเอียด</string>
+    <string name="add_meal_time">วันและมื้อ</string>
     <string name="add_type">ประเภทอาหาร (เลือกได้สูงสุด 2 ประเภท)</string>
 
     <!--Food type-->

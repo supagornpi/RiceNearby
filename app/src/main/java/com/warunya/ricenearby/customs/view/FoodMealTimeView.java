@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.constant.AppInstance;
 import com.warunya.ricenearby.model.Meal;
+import com.warunya.ricenearby.utils.ConvertDateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,22 +70,7 @@ public class FoodMealTimeView extends LinearLayout {
         tvDate.setText(meal.date);
         tvAmount.setText("จำนวน " + meal.amount + " จาน");
 
-        tvDate.setText(getNewDateFormat(meal.date) + " " + meal.mealTime.getMealTimeText());
-    }
-
-    private String getNewDateFormat(String date) {
-        String myFormat = AppInstance.DATE_FORMAT_DEFAULT; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-
-        try {
-            Date newDate = sdf.parse(date);
-            sdf = new SimpleDateFormat("dd MMM");
-            date = sdf.format(newDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return date;
+        tvDate.setText(ConvertDateUtils.getNewDateFormatFOrMealTime(meal.date) + " " + meal.mealTime.getMealTimeText());
     }
 
     public void bindAction(final OnChildButtonClickListener onChildButtonClickListener) {

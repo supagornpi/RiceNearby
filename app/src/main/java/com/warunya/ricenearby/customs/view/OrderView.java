@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,9 +14,7 @@ import com.warunya.ricenearby.constant.AppInstance;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Order;
 import com.warunya.ricenearby.ui.confirmorder.ConfirmOrderActivity;
-
-import java.util.Calendar;
-import java.util.Locale;
+import com.warunya.ricenearby.utils.ConvertDateUtils;
 
 public class OrderView extends LinearLayout {
 
@@ -78,7 +75,7 @@ public class OrderView extends LinearLayout {
         tvTotalPrice.setText(order.totalPrice == 0 ? totalPrice + AppInstance.DELIVERY_PRICE + ".-"
                 : order.totalPrice + ".-");
         tvAmount.setText("จำนวน " + String.valueOf(amount) + " จาน");
-        tvDate.setText("วันที่สั่งซื้อ: " + getDate(order.timestamp));
+        tvDate.setText("วันที่สั่งซื้อ: " + ConvertDateUtils.getDate(order.timestamp));
         tvStatus.setText(getResources().getString(order.orderStatus.getNameId()));
 
         tvStatus.setBackground(getResources().getDrawable(order.orderStatus.getBgId()));
@@ -95,9 +92,5 @@ public class OrderView extends LinearLayout {
         });
     }
 
-    private String getDate(long time) {
-        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        cal.setTimeInMillis(time);
-        return DateFormat.format(AppInstance.DATE_FORMAT_DEFAULT, cal).toString();
-    }
+
 }

@@ -10,13 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
-import com.warunya.ricenearby.constant.MealTime;
 import com.warunya.ricenearby.model.Meal;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.warunya.ricenearby.utils.ConvertDateUtils;
 
 public class MealTimeView extends LinearLayout {
 
@@ -58,7 +53,7 @@ public class MealTimeView extends LinearLayout {
     public void bind(final Meal meal) {
         if (meal == null) return;
         this.meal = meal;
-        tvDate.setText(getNewDateFormat(meal.date) + " " + meal.mealTime.getMealTimeText());
+        tvDate.setText(ConvertDateUtils.getNewDateFormatFOrMealTime(meal.date) + " " + meal.mealTime.getMealTimeText());
 //        tvAmount.setText(meal.amount + " จาน");
     }
 
@@ -73,21 +68,6 @@ public class MealTimeView extends LinearLayout {
 
     public void setSelected(boolean isSelected) {
         layoutItem.setSelected(isSelected);
-    }
-
-    private String getNewDateFormat(String date) {
-        String myFormat = "EE dd MMMM yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-
-        try {
-            Date newDate = sdf.parse(date);
-            sdf = new SimpleDateFormat("dd MMM");
-            date = sdf.format(newDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return date;
     }
 
     public interface OnItemClickListener {

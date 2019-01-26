@@ -21,10 +21,14 @@ import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
 import com.warunya.ricenearby.utils.BitmapUtils;
+import com.warunya.ricenearby.utils.ConvertDateUtils;
 import com.warunya.ricenearby.utils.GlideLoader;
 import com.warunya.ricenearby.utils.ResolutionUtils;
 
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -35,6 +39,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     private TextView tvFoodName;
     private TextView tvPrice;
     private TextView tvDetail;
+    private TextView tvMealTime;
     private ViewPager viewPager;
     private CircleIndicator circleIndicator;
     private TextView btnAddCart;
@@ -98,6 +103,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         tvFoodName = findViewById(R.id.tv_food_name);
         tvPrice = findViewById(R.id.tv_price);
         tvDetail = findViewById(R.id.tv_detail);
+        tvMealTime = findViewById(R.id.tv_meal_time);
         viewPager = findViewById(R.id.viewPager);
         circleIndicator = findViewById(R.id.circleindicator);
         btnAddCart = findViewById(R.id.btn_add_cart);
@@ -108,6 +114,30 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         tvFoodName.setText(food.foodName);
         tvPrice.setText(food.price + ".-");
         tvDetail.setText(food.detail);
+
+        //Meal time
+        List<Meal> meals = new ArrayList<>();
+        if (food.breakfasts != null) {
+            meals.addAll(food.breakfasts);
+        }
+        if (food.lunches != null) {
+            meals.addAll(food.lunches);
+        }
+        if (food.dinners != null) {
+            meals.addAll(food.dinners);
+        }
+
+        if (meals.size() != 0) {
+            StringBuilder allMeal = new StringBuilder();
+            for (Meal meal : meals) {
+                allMeal.append(ConvertDateUtils.getNewDateFormatFOrMealTime(meal.date))
+                        .append(" ")
+                        .append(meal.mealTime.getMealTimeText())
+                        .append("     ");
+            }
+            tvMealTime.setText(allMeal.toString());
+        }
+
     }
 
     private void bindAction() {

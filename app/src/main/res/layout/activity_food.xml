@@ -95,10 +95,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/padding_normal"
-                        android:text="- กุ้ง 3 ตัว\n- แหมาะสำหลับรับประทานคนเดียว"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/color_gray"
+                        android:textStyle="bold"
+                        tools:text="- กุ้ง 3 ตัว\n- แหมาะสำหลับรับประทานคนเดียว" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_normal"
+                        android:text="@string/add_meal_time"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_meal_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_normal"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/color_gray"
+                        android:textStyle="bold"
+                        tools:text="16 ก.พ. มื้อกลางวัน" />
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -115,22 +133,6 @@
                         android:paddingBottom="@dimen/padding_small"
                         android:text="0/5 กดดูรีวิว"
                         android:textColor="@color/color_gray" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_xxlarge"
-                        android:gravity="end">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/padding_small"
-                            android:text="ยังไม่ได้กำหนดเวลาขาย"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
