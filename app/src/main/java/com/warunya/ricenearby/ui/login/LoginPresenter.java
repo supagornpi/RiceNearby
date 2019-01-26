@@ -13,6 +13,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.warunya.ricenearby.constant.UserType;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.utils.ValidatorUtils;
@@ -73,6 +74,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                                             }
 
                                             //update firebase
+                                            user.userType = UserType.Normal;
                                             UserManager.updateUserData(task.getResult().getUser().getUid(), user);
                                         }
                                     });

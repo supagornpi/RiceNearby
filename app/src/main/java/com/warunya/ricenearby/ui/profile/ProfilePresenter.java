@@ -43,13 +43,14 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 
     @Override
     public void registerSeller() {
-        if (user == null) return;
+        if (user == null || user.userType == null) return;
         if (user.userType != UserType.Seller) {
             view.openRegisterSellerActivity();
         }
     }
 
     private void checkSellerStatus() {
+        if (user.userType == null) return;
         if (user.userType == UserType.Seller) {
             view.disableRegisterSellerButton();
         } else {

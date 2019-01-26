@@ -127,6 +127,7 @@ public class UserManager {
         String username = entity.getUsername();
 
         User user = new User(username, email);
+        user.userType = UserType.Normal;
         updateUserData(uid, user);
     }
 
