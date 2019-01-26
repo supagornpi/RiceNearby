@@ -156,8 +156,9 @@
 
     <!--Order Status-->
     <string name="order_status_not_paid">ยังไม่ชำระเงิน</string>
-    <string name="order_status_Paid">ชำระเงินแล้ว</string>
-    <string name="order_status_not_received">ยังไม่ได้รับ</string>
+    <string name="order_status_waiting_for_review">รอการตรวจสอบ</string>
+    <string name="order_status_paid">ชำระเงินแล้ว</string>
+    <string name="order_status_sending">กำลังจัดส่ง</string>
     <string name="order_status_received">ได้รับแล้ว</string>
 
 </resources>

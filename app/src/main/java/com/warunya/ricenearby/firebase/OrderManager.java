@@ -99,8 +99,8 @@ public class OrderManager {
                 OrderManager.uploadBillingImage(getUserOrderReference(key), upload);
 
                 //change order status to Paid
-                changeOrderStatus(getOrdersReference(key), OrderStatus.Paid);
-                changeOrderStatus(getUserOrderReference(key), OrderStatus.Paid);
+                changeOrderStatus(getOrdersReference(key), OrderStatus.WaitingForReview);
+                changeOrderStatus(getUserOrderReference(key), OrderStatus.WaitingForReview);
 
                 handler.onComplete();
 
