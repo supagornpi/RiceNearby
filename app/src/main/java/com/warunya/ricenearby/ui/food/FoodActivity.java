@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.MyApplication;
@@ -14,6 +15,7 @@ import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.customs.SimplePagerAdapter;
 import com.warunya.ricenearby.dialog.AddCartDialog;
 import com.warunya.ricenearby.dialog.ImageBitmapDialog;
+import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Upload;
@@ -37,6 +39,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     private CircleIndicator circleIndicator;
     private TextView btnAddCart;
     private TextView btnBuy;
+    private LinearLayout layoutBtnBuy;
 
     private FoodContract.Presenter presenter = new FoodPresenter(this);
 
@@ -60,6 +63,9 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
 
         bindView();
         bindAction();
+
+        //cannot buy food of self
+        layoutBtnBuy.setVisibility(food.uid.equals(UserManager.getUid()) ? View.GONE : View.VISIBLE);
 
         SimplePagerAdapter<Upload> adapter = new SimplePagerAdapter<Upload>().setOnInflateViewListener(new SimplePagerAdapter.OnInflateViewListener() {
             @Override
@@ -96,6 +102,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         circleIndicator = findViewById(R.id.circleindicator);
         btnAddCart = findViewById(R.id.btn_add_cart);
         btnBuy = findViewById(R.id.btn_buy);
+        layoutBtnBuy = findViewById(R.id.layout_buy);
 
         if (food == null) return;
         tvFoodName.setText(food.foodName);
