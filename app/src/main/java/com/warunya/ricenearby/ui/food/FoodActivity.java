@@ -20,6 +20,7 @@ import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
+import com.warunya.ricenearby.ui.cart.CartActivity;
 import com.warunya.ricenearby.utils.BitmapUtils;
 import com.warunya.ricenearby.utils.ConvertDateUtils;
 import com.warunya.ricenearby.utils.GlideLoader;
@@ -168,19 +169,25 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (food == null) return;
+                AddCartDialog.showBuyNow(FoodActivity.this, food, new AddCartDialog.OnClickListener() {
+                    @Override
+                    public void onClickedAddToCart(int amount, Meal meal) {
+                        presenter.buyNow(food, amount, meal);
+                    }
+                });
             }
         });
     }
 
     @Override
     public void showProgress() {
-
+        showProgressDialog();
     }
 
     @Override
     public void hideProgress() {
-
+        hideProgressDialog();
     }
 
     @Override
@@ -195,6 +202,6 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
 
     @Override
     public void addCartSuccess() {
-
+        CartActivity.start();
     }
 }

@@ -27,7 +27,19 @@ public class FoodPresenter implements FoodContract.Presenter {
     @Override
     public void addToCart(Food food, int amount, Meal meal) {
         Cart cart = new Cart(UserManager.getUid(), food, amount);
+        CartManager.addToCart(cart, meal, amount, null);
+    }
 
-        CartManager.addToCart(cart, meal, amount);
+    @Override
+    public void buyNow(Food food, int amount, Meal meal) {
+        view.showProgress();
+        Cart cart = new Cart(UserManager.getUid(), food, amount);
+        CartManager.addToCart(cart, meal, amount, new CartManager.Handler() {
+            @Override
+            public void onComplete() {
+                view.hideProgress();
+                view.addCartSuccess();
+            }
+        });
     }
 }

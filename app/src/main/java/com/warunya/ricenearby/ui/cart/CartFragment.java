@@ -1,13 +1,13 @@
 package com.warunya.ricenearby.ui.cart;
 
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractFragment;
 import com.warunya.ricenearby.constant.AppInstance;
@@ -21,7 +21,6 @@ import com.warunya.ricenearby.ui.confirmorder.ConfirmOrderActivity;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartFragment extends AbstractFragment implements CartContract.View {
@@ -34,11 +33,14 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     private TextView tvFoodPrice;
     private TextView tvDeliveryPrice;
     private TextView tvTotalPrice;
+    private RelativeLayout actionBar;
 
-    public static void start() {
-        Intent intent = new Intent(MyApplication.applicationContext, CartFragment.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        MyApplication.applicationContext.startActivity(intent);
+    public static CartFragment getInstance(boolean isActionBarEnable) {
+        CartFragment cartFragment = new CartFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isActionBarEnable", isActionBarEnable);
+        cartFragment.setArguments(bundle);
+        return cartFragment;
     }
 
     @Override
@@ -52,10 +54,15 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
         bindView(view);
         bindAction();
 
+        if (getArguments() != null) {
+            boolean isActionBarEnable = getArguments().getBoolean("isActionBarEnable", false);
+            actionBar.setVisibility(isActionBarEnable ? View.VISIBLE : View.GONE);
+        }
     }
 
 
     private void bindView(View view) {
+        actionBar = view.findViewById(R.id.actionbar);
         recyclerViewProgress = view.findViewById(R.id.recyclerViewProgress);
         tvConfirmOrder = view.findViewById(R.id.tv_confirm_order);
         tvFoodPrice = view.findViewById(R.id.tv_food_price);
@@ -154,14 +161,22 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     public void showNotFound() {
         recyclerViewProgress.showNotFound();
         tvConfirmOrder.setEnabled(false);
-        tvConfirmOrder.setBackgroundColor(getResources().getColor(R.color.color_gray));
+        try {
+            tvConfirmOrder.setBackgroundColor(getResources().getColor(R.color.color_gray));
+        } catch (Exception e) {
+            //do nothing
+        }
     }
 
     @Override
     public void hideNotFound() {
         recyclerViewProgress.hideNotFound();
         tvConfirmOrder.setEnabled(true);
-        tvConfirmOrder.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        try {
+            tvConfirmOrder.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        } catch (Exception e) {
+            //do nothing
+        }
     }
 
     private void calculatePrice() {

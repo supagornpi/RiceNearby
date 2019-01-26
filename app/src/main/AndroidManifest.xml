@@ -66,6 +66,9 @@
         <activity
             android:name=".ui.register.seller.RegisterSellerActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.cart.CartActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

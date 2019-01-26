@@ -29,6 +29,7 @@ public class AddCartDialog extends Dialog {
 
     private int amount = 1;
     private int totalAmount = 0;
+    private boolean isBuyNow = false;
     private Meal currentSelectedMeal;
     private Food food;
     private OnClickListener onClickListener;
@@ -59,8 +60,20 @@ public class AddCartDialog extends Dialog {
         addCartDialog.show();
     }
 
+    public static void showBuyNow(Context context, Food food, OnClickListener onclickListener) {
+        AddCartDialog addCartDialog = new AddCartDialog(context, food)
+                .setOnclickListener(onclickListener)
+                .setBuyNow();
+        addCartDialog.show();
+    }
+
     public AddCartDialog setOnclickListener(OnClickListener onclickListener) {
         this.onClickListener = onclickListener;
+        return this;
+    }
+
+    public AddCartDialog setBuyNow() {
+        isBuyNow = true;
         return this;
     }
 
@@ -101,6 +114,10 @@ public class AddCartDialog extends Dialog {
 
         if (food.uploads != null) {
             GlideLoader.Companion.load(food.uploads.get(0).url, ivFood);
+        }
+
+        if (isBuyNow) {
+            btnAddtoCart.setText(getContext().getResources().getString(R.string.button_buy_now));
         }
 
     }

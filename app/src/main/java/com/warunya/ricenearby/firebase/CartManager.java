@@ -1,5 +1,9 @@
 package com.warunya.ricenearby.firebase;
 
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,7 +52,7 @@ public class CartManager {
         return getInstance().mDatabase.child("user-carts").child(UserManager.getUid()).child(key);
     }
 
-    public static void writeNewCart(final Cart cart) {
+    public static void writeNewCart(final Cart cart, final Handler handler) {
         // Create new submitPost at /user-posts/$userid/$postid
         // and at /posts/$postid simultaneously
         final String key = getInstance().mDatabase.child("carts").push().getKey();
@@ -59,7 +63,13 @@ public class CartManager {
         childUpdates.put("/carts/" + key, postValues);
         childUpdates.put("/user-carts/" + UserManager.getUid() + "/" + key, postValues);
 
-        getInstance().mDatabase.updateChildren(childUpdates);
+        getInstance().mDatabase.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (handler == null) return;
+                handler.onComplete();
+            }
+        });
     }
 
     public static void getUserCarts(final QueryListener queryListener) {
@@ -90,8 +100,8 @@ public class CartManager {
     }
 
     public static void removeCart(String key) {
-        getUserCartReference(key).removeValue();
         getCartReference(key).removeValue();
+        getUserCartReference(key).removeValue();
     }
 
     public static void editAmount(DatabaseReference reference, final int amount) {
@@ -138,7 +148,7 @@ public class CartManager {
         });
     }
 
-    public static void addMealAndAmount(DatabaseReference reference, final Meal meal, final int amount) {
+    public static void addMealAndAmount(DatabaseReference reference, final Meal meal, final int amount, final Handler handler) {
         reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -159,7 +169,6 @@ public class CartManager {
                     }
                 }
 
-
                 if (!isInCart) {
                     value.meals.add(meal);
                 }
@@ -171,7 +180,8 @@ public class CartManager {
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
+                if (handler == null) return;
+                handler.onComplete();
             }
         });
     }
@@ -204,7 +214,7 @@ public class CartManager {
         });
     }
 
-    public static void addToCart(final Cart newCart, final Meal meal, final int amount) {
+    public static void addToCart(final Cart newCart, final Meal meal, final int amount, final Handler handler) {
         getUserCarts(new QueryListener() {
             @Override
             public void onComplete(List<Cart> carts) {
@@ -223,11 +233,11 @@ public class CartManager {
                     }
                     meal.amount = amount;
                     newCart.meals.add(meal);
-                    writeNewCart(newCart);
+                    writeNewCart(newCart, handler);
                 } else {
                     if (cartKey == null) return;
-                    addMealAndAmount(getCartReference(cartKey), meal, amount);
-                    addMealAndAmount(getUserCartReference(cartKey), meal, amount);
+                    addMealAndAmount(getCartReference(cartKey), meal, amount, null);
+                    addMealAndAmount(getUserCartReference(cartKey), meal, amount, handler);
 //                    addAmount(getCartReference(cartKey), amount);
 //                    addAmount(getUserCartReference(cartKey), amount);
                 }

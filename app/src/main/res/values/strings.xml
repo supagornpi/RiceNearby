@@ -62,6 +62,7 @@
     <string name="button_delete">ลบ</string>
     <string name="button_logout">ออกจากระบบ</string>
     <string name="button_add_cart">เพิ่มลงตะกร้า</string>
+    <string name="button_buy_now">สั่งซื้อ</string>
     <string name="button_buy">สั่งซื้อ</string>
     <string name="button_confirm_order">ยืนยันออเดอร์</string>
     <string name="button_confirm_payment">ยืนยันการชำระเงิน</string>
