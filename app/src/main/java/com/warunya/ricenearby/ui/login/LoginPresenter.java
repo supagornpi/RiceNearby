@@ -13,6 +13,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.warunya.ricenearby.constant.UserType;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.User;
@@ -75,7 +76,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                                             //update firebase
                                             user.userType = UserType.Normal;
-                                            UserManager.updateUserData(task.getResult().getUser().getUid(), user);
+                                            pushUserData(task.getResult().getUser().getUid(), user);
                                         }
                                     });
                             Bundle parameters = new Bundle();
@@ -89,6 +90,21 @@ public class LoginPresenter implements LoginContract.Presenter {
                         }
                     }
                 });
+    }
+
+    private void pushUserData(final String uid, final User newUser) {
+        UserManager.getUserProfile(uid, new UserManager.OnValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+
+                if (user == null) {
+                    UserManager.updateUserData(uid, newUser);
+                } else {
+                    UserManager.updateUsername(uid, user.name);
+                }
+            }
+        });
     }
 
     private Boolean validate(String email, String password) {

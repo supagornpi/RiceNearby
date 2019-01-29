@@ -43,7 +43,11 @@ public class UserManager {
     }
 
     public static DatabaseReference getDatabaseReference() {
-        return getInstance().mDatabase.child("users").child(UserManager.getUid());
+        return getDatabaseReference(getUid());
+    }
+
+    public static DatabaseReference getDatabaseReference(String uid) {
+        return getInstance().mDatabase.child("users").child(uid);
     }
 
     public static void getUserProfile(final OnValueEventListener onValueEventListener) {
@@ -86,7 +90,6 @@ public class UserManager {
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
                 if (handler == null) return;
                 handler.onComplete();
             }
@@ -129,6 +132,27 @@ public class UserManager {
         User user = new User(username, email);
         user.userType = UserType.Normal;
         updateUserData(uid, user);
+    }
+
+    public static void updateUsername(String uid, final String name) {
+        getDatabaseReference(uid).runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                User value = mutableData.getValue(User.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+                value.name = name;
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
     }
 
     public static void updateUserImage(final Upload upload, final Handler handler) {
