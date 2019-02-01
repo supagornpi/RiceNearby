@@ -9,7 +9,7 @@ import java.util.List;
 public interface HistoryContract {
 
     interface Presenter extends BasePresenter {
-
+        boolean isMyOrder();
     }
 
     interface View extends BaseView {

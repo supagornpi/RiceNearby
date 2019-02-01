@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.MyApplication;
@@ -22,34 +23,48 @@ import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Meal;
+import com.warunya.ricenearby.model.Order;
 import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.IntentUtils;
 import com.warunya.ricenearby.utils.PermissionUtils;
 
 import org.jetbrains.annotations.Nullable;
+import org.parceler.Parcels;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrderContract.View {
 
     private static final int REQUEST_IMAGE_GALLERY = 1;
     private static final String EXTRA_KEY = "EXTRA_KEY";
+    private static final String EXTRA_ORDER = "EXTRA_ORDER";
+    private static final String EXTRA_IS_MY_ORDER = "EXTRA_IS_MY_ORDER";
+
     private ConfirmOrderContract.Presenter presenter = new ConfirmOrderPresenter(this);
     private CustomAdapter<Cart> adapter;
 
     private TextView tvConfirmPayment;
     private RecyclerViewProgress recyclerViewProgress;
     private TextView tvTotalPrice;
+    private TextView tvTotalPriceLabel;
     private TextView tvAddress;
     private TextView tvEditAddress;
+    private LinearLayout layoutBank;
 
     public static void start(String key) {
         Intent intent = new Intent(MyApplication.applicationContext, ConfirmOrderActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(EXTRA_KEY, key);
+        MyApplication.applicationContext.startActivity(intent);
+    }
+
+    public static void start(Order order, boolean isMyOrder) {
+        Intent intent = new Intent(MyApplication.applicationContext, ConfirmOrderActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(EXTRA_ORDER, Parcels.wrap(order));
+        intent.putExtra(EXTRA_IS_MY_ORDER, isMyOrder);
         MyApplication.applicationContext.startActivity(intent);
     }
 
@@ -63,18 +78,32 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         bindView();
         bindAction();
         showBackButton();
-        setTitle("การสั่งซื้ออาหารของท่าน");
         String key = getIntent().getStringExtra(EXTRA_KEY);
-        presenter.findOrder(key);
+        Order order = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_ORDER));
+        boolean isMyOrder = getIntent().getBooleanExtra(EXTRA_IS_MY_ORDER, false);
+        if (order == null) {
+            presenter.findOrder(key);
+        } else {
+            fetchCart(order.carts);
+        }
         presenter.start();
+
+        layoutBank.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
+        tvConfirmPayment.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
+        tvEditAddress.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
+        setTitle(isMyOrder ? "รายการอาหาร" : "การสั่งซื้ออาหารของท่าน");
+        tvTotalPriceLabel.setText(isMyOrder ? "รวมทั้งหมด" : "รวมทั้งหมดที่ต้องชำระ");
+
     }
 
     private void bindView() {
         recyclerViewProgress = findViewById(R.id.recyclerViewProgress);
         tvConfirmPayment = findViewById(R.id.tv_confirm_payment);
         tvTotalPrice = findViewById(R.id.tv_total_price);
+        tvTotalPriceLabel = findViewById(R.id.tv_total_price_label);
         tvAddress = findViewById(R.id.tv_address_name);
         tvEditAddress = findViewById(R.id.tv_edit_address);
+        layoutBank = findViewById(R.id.layout_bank);
 
         adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override

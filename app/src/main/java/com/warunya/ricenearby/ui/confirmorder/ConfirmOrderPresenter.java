@@ -44,7 +44,7 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
     @Override
     public void findOrder(String key) {
         view.showProgress();
-        OrderManager.getUserOrderByKey(key, new OrderManager.QueryListener() {
+        OrderManager.getOrderByKey(key, new OrderManager.QueryListener() {
             @Override
             public void onComplete(Order order) {
                 view.hideProgress();

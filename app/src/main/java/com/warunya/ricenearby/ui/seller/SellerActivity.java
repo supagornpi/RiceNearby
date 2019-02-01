@@ -1,5 +1,6 @@
 package com.warunya.ricenearby.ui.seller;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,15 +10,19 @@ import android.widget.LinearLayout;
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
+import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
+import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.ui.menu.MenuActivity;
+import com.warunya.ricenearby.ui.order.OrderActivity;
 import com.warunya.ricenearby.ui.settime.SetTimeActivity;
 
 public class SellerActivity extends AbstractActivity implements SellerContract.View {
 
     private Button btnAddFood;
-    private LinearLayout llMenu;
-    private LinearLayout llSetTime;
+    private LinearLayout layoutMenu;
+    private LinearLayout layoutSetTime;
+    private LinearLayout layoutOrder;
 
     private SellerContract.Presenter presenter = new SellerPresenter(this);
 
@@ -41,29 +46,51 @@ public class SellerActivity extends AbstractActivity implements SellerContract.V
         bindAction();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.start();
+    }
+
     private void bindView() {
         btnAddFood = findViewById(R.id.btn_add_food);
-        llMenu = findViewById(R.id.layout_menu);
-        llSetTime = findViewById(R.id.layout_set_time);
+        layoutMenu = findViewById(R.id.layout_menu);
+        layoutSetTime = findViewById(R.id.layout_set_time);
+        layoutOrder = findViewById(R.id.layout_order);
     }
 
     private void bindAction() {
         btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddFoodActivity.start();
+                if (presenter.hasAddress()) {
+                    AddFoodActivity.start();
+                } else {
+                    DialogAlert.Companion.show(SellerActivity.this, "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            AddressActivity.start();
+                        }
+                    });
+                }
             }
         });
-        llMenu.setOnClickListener(new View.OnClickListener() {
+        layoutMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MenuActivity.start();
             }
         });
-        llSetTime.setOnClickListener(new View.OnClickListener() {
+        layoutSetTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SetTimeActivity.start();
+            }
+        });
+        layoutOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderActivity.start();
             }
         });
     }

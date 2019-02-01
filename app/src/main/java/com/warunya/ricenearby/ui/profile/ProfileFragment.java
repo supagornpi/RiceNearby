@@ -178,7 +178,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         btnSeller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SellerActivity.start();
+                openSellerActivity();
             }
         });
 //        btnSeller.setEnabled(false);

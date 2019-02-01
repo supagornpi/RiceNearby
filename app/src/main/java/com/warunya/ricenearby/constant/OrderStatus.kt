@@ -1,8 +1,10 @@
 package com.warunya.ricenearby.constant
 
 import com.warunya.ricenearby.R
+import org.parceler.Parcel
 import java.util.*
 
+@Parcel
 enum class OrderStatus(val nameId: Int, val bgId: Int) {
 
     NotPaid(R.string.order_status_not_paid, R.drawable.background_color_red),

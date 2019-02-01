@@ -123,7 +123,7 @@ public class OrderManager {
         });
     }
 
-    public static void getUserOrderByKey(String key, final QueryListener queryListener) {
+    public static void getOrderByKey(String key, final QueryListener queryListener) {
         getInstance().userOrderEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -137,7 +137,7 @@ public class OrderManager {
 
             }
         };
-        getInstance().mDatabase.child("user-orders").child(UserManager.getUid()).child(key)
+        getInstance().mDatabase.child("orders").child(key)
                 .addListenerForSingleValueEvent(getInstance().userOrderEventListener);
 
     }
@@ -165,6 +165,33 @@ public class OrderManager {
             }
         };
         getInstance().mDatabase.child("user-orders").child(UserManager.getUid())
+                .addListenerForSingleValueEvent(getInstance().userOrderEventListener);
+
+    }
+
+    public static void getAllOrders(final QueryListListener queryListListener) {
+        getInstance().userOrderEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<HashMap<String, Order>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Order>>() {
+                };
+                Map<String, Order> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
+                if (objectHashMap == null) {
+                    if (queryListListener == null) return;
+                    queryListListener.onComplete(new ArrayList<Order>());
+                    return;
+                }
+                List<Order> carts = new ArrayList<Order>(objectHashMap.values());
+                if (queryListListener == null) return;
+                queryListListener.onComplete(carts);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        getInstance().mDatabase.child("orders")
                 .addListenerForSingleValueEvent(getInstance().userOrderEventListener);
 
     }

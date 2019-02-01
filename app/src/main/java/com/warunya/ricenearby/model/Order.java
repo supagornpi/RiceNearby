@@ -4,10 +4,13 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 import com.warunya.ricenearby.constant.OrderStatus;
 
+import org.parceler.Parcel;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Parcel
 public class Order {
 
     public String key;

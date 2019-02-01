@@ -73,8 +73,13 @@ public class FoodManager {
         food.key = key;
         //set address to food object
         AppInstance appInstance = AppInstance.getInstance();
-        food.latitude = appInstance.getMyLocation().getLatitude();
-        food.longitude = appInstance.getMyLocation().getLongitude();
+        try {
+            food.latitude = appInstance.getMyLocation().getLatitude();
+            food.longitude = appInstance.getMyLocation().getLongitude();
+        } catch (NullPointerException e) {
+            //do nothing
+        }
+
 
         Map postValues = food.toMap();
 

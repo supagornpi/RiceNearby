@@ -19,6 +19,7 @@ import com.warunya.ricenearby.utils.ConvertDateUtils;
 public class OrderView extends LinearLayout {
 
     private Order order;
+    private boolean isMyOrder = false;
 
     private LinearLayout layoutItem;
     private TextView tvOrderNo;
@@ -58,9 +59,10 @@ public class OrderView extends LinearLayout {
         tvStatus = findViewById(R.id.tv_status);
     }
 
-    public void bind(final Order order) {
+    public void bind(final Order order, boolean isMyOrder) {
         if (order == null) return;
         this.order = order;
+        this.isMyOrder = isMyOrder;
 
         int amount = 0;
         int totalPrice = 0;
@@ -87,7 +89,7 @@ public class OrderView extends LinearLayout {
         layoutItem.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfirmOrderActivity.start(order.key);
+                ConfirmOrderActivity.start(order, isMyOrder);
             }
         });
     }

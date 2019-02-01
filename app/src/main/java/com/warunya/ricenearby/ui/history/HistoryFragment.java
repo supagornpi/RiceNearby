@@ -1,8 +1,10 @@
 package com.warunya.ricenearby.ui.history;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractFragment;
@@ -17,10 +19,19 @@ import java.util.List;
 
 public class HistoryFragment extends AbstractFragment implements HistoryContract.View {
 
-    private HistoryContract.Presenter presenter = new HistoryPresenter(this);
+    private HistoryContract.Presenter presenter;
     private CustomAdapter<Order> orderAdapter;
 
     private RecyclerViewProgress recyclerViewProgress;
+    private RelativeLayout actionBar;
+
+    public static HistoryFragment newInstance(boolean isMyOrder) {
+        HistoryFragment fragment = new HistoryFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isMyOrder", isMyOrder);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     protected int setLayoutView() {
@@ -32,10 +43,18 @@ public class HistoryFragment extends AbstractFragment implements HistoryContract
         setTitle("History");
         bindView(view);
 
+        boolean isMyOrder = false;
+        if (getArguments() != null) {
+            isMyOrder = getArguments().getBoolean("isMyOrder", false);
+        }
+        actionBar.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
+        presenter = new HistoryPresenter(this, isMyOrder);
+
     }
 
     private void bindView(View view) {
         recyclerViewProgress = view.findViewById(R.id.recyclerViewProgress);
+        actionBar = view.findViewById(R.id.actionbar);
 
         orderAdapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
@@ -43,7 +62,7 @@ public class HistoryFragment extends AbstractFragment implements HistoryContract
                 final Order order = ((Order) item);
                 if (order == null) return;
                 ((OrderView) itemView).bindAction();
-                ((OrderView) itemView).bind(order);
+                ((OrderView) itemView).bind(order, presenter.isMyOrder());
             }
 
             @Override
