@@ -15,6 +15,7 @@ public class Order {
 
     public String key;
     public String uid;
+    public String orderNo;
     public long timestamp;
     public OrderStatus orderStatus;
     public List<Cart> carts;
@@ -25,7 +26,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(String uid, OrderStatus orderStatus, List<Cart> carts, int totalPrice, int deliveryPrice) {
+    public Order(String orderNo, String uid, OrderStatus orderStatus, List<Cart> carts, int totalPrice, int deliveryPrice) {
+        this.orderNo = orderNo;
         this.uid = uid;
         this.orderStatus = orderStatus;
         this.carts = carts;
@@ -38,6 +40,7 @@ public class Order {
         HashMap<String, Object> result = new HashMap<>();
         result.put("key", key);
         result.put("uid", uid);
+        result.put("orderNo", orderNo);
         result.put("orderStatus", orderStatus);
         result.put("timestamp", ServerValue.TIMESTAMP);
         result.put("carts", carts);

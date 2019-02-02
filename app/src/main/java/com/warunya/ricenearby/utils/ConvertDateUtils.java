@@ -32,4 +32,10 @@ public class ConvertDateUtils {
         cal.setTimeInMillis(time);
         return DateFormat.format(AppInstance.DATE_FORMAT_DEFAULT, cal).toString();
     }
+
+    public static String getDate() {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTime(new Date());
+        return DateFormat.format(AppInstance.DATE_FORMAT_ORDER, cal).toString();
+    }
 }

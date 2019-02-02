@@ -73,7 +73,8 @@ public class OrderView extends LinearLayout {
             }
         }
 
-        tvOrderNo.setText("Order no. " + order.key);
+        String orderNo = order.orderNo == null ? order.key : order.orderNo;
+        tvOrderNo.setText("Order no. " + orderNo);
         tvTotalPrice.setText(order.totalPrice == 0 ? totalPrice + AppInstance.DELIVERY_PRICE + ".-"
                 : order.totalPrice + ".-");
         tvAmount.setText("จำนวน " + String.valueOf(amount) + " จาน");
