@@ -14,6 +14,7 @@ public class Food {
 
     public String key;
     public String uid;
+    public String sellerName; //get in view
     public String foodName;
     public String detail;
     public String date;

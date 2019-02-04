@@ -10,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
 import com.warunya.ricenearby.R;
+import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.food.FoodActivity;
 import com.warunya.ricenearby.utils.GlideLoader;
 
@@ -22,7 +25,7 @@ public class FoodGridView extends LinearLayout {
     private LinearLayout layoutItem;
     private TextView tvFoodName;
     private TextView tvPrice;
-    private TextView tvMeal;
+    private TextView tvSellerName;
     private TextView tvDistance;
     //    private TextView tvDate;
 //    private TextView tvEdit;
@@ -54,7 +57,7 @@ public class FoodGridView extends LinearLayout {
 
         tvFoodName = findViewById(R.id.tv_food_name);
         tvPrice = findViewById(R.id.tv_price);
-        tvMeal = findViewById(R.id.tv_meal);
+        tvSellerName = findViewById(R.id.tv_seller_name);
         tvDistance = findViewById(R.id.tv_distance);
 //        tvDate = findViewById(R.id.tv_date);
 //        tvEdit = findViewById(R.id.tv_edit);
@@ -67,7 +70,20 @@ public class FoodGridView extends LinearLayout {
         this.food = food;
         tvFoodName.setText(food.foodName);
         tvPrice.setText(food.price + ".-");
-        tvMeal.setText(food.meal == null ? "" : "มื้อ : " + food.meal);
+
+        if (food.sellerName == null || food.sellerName.isEmpty()) {
+            UserManager.getUserProfileSingleValueEvent(food.uid, new UserManager.OnValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user == null) return;
+                    food.sellerName = user.name != null ? user.name : user.username;
+                    tvSellerName.setText(food.sellerName);
+                }
+            });
+        } else {
+            tvSellerName.setText(food.sellerName);
+        }
 
         if (food.distance != null) {
             String distance = food.distance >= 1000 ? food.distance.intValue() / 1000 + "km" : food.distance.intValue() + "m";

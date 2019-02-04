@@ -70,6 +70,22 @@ public class UserManager {
         getInstance().mDatabase.child("users").child(uid).addValueEventListener(getInstance().userProfileEventListener);
     }
 
+    public static void getUserProfileSingleValueEvent(String uid, final OnValueEventListener onValueEventListener) {
+        getInstance().userProfileEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                onValueEventListener.onDataChange(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        getInstance().mDatabase.child("users").child(uid).addListenerForSingleValueEvent(getInstance().userProfileEventListener);
+    }
+
     public static void editUserProfile(final User user, final Handler handler) {
         getDatabaseReference().runTransaction(new Transaction.Handler() {
             @Override
