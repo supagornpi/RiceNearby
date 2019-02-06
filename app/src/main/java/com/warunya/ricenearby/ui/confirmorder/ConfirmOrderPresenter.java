@@ -2,12 +2,9 @@ package com.warunya.ricenearby.ui.confirmorder;
 
 import android.net.Uri;
 
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ServerValue;
 import com.warunya.ricenearby.firebase.OrderManager;
-import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Order;
-import com.warunya.ricenearby.model.User;
 
 public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
 
@@ -20,25 +17,12 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
 
     @Override
     public void start() {
-        getAddress();
+
     }
 
     @Override
     public void stop() {
 
-    }
-
-    private void getAddress() {
-        UserManager.getUserProfile(new UserManager.OnValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                if (user == null) return;
-                if (user.addresses == null) return;
-                view.fetchAddress(user.addresses);
-
-            }
-        });
     }
 
     @Override
@@ -53,6 +37,7 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
                     view.hideNotFound();
                     ConfirmOrderPresenter.this.order = order;
                     view.fetchCart(order.carts);
+                    view.fetchAddress(order.address, order.additionalAddress);
                 } else {
                     view.showNotFound();
                 }

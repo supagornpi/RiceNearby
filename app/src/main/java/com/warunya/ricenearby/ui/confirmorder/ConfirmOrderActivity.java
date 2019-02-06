@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     private TextView tvTotalPriceLabel;
     private TextView tvAddress;
     private TextView tvEditAddress;
+    private EditText edtAdditionalAddress;
     private LinearLayout layoutBank;
 
     public static void start(String key) {
@@ -85,12 +87,12 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
             presenter.findOrder(key);
         } else {
             fetchCart(order.carts);
+            fetchAddress(order.address, order.additionalAddress);
         }
-        presenter.start();
 
         layoutBank.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
         tvConfirmPayment.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
-        tvEditAddress.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
+//        tvEditAddress.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
         setTitle(isMyOrder ? "รายการอาหาร" : "การสั่งซื้ออาหารของท่าน");
         tvTotalPriceLabel.setText(isMyOrder ? "รวมทั้งหมด" : "รวมทั้งหมดที่ต้องชำระ");
 
@@ -103,6 +105,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         tvTotalPriceLabel = findViewById(R.id.tv_total_price_label);
         tvAddress = findViewById(R.id.tv_address_name);
         tvEditAddress = findViewById(R.id.tv_edit_address);
+        edtAdditionalAddress = findViewById(R.id.edt_additional_address);
         layoutBank = findViewById(R.id.layout_bank);
 
         adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
@@ -149,8 +152,9 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     }
 
     @Override
-    public void fetchAddress(List<Address> addresses) {
-        tvAddress.setText(addresses.get(0).name);
+    public void fetchAddress(Address address, String additionalAddress) {
+        tvAddress.setText(address.name);
+        edtAdditionalAddress.setText(additionalAddress);
     }
 
     @Override

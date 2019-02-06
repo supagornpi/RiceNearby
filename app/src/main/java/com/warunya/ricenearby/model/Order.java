@@ -22,6 +22,8 @@ public class Order {
     public int totalPrice;
     public int deliveryPrice;
     public Upload billingImage;
+    public String additionalAddress;
+    public Address address;
 
     public Order() {
     }
@@ -47,7 +49,8 @@ public class Order {
         result.put("totalPrice", totalPrice);
         result.put("deliveryPrice", deliveryPrice);
         result.put("billingImage", billingImage);
-
+        result.put("additionalAddress", additionalAddress);
+        result.put("address", address);
         return result;
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,8 +16,10 @@ import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.dialog.DialogAlert;
+import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Meal;
+import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.ui.confirmorder.ConfirmOrderActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,12 +30,16 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
 
     private CartContract.Presenter presenter = new CartPresenter(this);
     private CustomAdapter<Cart> adapter;
+    private Address currentAddress;
 
     private TextView tvConfirmOrder;
     private RecyclerViewProgress recyclerViewProgress;
     private TextView tvFoodPrice;
     private TextView tvDeliveryPrice;
     private TextView tvTotalPrice;
+    private TextView tvAddress;
+    private TextView tvEditAddress;
+    private EditText edtAdditionalAddress;
     private RelativeLayout actionBar;
 
     public static CartFragment getInstance(boolean isActionBarEnable) {
@@ -68,6 +75,9 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
         tvFoodPrice = view.findViewById(R.id.tv_food_price);
         tvDeliveryPrice = view.findViewById(R.id.tv_delivery_price);
         tvTotalPrice = view.findViewById(R.id.tv_total_price);
+        tvAddress = view.findViewById(R.id.tv_address_name);
+        tvEditAddress = view.findViewById(R.id.tv_edit_address);
+        edtAdditionalAddress = view.findViewById(R.id.edt_additional_address);
 
         adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
@@ -121,13 +131,33 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
         tvConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogAlert.Companion.show(getActivity(), R.string.dialog_title_confirm_order,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                presenter.confirmOrder(adapter.getList(), getTotalPrice());
-                            }
-                        });
+                if (currentAddress == null) {
+                    //need to add address
+                    DialogAlert.Companion.show(getActivity(), "คุณต้องเพิ่มที่อยู่ก่อนทำการยืนยันออเดอร์",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    AddressActivity.start();
+                                }
+                            });
+                } else {
+                    //confirm order
+                    DialogAlert.Companion.show(getActivity(), R.string.dialog_title_confirm_order,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    presenter.confirmOrder(adapter.getList(), getTotalPrice(),
+                                            currentAddress, edtAdditionalAddress.getText().toString());
+                                }
+                            });
+                }
+            }
+        });
+
+        tvEditAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddressActivity.start();
             }
         });
     }
@@ -142,6 +172,12 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
     public void fetchCart(List<Cart> carts) {
         adapter.setListItem(carts);
         calculatePrice();
+    }
+
+    @Override
+    public void fetchAddress(List<Address> addresses) {
+        currentAddress = addresses.get(0);
+        tvAddress.setText(addresses.get(0).name);
     }
 
     @Override

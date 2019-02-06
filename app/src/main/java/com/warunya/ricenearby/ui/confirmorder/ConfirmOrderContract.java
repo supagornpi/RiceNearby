@@ -21,7 +21,7 @@ public interface ConfirmOrderContract {
     interface View extends BaseView {
         void fetchCart(List<Cart> carts);
 
-        void fetchAddress(List<Address> addresses);
+        void fetchAddress(Address address, String additionalAddress);
 
         void showProgressDialog();
 
