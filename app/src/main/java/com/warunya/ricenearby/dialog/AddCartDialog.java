@@ -7,11 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,7 +40,7 @@ public class AddCartDialog extends Dialog {
     private ImageButton btnClose;
     private TextView tvPlus;
     private TextView tvMinus;
-    private TextView tvAmount;
+    private EditText edtAmount;
     private TextView tvPrice;
     private TextView tvFoodName;
     private TextView tvMeal;
@@ -94,7 +97,7 @@ public class AddCartDialog extends Dialog {
         btnClose = findViewById(R.id.btn_close);
         tvPlus = findViewById(R.id.tv_plus);
         tvMinus = findViewById(R.id.tv_minus);
-        tvAmount = findViewById(R.id.tv_amount);
+        edtAmount = findViewById(R.id.edt_amount);
         tvPrice = findViewById(R.id.tv_price);
         tvFoodName = findViewById(R.id.tv_food_name);
         tvMeal = findViewById(R.id.tv_meal);
@@ -103,7 +106,10 @@ public class AddCartDialog extends Dialog {
         btnAddtoCart = findViewById(R.id.btn_add_cart);
         recyclerView = findViewById(R.id.recyclerView);
 
-        tvAmount.setText(String.valueOf(amount));
+        edtAmount.setText(String.valueOf(amount));
+
+        addTextChangeListener();
+
         if (food == null) return;
         tvFoodName.setText(food.foodName);
         tvPrice.setText(food.price + ".-");
@@ -138,7 +144,7 @@ public class AddCartDialog extends Dialog {
                 } else {
                     amount++;
                 }
-                tvAmount.setText(String.valueOf(amount));
+                edtAmount.setText(String.valueOf(amount));
             }
         });
 
@@ -150,7 +156,7 @@ public class AddCartDialog extends Dialog {
                 } else {
                     amount--;
                 }
-                tvAmount.setText(String.valueOf(amount));
+                edtAmount.setText(String.valueOf(amount));
             }
         });
 
@@ -196,15 +202,47 @@ public class AddCartDialog extends Dialog {
                     tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, meal.amount));
                     amount = 1;
                     totalAmount = meal.amount;
-                    tvAmount.setText(String.valueOf(amount));
+                    edtAmount.setText(String.valueOf(amount));
                 }
             });
         } else {
             tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, 0));
-            tvAmount.setText(String.valueOf(0));
+            edtAmount.setText(String.valueOf(0));
             amount = 0;
         }
 
+    }
+
+    private void addTextChangeListener() {
+        edtAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    try {
+                        amount = Integer.parseInt(editable.toString());
+                        if (amount > totalAmount) {
+                            amount = totalAmount;
+                            edtAmount.setText(String.valueOf(amount));
+                            edtAmount.setSelection(edtAmount.getText().length());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    amount = 0;
+                }
+            }
+        });
     }
 
     public interface OnClickListener {

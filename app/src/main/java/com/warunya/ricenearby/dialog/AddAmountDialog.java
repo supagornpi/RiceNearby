@@ -4,11 +4,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -22,7 +25,7 @@ public class AddAmountDialog extends Dialog {
     private ImageButton btnClose;
     private TextView tvPlus;
     private TextView tvMinus;
-    private TextView tvAmount;
+    private EditText edtAmount;
     private Button btnAdd;
 
     public AddAmountDialog(@NonNull Context context) {
@@ -56,10 +59,12 @@ public class AddAmountDialog extends Dialog {
         btnClose = findViewById(R.id.btn_close);
         tvPlus = findViewById(R.id.tv_plus);
         tvMinus = findViewById(R.id.tv_minus);
-        tvAmount = findViewById(R.id.tv_amount);
+        edtAmount = findViewById(R.id.edt_amount);
         btnAdd = findViewById(R.id.btn_add);
 
-        tvAmount.setText(String.valueOf(amount));
+        edtAmount.setText(String.valueOf(amount));
+
+        addTextChangeListener();
     }
 
     private void bindAction() {
@@ -74,7 +79,7 @@ public class AddAmountDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 amount++;
-                tvAmount.setText(String.valueOf(amount));
+                edtAmount.setText(String.valueOf(amount));
             }
         });
 
@@ -86,7 +91,7 @@ public class AddAmountDialog extends Dialog {
                 } else {
                     amount--;
                 }
-                tvAmount.setText(String.valueOf(amount));
+                edtAmount.setText(String.valueOf(amount));
             }
         });
 
@@ -96,6 +101,33 @@ public class AddAmountDialog extends Dialog {
                 if (onClickListener == null) return;
                 onClickListener.onClickedAddToCart(amount);
                 dismiss();
+            }
+        });
+    }
+
+    private void addTextChangeListener() {
+        edtAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    try {
+                        amount = Integer.parseInt(editable.toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    amount = 0;
+                }
             }
         });
     }
