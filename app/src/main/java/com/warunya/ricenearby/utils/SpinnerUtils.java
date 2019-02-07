@@ -1,7 +1,6 @@
 package com.warunya.ricenearby.utils;
 
 import android.content.Context;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,8 +20,8 @@ public class SpinnerUtils {
 //                if (position == 0) {
                 ((TextView) v.findViewById(android.R.id.text1)).setTextColor(
                         context.getResources().getColor((position == 0 && hasHint) ?
-                                R.color.color_gray : R.color.color_gray_dark));
-                ((TextView) v.findViewById(android.R.id.text1)).setTextSize(TypedValue.COMPLEX_UNIT_PT, 7);
+                                R.color.color_gray_dark : R.color.color_black));
+//                ((TextView) v.findViewById(android.R.id.text1)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 
 //                    ((TextView) v.findViewById(android.R.id.text1)).setText("");
 //                    ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(0)); //"Hint to be displayed"

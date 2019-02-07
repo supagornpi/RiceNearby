@@ -43,19 +43,29 @@
             android:paddingEnd="@dimen/padding_normal"
             android:paddingBottom="@dimen/padding_small" />
 
-        <EditText
-            android:id="@+id/edt_bank_name"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
-            android:background="@drawable/background_edittext_gray"
-            android:hint="@string/seller_bank_name"
-            android:inputType="text"
-            android:maxLength="50"
-            android:paddingStart="@dimen/padding_normal"
-            android:paddingTop="@dimen/padding_small"
-            android:paddingEnd="@dimen/padding_normal"
-            android:paddingBottom="@dimen/padding_small" />
+            android:layout_marginTop="@dimen/padding_small">
+
+            <EditText
+                android:id="@+id/edt_spinner_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/background_edittext_gray"
+                android:enabled="false"
+                android:padding="@dimen/padding_small" />
+
+            <Spinner
+                android:id="@+id/spinner_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:paddingStart="@dimen/padding_mini"
+                android:paddingEnd="@dimen/padding_mini" />
+
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/edt_branch"

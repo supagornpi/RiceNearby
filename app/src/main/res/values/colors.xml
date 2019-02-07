@@ -13,5 +13,6 @@
     <color name="color_facebook">#3b5998</color>
     <color name="color_red">#cf0000</color>
     <color name="color_green">#69c51d</color>
+    <color name="color_black">#3d3d3d</color>
 
 </resources>

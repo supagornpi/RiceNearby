@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
@@ -22,6 +24,7 @@ import com.warunya.ricenearby.utils.DismissKeyboardListener;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.IntentUtils;
 import com.warunya.ricenearby.utils.PermissionUtils;
+import com.warunya.ricenearby.utils.SpinnerUtils;
 import com.warunya.ricenearby.utils.ValidatorUtils;
 
 import java.io.File;
@@ -34,11 +37,13 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
     private LinearLayout rootView;
     private EditText edtIdentityId;
     private EditText edtBankAccount;
-    private EditText edtBankName;
     private EditText edtBranch;
+    private EditText edtSpinnerError;
+
     private Button btnCopyIdCard;
     private Button btnCopyBookBank;
     private Button btnRegister;
+    private Spinner spnBank;
 
     private RegisterContract.Presenter presenter = new RegisterPresenter(this);
 
@@ -66,11 +71,28 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
         rootView = findViewById(R.id.rootView);
         edtIdentityId = findViewById(R.id.edt_identity_id);
         edtBankAccount = findViewById(R.id.edt_bank_account);
-        edtBankName = findViewById(R.id.edt_bank_name);
         edtBranch = findViewById(R.id.edt_branch);
         btnCopyIdCard = findViewById(R.id.btn_copy_id_card);
         btnCopyBookBank = findViewById(R.id.btn_copy_book_bank);
         btnRegister = findViewById(R.id.btn_register);
+        spnBank = findViewById(R.id.spinner_bank);
+        edtSpinnerError = findViewById(R.id.edt_spinner_error);
+        SpinnerUtils.setSpinner(getApplicationContext(), spnBank, R.array.bank_list, true);
+
+        spnBank.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i > 0) {
+                    //clear error
+                    edtSpinnerError.setError(null);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void bindAction() {
@@ -110,9 +132,6 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
             case BankAccount:
                 editText = edtBankAccount;
                 break;
-            case BankName:
-                editText = edtBankName;
-                break;
             case BankBranch:
                 editText = edtBranch;
                 break;
@@ -127,27 +146,29 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
             ValidatorUtils.setErrorInput(getApplicationContext(), editText, R.string.error_please_fill);
         } else if (button != null) {
             button.setTextColor(getResources().getColor(R.color.color_red));
+        } else if (requireField == RequireField.BankName) {
+            edtSpinnerError.setError(getResources().getString(R.string.error_please_fill));
         }
     }
 
     @Override
     public void showUsernameInvalid() {
-        ValidatorUtils.setErrorInput(getApplicationContext(), edtBankAccount, R.string.error_username_invalid);
+
     }
 
     @Override
     public void showEmailInvalid() {
-        ValidatorUtils.setErrorInput(getApplicationContext(), edtBankAccount, R.string.error_email_invalid);
+
     }
 
     @Override
     public void showPasswordInvalid() {
-        ValidatorUtils.setErrorInput(getApplicationContext(), edtBankName, R.string.error_password_invalid);
+        edtSpinnerError.setTextColor(getResources().getColor(R.color.color_red));
+
     }
 
     @Override
     public void showConfirmPasswordNotMatch() {
-        ValidatorUtils.setErrorInput(getApplicationContext(), edtBankName, R.string.error_password_not_match);
 
     }
 
@@ -164,7 +185,7 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
     private RegisterEntity getRegisterEntity() {
         String idCard = edtIdentityId.getText().toString().trim();
         String bankAccount = edtBankAccount.getText().toString().trim();
-        String bankName = edtBankName.getText().toString().trim();
+        String bankName = spnBank.getSelectedItemPosition() == 0 ? "" : spnBank.getSelectedItem().toString();
         String branch = edtBranch.getText().toString().trim();
         RegisterEntity registerEntity = new RegisterEntity();
         registerEntity.idCard = idCard;
