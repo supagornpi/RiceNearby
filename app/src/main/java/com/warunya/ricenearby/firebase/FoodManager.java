@@ -137,6 +137,10 @@ public class FoodManager {
     }
 
     public static void getUserFoods(final QueryListener queryListener) {
+        getUserFoods(getUid(), queryListener);
+    }
+
+    public static void getUserFoods(String uid, final QueryListener queryListener) {
         getInstance().userProfileEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -154,8 +158,7 @@ public class FoodManager {
 
             }
         };
-        getInstance().mDatabase.child("user-foods").child(UserManager.getUid()).addValueEventListener(getInstance().userProfileEventListener);
-
+        getInstance().mDatabase.child("user-foods").child(uid).addValueEventListener(getInstance().userProfileEventListener);
     }
 
     public static void getAllFoods(final QueryListener queryListener) {

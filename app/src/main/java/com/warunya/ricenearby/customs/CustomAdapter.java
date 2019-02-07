@@ -21,8 +21,8 @@ public class CustomAdapter<T> extends RecyclerView.Adapter<CustomAdapter<T>.View
     public CustomAdapter<T>.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         view = onBindViewListener.onCreateView(parent);
-        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+//        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT));
         return new ViewHolder(view);
     }
 

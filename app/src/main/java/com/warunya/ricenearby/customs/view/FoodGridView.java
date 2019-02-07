@@ -17,6 +17,7 @@ import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.food.FoodActivity;
 import com.warunya.ricenearby.utils.GlideLoader;
+import com.warunya.ricenearby.utils.ResolutionUtils;
 
 public class FoodGridView extends LinearLayout {
 
@@ -62,6 +63,7 @@ public class FoodGridView extends LinearLayout {
 //        tvDate = findViewById(R.id.tv_date);
 //        tvEdit = findViewById(R.id.tv_edit);
         ivFood = findViewById(R.id.iv_food);
+        layoutItem = findViewById(R.id.layout_item);
 
     }
 
@@ -96,6 +98,10 @@ public class FoodGridView extends LinearLayout {
             ivFood.setImageResource(R.drawable.logo);
         }
 
+    }
+
+    public void setHorizontalItem() {
+        ResolutionUtils.setViewWidth(getContext(), 2.3f, layoutItem);
     }
 
     public void bindAction() {

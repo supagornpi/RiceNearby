@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,13 +15,17 @@ import android.widget.TextView;
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
+import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.customs.SimplePagerAdapter;
+import com.warunya.ricenearby.customs.view.FoodGridView;
+import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.dialog.AddCartDialog;
 import com.warunya.ricenearby.dialog.ImageBitmapDialog;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Upload;
+import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
 import com.warunya.ricenearby.ui.cart.CartActivity;
 import com.warunya.ricenearby.utils.BitmapUtils;
@@ -36,16 +43,21 @@ import me.relex.circleindicator.CircleIndicator;
 public class FoodActivity extends AbstractActivity implements FoodContract.View {
 
     private Food food;
+    private CustomAdapter<Food> adapter;
 
     private TextView tvFoodName;
     private TextView tvPrice;
     private TextView tvDetail;
     private TextView tvMealTime;
+    private TextView tvSellerName;
+    private Button btnFollow;
     private ViewPager viewPager;
     private CircleIndicator circleIndicator;
     private TextView btnAddCart;
     private TextView btnBuy;
     private LinearLayout layoutBtnBuy;
+    private ImageView ivSellerProfile;
+    private RecyclerViewProgress recyclerViewRelate;
 
     private FoodContract.Presenter presenter = new FoodPresenter(this);
 
@@ -105,16 +117,26 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         tvPrice = findViewById(R.id.tv_price);
         tvDetail = findViewById(R.id.tv_detail);
         tvMealTime = findViewById(R.id.tv_meal_time);
+        tvSellerName = findViewById(R.id.tv_seller_name);
+        btnFollow = findViewById(R.id.btn_follow);
         viewPager = findViewById(R.id.viewPager);
         circleIndicator = findViewById(R.id.circleindicator);
         btnAddCart = findViewById(R.id.btn_add_cart);
         btnBuy = findViewById(R.id.btn_buy);
         layoutBtnBuy = findViewById(R.id.layout_buy);
+        ivSellerProfile = findViewById(R.id.iv_seller_profile);
+        recyclerViewRelate = findViewById(R.id.recyclerView_relate);
+
+        initRecyclerView();
 
         if (food == null) return;
         tvFoodName.setText(food.foodName);
         tvPrice.setText(food.price + ".-");
         tvDetail.setText(food.detail);
+
+        //footer
+        presenter.getSellerInfo(food.uid);
+        presenter.findRelateFood(food.uid);
 
         //Meal time
         List<Meal> meals = new ArrayList<>();
@@ -178,6 +200,32 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
                 });
             }
         });
+
+        btnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    private void initRecyclerView() {
+        recyclerViewRelate.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
+            @Override
+            public <T> void onBindViewHolder(T item, View itemView, int viewType, int position) {
+                ((FoodGridView) itemView).setHorizontalItem();
+                ((FoodGridView) itemView).bind(((Food) item));
+                ((FoodGridView) itemView).bindAction();
+
+            }
+
+            @Override
+            public View onCreateView(ViewGroup parent) {
+                return new FoodGridView(parent.getContext());
+            }
+        });
+        recyclerViewRelate.recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -203,5 +251,18 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     @Override
     public void addCartSuccess() {
         CartActivity.start();
+    }
+
+    @Override
+    public void fetchSellerInfo(User user) {
+        tvSellerName.setText(user.name == null ? user.username : user.name);
+        if (user.image != null) {
+            GlideLoader.Companion.loadImageCircle(user.image.url, ivSellerProfile);
+        }
+    }
+
+    @Override
+    public void fetchRelateFood(List<Food> foods) {
+        adapter.setListItem(foods);
     }
 }
