@@ -238,7 +238,7 @@ public class CartManager {
                     if (cartKey == null) return;
                     addMealAndAmount(getCartReference(cartKey), meal, amount, null);
                     addMealAndAmount(getUserCartReference(cartKey), meal, amount, handler);
-//                    addAmount(getCartReference(cartKey), amount);
+//                    addAmount(getUserFavoriteReference(cartKey), amount);
 //                    addAmount(getUserCartReference(cartKey), amount);
                 }
             }

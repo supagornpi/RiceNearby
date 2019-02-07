@@ -16,9 +16,15 @@ public interface FoodContract {
 
         void buyNow(Food food, int amount, Meal meal);
 
-        void getSellerInfo(String uid);
+        void getSellerInfo();
 
-        void findRelateFood(String uid);
+        void findRelateFood();
+
+        void checkFollow();
+
+        void follow();
+
+        void unFollow();
 
     }
 
@@ -28,5 +34,11 @@ public interface FoodContract {
         void fetchSellerInfo(User user);
 
         void fetchRelateFood(List<Food> foods);
+
+        void updateFallow(boolean hasFollow);
+
+        void showProgressFollow();
+
+        void hideProgressFollow();
     }
 }

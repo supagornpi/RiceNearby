@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.warunya.ricenearby.MyApplication;
@@ -42,6 +43,7 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class FoodActivity extends AbstractActivity implements FoodContract.View {
 
+    private boolean hasFollow = false;
     private Food food;
     private CustomAdapter<Food> adapter;
 
@@ -58,8 +60,9 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     private LinearLayout layoutBtnBuy;
     private ImageView ivSellerProfile;
     private RecyclerViewProgress recyclerViewRelate;
+    private ProgressBar progressBarFollow;
 
-    private FoodContract.Presenter presenter = new FoodPresenter(this);
+    private FoodContract.Presenter presenter;
 
     public static void start(Food food) {
         Intent intent = new Intent(MyApplication.applicationContext, FoodActivity.class);
@@ -126,17 +129,20 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         layoutBtnBuy = findViewById(R.id.layout_buy);
         ivSellerProfile = findViewById(R.id.iv_seller_profile);
         recyclerViewRelate = findViewById(R.id.recyclerView_relate);
+        progressBarFollow = findViewById(R.id.progress_follow);
 
         initRecyclerView();
 
         if (food == null) return;
+        presenter = new FoodPresenter(this, food.uid);
+
         tvFoodName.setText(food.foodName);
         tvPrice.setText(food.price + ".-");
         tvDetail.setText(food.detail);
 
         //footer
-        presenter.getSellerInfo(food.uid);
-        presenter.findRelateFood(food.uid);
+        presenter.getSellerInfo();
+        presenter.findRelateFood();
 
         //Meal time
         List<Meal> meals = new ArrayList<>();
@@ -204,7 +210,14 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (hasFollow) {
+                    hasFollow = false;
+                    presenter.unFollow();
+                } else {
+                    hasFollow = true;
+                    presenter.follow();
+                }
+                btnFollow.setText(hasFollow ? "ยกเลิกติดตาม" : "ติดตาม");
             }
         });
     }
@@ -264,5 +277,21 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     @Override
     public void fetchRelateFood(List<Food> foods) {
         adapter.setListItem(foods);
+    }
+
+    @Override
+    public void updateFallow(boolean hasFollow) {
+        this.hasFollow = hasFollow;
+        btnFollow.setText(hasFollow ? "ยกเลิกติดตาม" : "ติดตาม");
+    }
+
+    @Override
+    public void showProgressFollow() {
+        progressBarFollow.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressFollow() {
+        progressBarFollow.setVisibility(View.GONE);
     }
 }
