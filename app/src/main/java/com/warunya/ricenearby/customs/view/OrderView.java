@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,8 @@ public class OrderView extends LinearLayout {
 
     private void init() {
         View.inflate(getContext(), R.layout.item_order, this);
+        getRootView().setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         tvOrderNo = findViewById(R.id.tv_order_no);
         tvTotalPrice = findViewById(R.id.tv_total_price);

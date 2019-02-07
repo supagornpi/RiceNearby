@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -55,6 +56,8 @@ public class FoodView extends LinearLayout {
 
     private void init() {
         View.inflate(getContext(), R.layout.item_food, this);
+        getRootView().setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         tvFoodName = findViewById(R.id.tv_name);
         tvPrice = findViewById(R.id.tv_price);

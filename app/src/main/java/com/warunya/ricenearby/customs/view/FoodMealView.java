@@ -53,6 +53,8 @@ public class FoodMealView extends LinearLayout {
 
     private void init() {
         View.inflate(getContext(), R.layout.item_food_meal, this);
+        getRootView().setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         tvFoodName = findViewById(R.id.tv_food_name);
         tvDelete = findViewById(R.id.tv_delete);
