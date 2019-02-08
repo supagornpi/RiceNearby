@@ -12,6 +12,9 @@ public class Follow {
     public String uidSeller;
     public String uid;
 
+    public User user; //get in view
+    public boolean isFollowing; //get in view
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

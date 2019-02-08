@@ -29,6 +29,7 @@ import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
 import com.warunya.ricenearby.ui.cart.CartActivity;
+import com.warunya.ricenearby.ui.seller.profile.SellerProfileActivity;
 import com.warunya.ricenearby.utils.BitmapUtils;
 import com.warunya.ricenearby.utils.ConvertDateUtils;
 import com.warunya.ricenearby.utils.GlideLoader;
@@ -144,6 +145,13 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         presenter.getSellerInfo();
         presenter.findRelateFood();
 
+        if (food.uid.equals(UserManager.getUid())) {
+            //can not follow your self
+            btnFollow.setVisibility(View.GONE);
+        } else {
+            presenter.checkFollow();
+        }
+
         //Meal time
         List<Meal> meals = new ArrayList<>();
         if (food.breakfasts != null) {
@@ -218,6 +226,20 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
                     presenter.follow();
                 }
                 btnFollow.setText(hasFollow ? "ยกเลิกติดตาม" : "ติดตาม");
+            }
+        });
+
+        tvSellerName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SellerProfileActivity.start(food.uid);
+            }
+        });
+
+        ivSellerProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SellerProfileActivity.start(food.uid);
             }
         });
     }

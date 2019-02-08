@@ -66,7 +66,7 @@ public class FollowManager {
     }
 
     public static void follow(final String uidSeller, final Handler handler) {
-        getUserFavorites(new QueryListener() {
+        getUserFollow(new QueryListener() {
             @Override
             public void onComplete(List<Follow> follows) {
                 boolean hasFavorite = false;
@@ -83,7 +83,7 @@ public class FollowManager {
     }
 
     public static void hasFollow(final String uidSeller, final HandlerFollow handler) {
-        getUserFavorites(new QueryListener() {
+        getUserFollow(new QueryListener() {
             @Override
             public void onComplete(List<Follow> follows) {
                 boolean hasFavorite = false;
@@ -97,7 +97,7 @@ public class FollowManager {
         });
     }
 
-    public static void getUserFavorites(final QueryListener queryListener) {
+    public static void getUserFollow(final QueryListener queryListener) {
         getInstance().userProfileEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -124,7 +124,7 @@ public class FollowManager {
     }
 
     public static void unFollow(final String uidSeller, final Handler handler) {
-        getUserFavorites(new QueryListener() {
+        getUserFollow(new QueryListener() {
             @Override
             public void onComplete(List<Follow> follows) {
                 for (Follow follow : follows) {

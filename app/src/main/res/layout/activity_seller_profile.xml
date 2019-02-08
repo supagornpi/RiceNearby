@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_large"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_normal">
+
+            <ImageView
+                android:id="@+id/iv_seller_profile"
+                android:layout_width="@dimen/profile_image"
+                android:layout_height="@dimen/profile_image"
+                android:src="@drawable/img_profile_image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_small">
+
+                <TextView
+                    android:id="@+id/tv_seller_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/color_white"
+                    tools:text="name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 คนกำลังติดตาม"
+                    android:textColor="@color/color_white" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_mini">
+
+                    <Button
+                        android:id="@+id/btn_follow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/padding_tiny"
+                        android:background="@drawable/button_conor_white"
+                        android:paddingStart="@dimen/padding_normal"
+                        android:paddingEnd="@dimen/padding_normal"
+                        android:text="ติดตาม"
+                        android:textColor="@color/color_white" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_follow"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_action_bar" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small"
+        android:text="กำลังทำการขาย"
+        android:textStyle="bold" />
+
+    <com.warunya.ricenearby.customs.view.RecyclerViewProgress
+        android:id="@+id/recyclerView_relate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
