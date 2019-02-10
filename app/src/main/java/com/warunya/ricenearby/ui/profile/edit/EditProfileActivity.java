@@ -1,16 +1,20 @@
 package com.warunya.ricenearby.ui.profile.edit;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,6 +24,7 @@ import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.constant.Gender;
 import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.address.AddressActivity;
+import com.warunya.ricenearby.utils.DismissKeyboardListener;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.GlideLoader;
 import com.warunya.ricenearby.utils.IntentUtils;
@@ -29,23 +34,33 @@ import com.warunya.ricenearby.utils.SpinnerUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+import static com.warunya.ricenearby.constant.AppInstance.DATE_FORMAT_BIRTHDATE;
 
 public class EditProfileActivity extends AbstractActivity implements EditProfileContract.View {
 
     private static final int REQUEST_IMAGE_GALLERY = 1;
     private Uri imageUri = null;
     private EditProfileContract.Presenter presenter = new EditProfilePresenter(this);
+    private String currentSelectedDate = "";
+    private Calendar myCalendar = Calendar.getInstance();
 
     private Button btnEditProfile;
     private TextView tvUsername;
     private TextView tvEmail;
     private EditText edtName;
     private EditText edtMobile;
-    private EditText edtBirthday;
+    private TextView tvBirthday;
+    private TextView tvGender;
+    private TextView tvAddress;
     private Spinner spnGender;
     private ImageView ivProfile;
-    private LinearLayout llAddress;
-
+    private LinearLayout layoutAddress;
+    private LinearLayout layoutRootView;
+    private ScrollView scrollView;
 
     public static void start() {
         Intent intent = new Intent(MyApplication.applicationContext, EditProfileActivity.class);
@@ -66,6 +81,11 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         bindView();
         bindAction();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         presenter.start();
     }
 
@@ -75,16 +95,23 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         edtName = findViewById(R.id.edt_name);
         tvEmail = findViewById(R.id.tv_email);
         edtMobile = findViewById(R.id.edt_mobile);
-        edtBirthday = findViewById(R.id.edt_birthday);
+        tvBirthday = findViewById(R.id.tv_birthday);
+        tvGender = findViewById(R.id.tv_gender);
         spnGender = findViewById(R.id.spinner_gender);
         ivProfile = findViewById(R.id.iv_profile);
-        llAddress = findViewById(R.id.layout_address);
+        tvAddress = findViewById(R.id.tv_address);
+        layoutAddress = findViewById(R.id.layout_address);
+        layoutRootView = findViewById(R.id.rootView);
+        scrollView = findViewById(R.id.scrollView);
 
         SpinnerUtils.setSpinner(getApplicationContext(), spnGender, R.array.gender_list, true);
 
     }
 
     private void bindAction() {
+        layoutRootView.setOnTouchListener(new DismissKeyboardListener(this));
+        scrollView.setOnTouchListener(new DismissKeyboardListener(this));
+
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,10 +126,36 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
             }
         });
 
-        llAddress.setOnClickListener(new View.OnClickListener() {
+        layoutAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AddressActivity.start();
+            }
+        });
+
+        tvBirthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog();
+            }
+        });
+
+        tvGender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                spnGender.performClick();
+            }
+        });
+
+        spnGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                tvGender.setText(spnGender.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
@@ -119,8 +172,25 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         tvEmail.setText(user.email);
         edtMobile.setText(user.mobile);
 
+        if (user.birthday != null) {
+            currentSelectedDate = user.birthday;
+            tvBirthday.setText(user.birthday);
+        }
+
         if (user.image == null) return;
         GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
+
+        if (user.gender != null) {
+            if (user.gender == Gender.Male) {
+                spnGender.setSelection(1);
+            } else if (user.gender == Gender.Female) {
+                spnGender.setSelection(2);
+            }
+        }
+
+        if (user.addresses != null && user.addresses.size() > 0) {
+            tvAddress.setText(user.addresses.get(0).name);
+        }
 
     }
 
@@ -128,7 +198,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         String username = tvUsername.getText().toString().trim();
         String name = edtName.getText().toString().trim();
         String mobile = edtMobile.getText().toString().trim();
-        String birthday = edtBirthday.getText().toString().trim();
+        String birthday = currentSelectedDate;
         Gender gender = Gender.Companion.parse(spnGender.getSelectedItemPosition());
         File file = null;
         if (imageUri != null) {
@@ -161,5 +231,28 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
 
     private void openGalleryIntent() {
         IntentUtils.INSTANCE.startIntentGallery(this, REQUEST_IMAGE_GALLERY);
+    }
+
+    private void showDatePickerDialog() {
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+        };
+        new DatePickerDialog(EditProfileActivity.this, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void updateLabel() {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_BIRTHDATE, Locale.getDefault());
+        currentSelectedDate = sdf.format(myCalendar.getTime());
+        tvBirthday.setText(currentSelectedDate);
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
@@ -8,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_gray">
+        android:background="@color/colorPrimaryDark">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,6 +39,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -51,10 +53,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_mini"
                 android:background="@color/color_white"
-                android:paddingBottom="@dimen/padding_mini"
-                android:paddingEnd="@dimen/padding_small"
                 android:paddingStart="@dimen/padding_small"
-                android:paddingTop="@dimen/padding_mini">
+                android:paddingTop="@dimen/padding_mini"
+                android:paddingEnd="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_mini">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -99,10 +101,10 @@
                 android:layout_marginTop="@dimen/padding_small"
                 android:background="@color/color_white"
                 android:gravity="center_vertical"
-                android:paddingBottom="@dimen/padding_mini"
-                android:paddingEnd="@dimen/padding_small"
                 android:paddingStart="@dimen/padding_small"
-                android:paddingTop="@dimen/padding_mini">
+                android:paddingTop="@dimen/padding_mini"
+                android:paddingEnd="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_mini">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -128,11 +130,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_small"
                 android:background="@color/color_white"
-                android:gravity="center_vertical"
-                android:paddingBottom="@dimen/padding_mini"
-                android:paddingEnd="@dimen/padding_small"
+                android:gravity="top"
                 android:paddingStart="@dimen/padding_small"
-                android:paddingTop="@dimen/padding_mini">
+                android:paddingTop="@dimen/padding_mini"
+                android:paddingEnd="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_mini">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -140,7 +142,7 @@
                     android:text="@string/profile_address_label" />
 
                 <TextView
-                    android:id="@+id/edt_address"
+                    android:id="@+id/tv_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -151,7 +153,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:src="@android:drawable/arrow_down_float" />
 
             </LinearLayout>
@@ -162,10 +164,10 @@
                 android:layout_marginTop="@dimen/padding_small"
                 android:background="@color/color_white"
                 android:gravity="center_vertical"
-                android:paddingBottom="@dimen/padding_mini"
-                android:paddingEnd="@dimen/padding_small"
                 android:paddingStart="@dimen/padding_small"
-                android:paddingTop="@dimen/padding_mini">
+                android:paddingTop="@dimen/padding_mini"
+                android:paddingEnd="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_mini">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -177,13 +179,29 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="end|center_vertical">
+                    android:gravity="end|center_vertical"
+                    android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/spinner_gender"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@null" />
+                        android:layout_height="wrap_content">
+
+                        <Spinner
+                            android:id="@+id/spinner_gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/tv_gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/spinner_gender"
+                            android:layout_centerVertical="true"
+                            android:gravity="end"
+                            android:paddingEnd="@dimen/padding_small" />
+                    </RelativeLayout>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -200,10 +218,10 @@
                 android:layout_marginTop="@dimen/padding_small"
                 android:background="@color/color_white"
                 android:gravity="center_vertical"
-                android:paddingBottom="@dimen/padding_mini"
-                android:paddingEnd="@dimen/padding_small"
                 android:paddingStart="@dimen/padding_small"
-                android:paddingTop="@dimen/padding_mini">
+                android:paddingTop="@dimen/padding_mini"
+                android:paddingEnd="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_mini">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -229,10 +247,10 @@
                 android:layout_marginTop="@dimen/padding_small"
                 android:background="@color/color_white"
                 android:gravity="center_vertical"
-                android:paddingBottom="@dimen/padding_mini"
-                android:paddingEnd="@dimen/padding_small"
                 android:paddingStart="@dimen/padding_small"
-                android:paddingTop="@dimen/padding_mini">
+                android:paddingTop="@dimen/padding_mini"
+                android:paddingEnd="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_mini">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -255,24 +273,24 @@
                 android:layout_marginTop="@dimen/padding_small"
                 android:background="@color/color_white"
                 android:gravity="center_vertical"
-                android:paddingBottom="@dimen/padding_mini"
-                android:paddingEnd="@dimen/padding_small"
                 android:paddingStart="@dimen/padding_small"
-                android:paddingTop="@dimen/padding_mini">
+                android:paddingTop="@dimen/padding_mini"
+                android:paddingEnd="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_mini">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/profile_birthday_label" />
 
-                <EditText
-                    android:id="@+id/edt_birthday"
+                <TextView
+                    android:id="@+id/tv_birthday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="..."
                     android:padding="@dimen/padding_small"
+                    android:text="กดเพื่อเลือก"
                     android:textAlignment="textEnd" />
 
                 <ImageView
@@ -286,10 +304,10 @@
                 android:id="@+id/btn_edit_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_large"
-                android:layout_marginEnd="@dimen/padding_normal"
                 android:layout_marginStart="@dimen/padding_normal"
                 android:layout_marginTop="@dimen/padding_normal"
+                android:layout_marginEnd="@dimen/padding_normal"
+                android:layout_marginBottom="@dimen/padding_large"
                 android:background="@drawable/button_primary"
                 android:text="@string/button_edit_profile"
                 android:textColor="@color/color_white"

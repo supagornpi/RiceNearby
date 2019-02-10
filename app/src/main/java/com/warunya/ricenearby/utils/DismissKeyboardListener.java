@@ -25,17 +25,17 @@ public class DismissKeyboardListener implements View.OnTouchListener {
 //        }
 //    }
 
-    public void hideSoftKeyboard(Activity activity) {
-        if (activity.getCurrentFocus() != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    public void hideSoftKeyboard() {
+        if (mAct.getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) mAct.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(mAct.getCurrentFocus().getWindowToken(), 0);
         }
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (view instanceof ViewGroup) {
-            hideSoftKeyboard(this.mAct);
+            hideSoftKeyboard();
         }
         return false;
     }

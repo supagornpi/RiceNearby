@@ -7,6 +7,7 @@ public class AppInstance {
     public static final int DELIVERY_PRICE = 20;
     public static final String DATE_FORMAT_DEFAULT ="EE dd MMMM yyyy";
     public static final String DATE_FORMAT_ORDER ="ddMM";
+    public static final String DATE_FORMAT_BIRTHDATE ="dd MMMM yyyy";
     private static final AppInstance ourInstance = new AppInstance();
     private Location myLocation;
     private Location currentLocation;
