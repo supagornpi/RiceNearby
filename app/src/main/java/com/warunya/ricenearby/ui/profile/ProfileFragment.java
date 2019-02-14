@@ -16,6 +16,7 @@ import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
 import com.warunya.ricenearby.ui.address.AddressActivity;
+import com.warunya.ricenearby.ui.history.HistoryActivity;
 import com.warunya.ricenearby.ui.login.LoginActivity;
 import com.warunya.ricenearby.ui.menu.MenuActivity;
 import com.warunya.ricenearby.ui.profile.edit.EditProfileActivity;
@@ -36,6 +37,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     private LinearLayout layoutSeller;
     private LinearLayout layoutMenu;
     private LinearLayout layoutSetTime;
+    private LinearLayout layoutHistory;
     private ProgressBar progressBarSeller;
 
     private ProfileContract.Presenter presenter = new ProfilePresenter(this);
@@ -61,6 +63,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         layoutSeller = view.findViewById(R.id.layoutSeller);
         layoutMenu = view.findViewById(R.id.layout_menu);
         layoutSetTime = view.findViewById(R.id.layout_set_time);
+        layoutHistory = view.findViewById(R.id.layout_history);
         progressBarSeller = view.findViewById(R.id.progress_seller);
 
     }
@@ -105,6 +108,12 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
             @Override
             public void onClick(View view) {
                 SetTimeActivity.start();
+            }
+        });
+        layoutHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HistoryActivity.start();
             }
         });
 

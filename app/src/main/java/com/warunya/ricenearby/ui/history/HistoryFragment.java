@@ -47,7 +47,8 @@ public class HistoryFragment extends AbstractFragment implements HistoryContract
         if (getArguments() != null) {
             isMyOrder = getArguments().getBoolean("isMyOrder", false);
         }
-        actionBar.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
+//        actionBar.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
+        actionBar.setVisibility(View.GONE);
         presenter = new HistoryPresenter(this, isMyOrder);
 
     }
