@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -30,7 +31,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
     private boolean hasAddress = false;
     private Button btnEditProfile;
     private Button btnSeller;
-    private Button btnLogout;
+    private ImageButton btnLogout;
     private TextView tvName;
     private ImageView ivProfile;
     private Button btnAddFood;

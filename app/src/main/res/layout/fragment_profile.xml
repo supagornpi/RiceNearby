@@ -63,6 +63,17 @@
 
                 </LinearLayout>
 
+                <ImageButton
+                    android:id="@+id/btn_logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:padding="@dimen/padding_small"
+                    android:src="@drawable/ic_exit"
+                    android:textColor="@color/color_white"
+                    android:tint="@color/color_white" />
+
                 <Button
                     android:id="@+id/btn_edit_profile"
                     android:layout_width="wrap_content"
@@ -235,7 +246,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-            
+
 
             <LinearLayout
                 android:id="@+id/layoutSeller"
@@ -400,18 +411,18 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_normal"
-                android:layout_marginTop="@dimen/padding_normal"
-                android:layout_marginEnd="@dimen/padding_normal"
-                android:layout_marginBottom="@dimen/padding_large"
-                android:background="@drawable/button_primary"
-                android:text="@string/button_logout"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/text_small" />
+            <!--<Button-->
+            <!--android:id="@+id/btn_logout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginStart="@dimen/padding_normal"-->
+            <!--android:layout_marginTop="@dimen/padding_normal"-->
+            <!--android:layout_marginEnd="@dimen/padding_normal"-->
+            <!--android:layout_marginBottom="@dimen/padding_large"-->
+            <!--android:background="@drawable/button_primary"-->
+            <!--android:text="@string/button_logout"-->
+            <!--android:textColor="@color/color_white"-->
+            <!--android:textSize="@dimen/text_small" />-->
 
         </LinearLayout>
     </ScrollView>
