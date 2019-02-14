@@ -9,7 +9,7 @@ import java.util.List;
 public interface MenuContract {
 
     interface Presenter extends BasePresenter {
-
+        boolean hasAddress();
     }
 
     interface View extends BaseView {

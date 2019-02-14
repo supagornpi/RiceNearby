@@ -1,6 +1,7 @@
 package com.warunya.ricenearby.ui.menu;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +21,10 @@ import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.customs.view.FoodView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
+import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
+import com.warunya.ricenearby.ui.address.AddressActivity;
 
 import org.parceler.Parcels;
 
@@ -104,10 +107,20 @@ public class MenuActivity extends AbstractActivity implements MenuContract.View 
     }
 
     private void bindAction() {
+        setMenuRightText("เพิ่มอาหาร");
         setOnclickMenuRight(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddFoodActivity.start();
+                if (presenter.hasAddress()) {
+                    AddFoodActivity.start();
+                } else {
+                    DialogAlert.Companion.show(MenuActivity.this, "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            AddressActivity.start();
+                        }
+                    });
+                }
             }
         });
 

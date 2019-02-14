@@ -53,6 +53,10 @@ abstract class AbstractActivity : AppCompatActivity() {
         tvRightMenu.text = applicationContext.getString(textId)
     }
 
+    fun setMenuRightText(text: String) {
+        tvRightMenu.text = text
+    }
+
     fun setOnclickMenuRight(onClickListener: View.OnClickListener) {
         tvRightMenu.setOnClickListener(onClickListener)
     }
