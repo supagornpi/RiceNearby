@@ -190,6 +190,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/layout_history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?selectableItemBackground"
@@ -233,33 +234,8 @@
                         android:src="@android:drawable/arrow_down_float" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/padding_mini" />
-
-                <LinearLayout
-                    android:id="@+id/layout_history"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/padding_small">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="ประวัติการสั่งซื้อ" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@android:drawable/arrow_down_float" />
-                </LinearLayout>
-
             </LinearLayout>
-
+            
 
             <LinearLayout
                 android:id="@+id/layoutSeller"
