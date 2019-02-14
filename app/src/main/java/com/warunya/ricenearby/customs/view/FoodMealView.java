@@ -129,6 +129,8 @@ public class FoodMealView extends LinearLayout {
             adapter.setListItem(food.lunches);
         } else if (mealTime == MealTime.Dinner) {
             adapter.setListItem(food.dinners);
+        } else if (mealTime == MealTime.LateDinner) {
+            adapter.setListItem(food.lateDinners);
         }
     }
 

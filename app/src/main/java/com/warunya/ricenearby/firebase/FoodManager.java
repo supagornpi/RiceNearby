@@ -322,6 +322,13 @@ public class FoodManager {
                     if (!isAddedMealTime(value.dinners, meal.date)) {
                         value.dinners.add(meal);
                     }
+                } else if (mealTime == MealTime.LateDinner) {
+                    if (value.lateDinners == null) {
+                        value.lateDinners = new ArrayList<>();
+                    }
+                    if (!isAddedMealTime(value.lateDinners, meal.date)) {
+                        value.lateDinners.add(meal);
+                    }
                 }
 
                 // Set value and report transaction success
@@ -370,6 +377,8 @@ public class FoodManager {
                     value.lunches = removeMeal(mealKey, value.lunches);
                 } else if (mealTime == MealTime.Dinner) {
                     value.dinners = removeMeal(mealKey, value.dinners);
+                } else if (mealTime == MealTime.LateDinner) {
+                    value.lateDinners = removeMeal(mealKey, value.lateDinners);
                 }
 
                 // Set value and report transaction success
@@ -399,6 +408,8 @@ public class FoodManager {
                     value.lunches = null;
                 } else if (mealTime == MealTime.Dinner) {
                     value.dinners = null;
+                } else if (mealTime == MealTime.LateDinner) {
+                    value.lateDinners = null;
                 }
 
                 // Set value and report transaction success

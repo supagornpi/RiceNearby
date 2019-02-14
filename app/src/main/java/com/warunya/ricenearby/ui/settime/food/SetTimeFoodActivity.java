@@ -69,9 +69,10 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
             title = "อาหารกลางวัน";
         } else if (mealTime == MealTime.Dinner) {
             title = "อาหารเย็น";
+        } else if (mealTime == MealTime.LateDinner) {
+            title = "อาหารค่ำ";
         }
         setTitle(title);
-
 
         bindView();
         bindAction();
@@ -253,6 +254,14 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
             }
             if (!isAddedMealTime(food.dinners, date)) {
                 food.dinners.add(meal);
+            }
+        } else if (mealTime == MealTime.LateDinner) {
+            //new array if it null
+            if (food.lateDinners == null) {
+                food.lateDinners = new ArrayList<>();
+            }
+            if (!isAddedMealTime(food.lateDinners, date)) {
+                food.lateDinners.add(meal);
             }
         }
 

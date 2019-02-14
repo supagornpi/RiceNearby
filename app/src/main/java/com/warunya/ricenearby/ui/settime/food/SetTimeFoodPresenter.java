@@ -45,6 +45,8 @@ public class SetTimeFoodPresenter implements SetTimeFoodContract.Presenter {
                             foodsWithMeal.add(food);
                         } else if (mealTime == MealTime.Dinner && food.dinners != null && food.dinners.size() > 0) {
                             foodsWithMeal.add(food);
+                        } else if (mealTime == MealTime.LateDinner && food.lateDinners != null && food.lateDinners.size() > 0) {
+                            foodsWithMeal.add(food);
                         }
                     }
                 }

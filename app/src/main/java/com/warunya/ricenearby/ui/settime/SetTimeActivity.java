@@ -46,6 +46,7 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
     private Button btnAddBreakfast;
     private Button btnAddLunch;
     private Button btnAddDinner;
+    private Button btnAddLateDinner;
 
     private Button btnSelectDate;
     private Button btnAddMenu;
@@ -79,6 +80,7 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
         btnAddBreakfast = findViewById(R.id.btn_add_breakfast);
         btnAddLunch = findViewById(R.id.btn_add_lunch);
         btnAddDinner = findViewById(R.id.btn_add_dinner);
+        btnAddLateDinner = findViewById(R.id.btn_add_late_dinner);
 //        btnSelectDate = findViewById(R.id.btn_select_date);
 //        btnAddMenu = findViewById(R.id.btn_add_menu);
 //        btnSave = findViewById(R.id.btn_save);
@@ -149,6 +151,12 @@ public class SetTimeActivity extends AbstractActivity implements SetTimeContract
             @Override
             public void onClick(View view) {
                 SetTimeFoodActivity.start(MealTime.Dinner);
+            }
+        });
+        btnAddLateDinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SetTimeFoodActivity.start(MealTime.LateDinner);
             }
         });
     }

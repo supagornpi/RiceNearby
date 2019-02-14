@@ -34,6 +34,7 @@ public class Food {
     public List<Meal> breakfasts;
     public List<Meal> lunches;
     public List<Meal> dinners;
+    public List<Meal> lateDinners;
 
     @Exclude
     public Map<String, Object> toMap() {
