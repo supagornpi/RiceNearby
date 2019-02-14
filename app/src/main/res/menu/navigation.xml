@@ -11,10 +11,10 @@
         android:icon="@drawable/ic_fav"
         android:title="@string/tab_favorite" />
 
-    <item
-        android:id="@+id/navigation_cart"
-        android:icon="@drawable/ic_cart"
-        android:title="@string/tab_cart" />
+    <!--<item-->
+        <!--android:id="@+id/navigation_cart"-->
+        <!--android:icon="@drawable/ic_cart"-->
+        <!--android:title="@string/tab_cart" />-->
 
     <item
         android:id="@+id/navigation_history"

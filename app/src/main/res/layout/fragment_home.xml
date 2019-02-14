@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
+        android:gravity="center_vertical"
         android:padding="@dimen/padding_small">
 
         <EditText
@@ -19,6 +20,19 @@
             android:background="@drawable/background_edittext_white"
             android:hint="@string/home_search_hint"
             android:padding="@dimen/padding_small" />
+
+        <ImageView
+            android:id="@+id/iv_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_small"
+            android:layout_marginEnd="@dimen/padding_mini"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/ic_cart"
+            android:tint="@color/color_white" />
 
     </LinearLayout>
 

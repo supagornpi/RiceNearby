@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractFragment;
@@ -14,6 +15,7 @@ import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.customs.view.FoodGridView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.ui.cart.CartActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +28,7 @@ public class HomeFragment extends AbstractFragment implements HomeContract.View 
 
     private RecyclerViewProgress recyclerViewProgress;
     private EditText edtSearch;
+    private ImageView ivCart;
 
     @Override
     protected int setLayoutView() {
@@ -35,6 +38,7 @@ public class HomeFragment extends AbstractFragment implements HomeContract.View 
     @Override
     protected void setupView(@NotNull View view) {
         bindView(view);
+        bindAction();
         initRecyclerView();
         initSearchView();
 
@@ -44,9 +48,19 @@ public class HomeFragment extends AbstractFragment implements HomeContract.View 
     private void bindView(View view) {
         recyclerViewProgress = view.findViewById(R.id.recyclerViewProgress);
         edtSearch = view.findViewById(R.id.edt_search);
+        ivCart = view.findViewById(R.id.iv_cart);
+
 
     }
 
+    private void bindAction() {
+        ivCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CartActivity.start();
+            }
+        });
+    }
     private void initRecyclerView() {
         recyclerViewProgress.recyclerView.setLayoutManager(
                 new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false));
