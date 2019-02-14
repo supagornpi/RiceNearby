@@ -52,6 +52,7 @@
             android:id="@+id/iv_food"
             android:layout_width="@dimen/food_image_normal"
             android:layout_height="@dimen/food_image_normal"
+            android:scaleType="centerCrop"
             android:src="@drawable/logo" />
 
         <LinearLayout
