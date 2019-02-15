@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.constant.AppInstance;
+import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Order;
 import com.warunya.ricenearby.ui.confirmorder.ConfirmOrderActivity;
@@ -21,6 +23,7 @@ public class OrderView extends LinearLayout {
 
     private Order order;
     private boolean isMyOrder = false;
+    private CustomAdapter<Cart> adapter;
 
     private LinearLayout layoutItem;
     private TextView tvOrderNo;
@@ -28,6 +31,7 @@ public class OrderView extends LinearLayout {
     private TextView tvDate;
     private TextView tvAmount;
     private TextView tvStatus;
+    private RecyclerViewProgress recyclerViewProgress;
 
     public OrderView(Context context) {
         super(context);
@@ -60,6 +64,7 @@ public class OrderView extends LinearLayout {
         tvDate = findViewById(R.id.tv_date);
         tvAmount = findViewById(R.id.tv_amount);
         tvStatus = findViewById(R.id.tv_status);
+        recyclerViewProgress = findViewById(R.id.recyclerViewProgress_food);
     }
 
     public void bind(final Order order, boolean isMyOrder) {
@@ -85,12 +90,44 @@ public class OrderView extends LinearLayout {
         tvStatus.setText(getResources().getString(order.orderStatus.getNameId()));
 
         tvStatus.setBackground(getResources().getDrawable(order.orderStatus.getBgId()));
+
+        initRecyclerView();
+        if (order.carts != null) {
+            adapter.setListItem(order.carts);
+        }
+    }
+
+    private void initRecyclerView() {
+        recyclerViewProgress.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
+            @Override
+            public <T> void onBindViewHolder(T item, View itemView, int viewType, final int position) {
+                final Cart cart = ((Cart) item);
+                if (cart == null) return;
+                ((CartView) itemView).bindAction();
+                ((CartView) itemView).bind(cart, false);
+            }
+
+            @Override
+            public View onCreateView(ViewGroup parent) {
+                return new CartView(parent.getContext());
+            }
+        });
+
+        recyclerViewProgress.recyclerView.setAdapter(adapter);
     }
 
     public void bindAction() {
         layoutItem = findViewById(R.id.layout_item);
 
         layoutItem.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerViewProgress.setVisibility(recyclerViewProgress.isShown() ? GONE : VISIBLE);
+            }
+        });
+
+        tvStatus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 ConfirmOrderActivity.start(order, isMyOrder);
