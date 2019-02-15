@@ -1,10 +1,14 @@
 package com.warunya.ricenearby.ui.history;
 
+import android.util.Log;
+
+import com.warunya.ricenearby.constant.Filter;
 import com.warunya.ricenearby.firebase.OrderManager;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Order;
 
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,6 +24,16 @@ public class HistoryPresenter implements HistoryContract.Presenter {
 
     @Override
     public void start() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
+    public void filterOrder(final Filter filter) {
         view.showProgress();
         if (isMyOrder) {
             OrderManager.getAllOrders(new OrderManager.QueryListListener() {
@@ -29,6 +43,7 @@ public class HistoryPresenter implements HistoryContract.Presenter {
                     if (orders.size() > 0) {
                         view.hideNotFound();
                         orders = filterWithCurrentUser(orders);
+                        orders = filterPeriod(orders, filter);
                         view.fetchOrder(orders);
                         if (orders.size() == 0) {
                             view.showNotFound();
@@ -44,6 +59,7 @@ public class HistoryPresenter implements HistoryContract.Presenter {
                 public void onComplete(List<Order> orders) {
                     view.hideProgress();
                     if (orders.size() > 0) {
+                        orders = filterPeriod(orders, filter);
                         view.hideNotFound();
                         view.fetchOrder(isMyOrder ? filterWithCurrentUser(orders) : orders);
                     } else {
@@ -52,11 +68,6 @@ public class HistoryPresenter implements HistoryContract.Presenter {
                 }
             });
         }
-    }
-
-    @Override
-    public void stop() {
-
     }
 
     @Override
@@ -81,6 +92,29 @@ public class HistoryPresenter implements HistoryContract.Presenter {
             }
             if (!isMyOrder) {
                 iter.remove();
+            }
+        }
+        return orders;
+    }
+
+    private List<Order> filterPeriod(List<Order> orders, Filter filter) {
+        Iterator<Order> iter = orders.iterator();
+        while (iter.hasNext()) {
+
+            Calendar cOrder = Calendar.getInstance();
+            Calendar cCurrent = Calendar.getInstance();
+            Calendar cPrevious = Calendar.getInstance();
+
+            cOrder.setTimeInMillis(iter.next().timestamp);
+            cCurrent.setTimeInMillis(System.currentTimeMillis());
+            if (filter != Filter.All) {
+                cPrevious.setTimeInMillis(System.currentTimeMillis());
+                int period = filter.getPeriod();
+                cPrevious.add(Calendar.DATE, -period);
+                if (cOrder.after(cCurrent) || cOrder.before(cPrevious)) {
+                    iter.remove();
+                }
+                Log.d("Period", "is " + period + " : " + cPrevious.getTime());
             }
         }
         return orders;

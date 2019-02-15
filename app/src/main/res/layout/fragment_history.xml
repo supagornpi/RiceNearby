@@ -6,6 +6,39 @@
 
     <include layout="@layout/layout_action_bar" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
+
+        <LinearLayout
+            android:id="@+id/layout_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <TextView
+                android:id="@+id/tv_filter_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1 สัปดาห์"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_next"
+                android:tint="@color/colorPrimary" />
+        </LinearLayout>
+    </LinearLayout>
+
     <com.warunya.ricenearby.customs.view.RecyclerViewProgress
         android:id="@+id/recyclerViewProgress"
         android:layout_width="match_parent"

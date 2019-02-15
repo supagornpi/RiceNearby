@@ -181,4 +181,14 @@
     <string name="order_status_sending">กำลังจัดส่ง</string>
     <string name="order_status_received">ได้รับแล้ว</string>
 
+    <string-array name="filter_list">
+        <item>1 สัปดาห์</item>
+        <item>2 สัปดาห์</item>
+        <item>1 เดือน</item>
+        <item>2 เดือน</item>
+        <item>3 เดือน</item>
+        <item>6 เดือน</item>
+        <item>ทั้งหมด</item>
+
+    </string-array>
 </resources>

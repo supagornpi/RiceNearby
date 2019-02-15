@@ -62,6 +62,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-places:11.8.0'
     implementation 'com.google.android.gms:play-services-location:11.8.0'
 
+    //material dialog
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
