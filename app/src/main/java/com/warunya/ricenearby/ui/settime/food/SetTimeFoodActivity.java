@@ -138,16 +138,24 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-                if (food == null) {
-                    MenuActivity.startToSelectFood(SetTimeFoodActivity.this);
+                
+                Calendar current = Calendar.getInstance();
+                current.setTimeInMillis(System.currentTimeMillis());
+                current.add(Calendar.DAY_OF_MONTH, -1);
+                if (myCalendar.before(current)) {
+                    Toast.makeText(getApplicationContext(), "ไม่สามารถเลือกวันก่อนหน้าได้", Toast.LENGTH_SHORT).show();
                 } else {
-                    AddAmountDialog.show(SetTimeFoodActivity.this, new AddAmountDialog.OnClickListener() {
-                        @Override
-                        public void onClickedAddToCart(int amount) {
-                            addMealTime(food, mealTime, currentSelectedDate, amount);
-                        }
-                    });
+                    updateCurrentSelected();
+                    if (food == null) {
+                        MenuActivity.startToSelectFood(SetTimeFoodActivity.this);
+                    } else {
+                        AddAmountDialog.show(SetTimeFoodActivity.this, new AddAmountDialog.OnClickListener() {
+                            @Override
+                            public void onClickedAddToCart(int amount) {
+                                addMealTime(food, mealTime, currentSelectedDate, amount);
+                            }
+                        });
+                    }
                 }
             }
         };
@@ -156,7 +164,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private void updateLabel() {
+    private void updateCurrentSelected() {
         String myFormat = "EE dd MMMM yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
 
