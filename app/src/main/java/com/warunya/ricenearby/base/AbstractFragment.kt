@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import com.warunya.ricenearby.MyApplication.applicationContext
 import com.warunya.ricenearby.customs.FragmentNavigation
 import kotlinx.android.synthetic.main.layout_action_bar.*
 
@@ -82,6 +83,18 @@ abstract class AbstractFragment : Fragment() {
             btnRight.visibility = View.VISIBLE
             btnRight.setOnClickListener(onClickListener)
         }
+    }
+
+    fun setOnclickMenuRight(onClickListener: View.OnClickListener) {
+        tvRightMenu.setOnClickListener(onClickListener)
+    }
+
+    fun setMenuRightText(textId: Int) {
+        tvRightMenu.text = applicationContext.getString(textId)
+    }
+
+    fun setMenuRightText(text: String) {
+        tvRightMenu.text = text
     }
 
 //    fun showUserToggleWithAction() {

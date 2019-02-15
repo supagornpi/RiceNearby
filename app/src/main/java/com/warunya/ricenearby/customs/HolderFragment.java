@@ -13,7 +13,7 @@ import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.Tabs;
 import com.warunya.ricenearby.ui.cart.CartFragment;
 import com.warunya.ricenearby.ui.favorite.FavoriteFragment;
-import com.warunya.ricenearby.ui.history.HistoryFragment;
+import com.warunya.ricenearby.ui.history.HistoryActivity;
 import com.warunya.ricenearby.ui.home.HomeFragment;
 import com.warunya.ricenearby.ui.profile.ProfileFragment;
 
@@ -72,9 +72,9 @@ public class HolderFragment extends Fragment implements FragmentNavigation {
                 case Cart:
                     fragment = new CartFragment();
                     break;
-                case History:
-                    fragment = new HistoryFragment();
-                    break;
+//                case History:
+//                    fragment = new HistoryActivity();
+//                    break;
                 case Profile:
                     fragment = new ProfileFragment();
                     break;

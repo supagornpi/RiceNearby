@@ -70,14 +70,12 @@
             android:name=".ui.cart.CartActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.order.OrderActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.seller.profile.SellerProfileActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.history.HistoryActivity"
             android:screenOrientation="portrait" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

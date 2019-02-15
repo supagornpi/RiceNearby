@@ -13,8 +13,8 @@ import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.dialog.DialogAlert;
 import com.warunya.ricenearby.ui.addfood.AddFoodActivity;
 import com.warunya.ricenearby.ui.address.AddressActivity;
+import com.warunya.ricenearby.ui.history.HistoryActivity;
 import com.warunya.ricenearby.ui.menu.MenuActivity;
-import com.warunya.ricenearby.ui.order.OrderActivity;
 import com.warunya.ricenearby.ui.settime.SetTimeActivity;
 
 public class SellerActivity extends AbstractActivity implements SellerContract.View {
@@ -90,7 +90,7 @@ public class SellerActivity extends AbstractActivity implements SellerContract.V
         layoutOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrderActivity.start();
+                HistoryActivity.start(true);
             }
         });
     }

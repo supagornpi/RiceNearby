@@ -114,7 +114,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         layoutHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HistoryActivity.start();
+                HistoryActivity.start(false);
             }
         });
 
