@@ -153,17 +153,17 @@ public class HistoryPresenter implements HistoryContract.Presenter {
     private List<OrderByDate> summaryByDate(List<Order> orders) {
         Iterator<Order> iter = orders.iterator();
         HashMap<String, Cart> cartByDateMap = new HashMap<>();
-        HashMap<MealTime, Meal> mealByDateMap = new HashMap<>();
+        HashMap<String, Meal> mealByDateMap = new HashMap<>();
         HashMap<MealTime, Food> foodByDateMap = new HashMap<>();
 
         while (iter.hasNext()) {
             Iterator<Cart> iterCart = iter.next().carts.iterator();
             while (iterCart.hasNext()) {
                 Cart cart = iterCart.next();
-                List<Meal> iterMeals = cart.meals;
-                for (Meal meal : iterMeals) {
+//                List<Meal> iterMeals = cart.meals;
+                for (Meal meal : cart.meals) {
                     cartByDateMap.put(meal.date, cart);
-                    mealByDateMap.put(meal.mealTime, meal);
+                    mealByDateMap.put(meal.mealTime.getMealTimeText(), meal);
                     foodByDateMap.put(meal.mealTime, cart.food);
                 }
             }
@@ -171,24 +171,45 @@ public class HistoryPresenter implements HistoryContract.Presenter {
 
         List<OrderByDate> orderByDatesList = new ArrayList<>();
 
+
         for (Map.Entry<String, Cart> entry : cartByDateMap.entrySet()) {
             OrderByDate orderByDate = new OrderByDate(entry.getKey());
             orderByDate.date = entry.getKey();
             orderByDate.mealByDateList = new ArrayList<>();
 
-            for (Map.Entry<MealTime, Meal> entryMeal : mealByDateMap.entrySet()) {
-
+            for (Map.Entry<String, Meal> entryMeal : mealByDateMap.entrySet()) {
                 MealByDate mealByDate = null;
 
-                for (Meal meal : entry.getValue().meals) {
-                    if (meal.mealTime.getMealTimeText().equals(entryMeal.getKey().getMealTimeText())) {
-                        if (mealByDate == null) {
-                            mealByDate = new MealByDate(entryMeal.getKey(), entryMeal.getValue());
+                //loop all orders
+                for (Order order : orders) {
+                    for (Cart cart : order.carts) {
+                        for (Meal meal : cart.meals) {
+                            if (entry.getKey().equals(meal.date) && meal.mealTime.getMealTimeText().equals(entryMeal.getKey())) {
+                                if (mealByDate == null) {
+                                    //create new meal time
+                                    mealByDate = new MealByDate(meal.mealTime, meal);
+                                }
+                                boolean hasFood = false;
+                                if (mealByDate.foodList == null) {
+                                    mealByDate.foodList = new ArrayList<>();
+                                } else {
+                                    //looping food list check for duplicate item
+                                    for (Food food : mealByDate.foodList) {
+                                        if (food.key.equals(entry.getValue().food.key)) {
+                                            hasFood = true;
+                                        }
+                                    }
+                                }
+
+                                if (hasFood) {
+                                    //add amount
+                                    mealByDate.meal.amount += meal.amount;
+                                } else {
+                                    //add new food
+                                    mealByDate.foodList.add(entry.getValue().food);
+                                }
+                            }
                         }
-                        if (mealByDate.foodList == null) {
-                            mealByDate.foodList = new ArrayList<>();
-                        }
-                        mealByDate.foodList.add(entry.getValue().food);
                     }
                 }
                 if (mealByDate != null) {

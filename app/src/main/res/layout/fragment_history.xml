@@ -43,4 +43,10 @@
         android:id="@+id/recyclerViewProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <com.warunya.ricenearby.customs.view.RecyclerViewProgress
+        android:id="@+id/recyclerViewProgress_special_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 </LinearLayout>

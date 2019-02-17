@@ -33,8 +33,10 @@ public class HistoryActivity extends AbstractActivity implements HistoryContract
     private CustomAdapter<OrderByDate> orderByDateAdapter;
     private Filter currentFilter = Filter.OneWeek;
     private boolean normalMode = true;
+    private boolean isMyOrder = false;
 
     private RecyclerViewProgress recyclerViewProgress;
+    private RecyclerViewProgress recyclerViewProgressSpecial;
     private TextView tvFilterName;
     private LinearLayout layoutFilter;
 
@@ -57,7 +59,7 @@ public class HistoryActivity extends AbstractActivity implements HistoryContract
         bindAction();
         showBackButton();
 
-        boolean isMyOrder = getIntent().getBooleanExtra("isMyOrder", false);
+        isMyOrder = getIntent().getBooleanExtra("isMyOrder", false);
 //        actionBar.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
         presenter = new HistoryPresenter(this, isMyOrder);
 
@@ -77,12 +79,27 @@ public class HistoryActivity extends AbstractActivity implements HistoryContract
                 }
             });
         }
+        if (isMyOrder) {
+            presenter.filterOrder(currentFilter);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isMyOrder) {
+            presenter.filterOrder(currentFilter);
+        }
     }
 
     private void bindView() {
         recyclerViewProgress = findViewById(R.id.recyclerViewProgress);
+        recyclerViewProgressSpecial = findViewById(R.id.recyclerViewProgress_special_mode);
         tvFilterName = findViewById(R.id.tv_filter_name);
         layoutFilter = findViewById(R.id.layout_filter);
+
+        initRecyclerViewNormailMode();
+        initRecyclerViewSpecialMode();
 
     }
 
@@ -122,8 +139,8 @@ public class HistoryActivity extends AbstractActivity implements HistoryContract
             }
         });
 
-        recyclerViewProgress.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewProgress.recyclerView.setAdapter(orderByDateAdapter);
+        recyclerViewProgressSpecial.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewProgressSpecial.recyclerView.setAdapter(orderByDateAdapter);
     }
 
     private void bindAction() {
@@ -153,12 +170,6 @@ public class HistoryActivity extends AbstractActivity implements HistoryContract
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.filterOrder(currentFilter);
-    }
-
-    @Override
     public void showProgress() {
         recyclerViewProgress.showProgress();
     }
@@ -180,13 +191,15 @@ public class HistoryActivity extends AbstractActivity implements HistoryContract
 
     @Override
     public void fetchOrder(List<Order> orders) {
-        initRecyclerViewNormailMode();
+        recyclerViewProgress.setVisibility(View.VISIBLE);
+        recyclerViewProgressSpecial.setVisibility(View.GONE);
         orderAdapter.setListItem(orders);
     }
 
     @Override
     public void fetchSummaryOrder(List<OrderByDate> orderByDates) {
-        initRecyclerViewSpecialMode();
+        recyclerViewProgress.setVisibility(View.GONE);
+        recyclerViewProgressSpecial.setVisibility(View.VISIBLE);
         orderByDateAdapter.setListItem(orderByDates);
 
     }
