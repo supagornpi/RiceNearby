@@ -166,7 +166,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
 
     private void updateCurrentSelected() {
         String myFormat = "EE dd MMMM yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("th"));
 
         currentSelectedDate = sdf.format(myCalendar.getTime());
     }

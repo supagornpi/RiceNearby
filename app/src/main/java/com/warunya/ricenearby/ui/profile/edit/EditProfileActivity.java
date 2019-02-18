@@ -251,7 +251,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
     }
 
     private void updateLabel() {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_BIRTHDATE, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_BIRTHDATE, new Locale("th"));
         currentSelectedDate = sdf.format(myCalendar.getTime());
         tvBirthday.setText(currentSelectedDate);
     }

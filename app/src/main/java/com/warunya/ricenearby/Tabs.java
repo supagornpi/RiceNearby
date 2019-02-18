@@ -8,6 +8,7 @@ public enum Tabs {
     Favorite,
     Cart,
     History,
+    Schedule,
     Profile;
 
     public static Tabs parse(int type) {
@@ -16,6 +17,7 @@ public enum Tabs {
         creatorMap.put(Favorite.ordinal(), Favorite);
         creatorMap.put(Cart.ordinal(), Cart);
         creatorMap.put(History.ordinal(), History);
+        creatorMap.put(Schedule.ordinal(), Schedule);
         creatorMap.put(Profile.ordinal(), Profile);
         return creatorMap.get(type);
     }

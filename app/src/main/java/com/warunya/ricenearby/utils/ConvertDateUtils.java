@@ -14,7 +14,7 @@ public class ConvertDateUtils {
 
     public static String getNewDateFormatFOrMealTime(String date) {
         String myFormat = AppInstance.DATE_FORMAT_DEFAULT; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("th"));
 
         try {
             Date newDate = sdf.parse(date);
@@ -27,14 +27,34 @@ public class ConvertDateUtils {
         return date;
     }
 
+    public static Calendar convertToCalendar(String date) {
+        String myFormat = AppInstance.DATE_FORMAT_DEFAULT; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("th"));
+        Calendar calendar = Calendar.getInstance();
+        try {
+            Date newDate = sdf.parse(date);
+            calendar.setTime(newDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return calendar;
+    }
+
+    public static String convertToString(Date date) {
+        String myFormat = AppInstance.DATE_FORMAT_DEFAULT; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("th"));
+        return sdf.format(date);
+    }
+
     public static String getDate(long time) {
-        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        Calendar cal = Calendar.getInstance(new Locale("th"));
         cal.setTimeInMillis(time);
         return DateFormat.format(AppInstance.DATE_FORMAT_DEFAULT, cal).toString();
     }
 
     public static String getDate() {
-        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        Calendar cal = Calendar.getInstance(new Locale("th"));
         cal.setTime(new Date());
         return DateFormat.format(AppInstance.DATE_FORMAT_ORDER, cal).toString();
     }

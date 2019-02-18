@@ -16,6 +16,7 @@ import com.warunya.ricenearby.ui.favorite.FavoriteFragment;
 import com.warunya.ricenearby.ui.history.HistoryActivity;
 import com.warunya.ricenearby.ui.home.HomeFragment;
 import com.warunya.ricenearby.ui.profile.ProfileFragment;
+import com.warunya.ricenearby.ui.schedule.ScheduleFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,6 +76,9 @@ public class HolderFragment extends Fragment implements FragmentNavigation {
 //                case History:
 //                    fragment = new HistoryActivity();
 //                    break;
+                case Schedule:
+                    fragment = new ScheduleFragment();
+                    break;
                 case Profile:
                     fragment = new ProfileFragment();
                     break;

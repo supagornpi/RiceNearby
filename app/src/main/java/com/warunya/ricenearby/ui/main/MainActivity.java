@@ -46,6 +46,8 @@ public class MainActivity extends AbstractActivity {
                     return HolderFragment.newInstance(Tabs.Home);
                 } else if (position == 1) {
                     return HolderFragment.newInstance(Tabs.Favorite);
+                } else if (position == 2) {
+                    return HolderFragment.newInstance(Tabs.Schedule);
                 }
 //                else if (position == 2) {
 //                    return HolderFragment.newInstance(Tabs.Cart);
@@ -53,7 +55,7 @@ public class MainActivity extends AbstractActivity {
 //                    return HolderFragment.newInstance(Tabs.History);
 //                }
 
-                else if (position == 2) {
+                else if (position == 3) {
                     return HolderFragment.newInstance(Tabs.Profile);
                 } else {
                     return HolderFragment.newInstance(Tabs.Home);
@@ -112,6 +114,9 @@ public class MainActivity extends AbstractActivity {
             case R.id.navigation_favorite:
                 position = 1;
                 break;
+            case R.id.navigation_schedule:
+                position = 2;
+                break;
 //            case R.id.navigation_cart:
 //                position = 2;
 //                break;
@@ -119,7 +124,7 @@ public class MainActivity extends AbstractActivity {
 //                position = 3;
 //                break;
             case R.id.navigation_profile:
-                position = 2;
+                position = 3;
                 break;
         }
         return position;
