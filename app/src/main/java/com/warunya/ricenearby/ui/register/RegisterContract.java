@@ -19,7 +19,7 @@ public interface RegisterContract {
 
     }
 
-    interface View extends BaseView {
+    interface View extends BaseView.Progress {
         void requireField(RequireField requireField);
 
         void showUsernameInvalid();

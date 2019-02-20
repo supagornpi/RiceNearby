@@ -169,7 +169,8 @@
     <!--Seller-->
     <string name="seller_id_card">เลขบัตรประชาชน</string>
     <string name="seller_bank_account">เลขที่บัญชี</string>
-    <string name="seller_bank_name">ชื่อธนาคาร</string>
+    <string name="seller_bank_name">ชื่อผู้ถือบัตร</string>
+    <string name="seller_bank">ธนาคาร</string>
     <string name="seller_bank_branch">สาขา</string>
 
     <string name="seller_add_copy_id_card">+ อัพโหลดสำเนาบัตรประชาชน</string>

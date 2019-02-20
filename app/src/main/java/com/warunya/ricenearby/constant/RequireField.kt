@@ -9,6 +9,7 @@ enum class RequireField {
     IdentityId,
     BankAccount,
     BankName,
+    Bank,
     BankBranch,
     CopyIDCard,
     CopyBookBank,

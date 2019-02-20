@@ -43,6 +43,20 @@
             android:paddingEnd="@dimen/padding_normal"
             android:paddingBottom="@dimen/padding_small" />
 
+        <EditText
+            android:id="@+id/edt_bank_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_small"
+            android:background="@drawable/background_edittext_gray"
+            android:hint="@string/seller_bank_name"
+            android:inputType="text"
+            android:maxLength="10"
+            android:paddingStart="@dimen/padding_normal"
+            android:paddingTop="@dimen/padding_small"
+            android:paddingEnd="@dimen/padding_normal"
+            android:paddingBottom="@dimen/padding_small" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

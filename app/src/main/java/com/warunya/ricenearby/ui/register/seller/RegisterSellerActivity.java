@@ -18,6 +18,7 @@ import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.constant.RequireField;
 import com.warunya.ricenearby.model.RegisterEntity;
+import com.warunya.ricenearby.model.Seller;
 import com.warunya.ricenearby.ui.register.RegisterContract;
 import com.warunya.ricenearby.ui.register.RegisterPresenter;
 import com.warunya.ricenearby.utils.DismissKeyboardListener;
@@ -26,6 +27,8 @@ import com.warunya.ricenearby.utils.IntentUtils;
 import com.warunya.ricenearby.utils.PermissionUtils;
 import com.warunya.ricenearby.utils.SpinnerUtils;
 import com.warunya.ricenearby.utils.ValidatorUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -37,6 +40,7 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
     private LinearLayout rootView;
     private EditText edtIdentityId;
     private EditText edtBankAccount;
+    private EditText edtBankName;
     private EditText edtBranch;
     private EditText edtSpinnerError;
 
@@ -71,6 +75,7 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
         rootView = findViewById(R.id.rootView);
         edtIdentityId = findViewById(R.id.edt_identity_id);
         edtBankAccount = findViewById(R.id.edt_bank_account);
+        edtBankName = findViewById(R.id.edt_bank_name);
         edtBranch = findViewById(R.id.edt_branch);
         btnCopyIdCard = findViewById(R.id.btn_copy_id_card);
         btnCopyBookBank = findViewById(R.id.btn_copy_book_bank);
@@ -132,6 +137,9 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
             case BankAccount:
                 editText = edtBankAccount;
                 break;
+            case BankName:
+                editText = edtBankName;
+                break;
             case BankBranch:
                 editText = edtBranch;
                 break;
@@ -146,7 +154,7 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
             ValidatorUtils.setErrorInput(getApplicationContext(), editText, R.string.error_please_fill);
         } else if (button != null) {
             button.setTextColor(getResources().getColor(R.color.color_red));
-        } else if (requireField == RequireField.BankName) {
+        } else if (requireField == RequireField.Bank) {
             edtSpinnerError.setError(getResources().getString(R.string.error_please_fill));
         }
     }
@@ -185,34 +193,17 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
     private RegisterEntity getRegisterEntity() {
         String idCard = edtIdentityId.getText().toString().trim();
         String bankAccount = edtBankAccount.getText().toString().trim();
-        String bankName = spnBank.getSelectedItemPosition() == 0 ? "" : spnBank.getSelectedItem().toString();
+        String bankName = edtBankName.getText().toString().trim();
+        String bank = spnBank.getSelectedItemPosition() == 0 ? "" : spnBank.getSelectedItem().toString();
         String branch = edtBranch.getText().toString().trim();
         RegisterEntity registerEntity = new RegisterEntity();
-        registerEntity.idCard = idCard;
-        registerEntity.bankAccount = bankAccount;
-        registerEntity.bankName = bankName;
-        registerEntity.bankBranch = branch;
+        registerEntity.seller = new Seller();
+        registerEntity.seller.idCard = idCard;
+        registerEntity.seller.bankAccount = bankAccount;
+        registerEntity.seller.bankName = bankName;
+        registerEntity.seller.bank = bank;
+        registerEntity.seller.bankBranch = branch;
         return registerEntity;
-    }
-
-    @Override
-    public void showProgress() {
-        showProgressDialog();
-    }
-
-    @Override
-    public void hideProgress() {
-        hideProgressDialog();
-    }
-
-    @Override
-    public void showNotFound() {
-
-    }
-
-    @Override
-    public void hideNotFound() {
-
     }
 
     @Override
@@ -254,4 +245,8 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
         IntentUtils.INSTANCE.startIntentGallery(this, requestCode);
     }
 
+    @Override
+    public void error(@NotNull String message) {
+
+    }
 }

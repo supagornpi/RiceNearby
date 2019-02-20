@@ -7,14 +7,8 @@ public class RegisterEntity {
     private String email;
     private String password;
     private String confirmPassword;
-
     //seller
-    public String idCard;
-    public String bankAccount;
-    public String bankName;
-    public String bankBranch;
-    public String copyIdCardUrl;
-    public String copyBookBankUrl;
+    public Seller seller;
 
     public RegisterEntity() {
     }

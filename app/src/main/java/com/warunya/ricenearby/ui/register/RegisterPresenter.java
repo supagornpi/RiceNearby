@@ -4,19 +4,27 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.warunya.ricenearby.constant.ImageType;
 import com.warunya.ricenearby.constant.RequireField;
-import com.warunya.ricenearby.constant.UserType;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.RegisterEntity;
+import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.utils.ValidatorUtils;
 
 public class RegisterPresenter implements RegisterContract.Presenter {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     private RegisterContract.View view;
     public Uri uriCopyIdCard = null;
     public Uri uriCopyBookBank = null;
@@ -28,11 +36,11 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     @Override
     public void register(final RegisterEntity entity) {
         if (validate(entity)) {
-            view.showProgress();
+            view.showProgressDialog();
             mAuth.createUserWithEmailAndPassword(entity.getEmail(), entity.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    view.hideProgress();
+                    view.hideProgressDialog();
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = task.getResult().getUser();
                         //update firebase
@@ -47,14 +55,22 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     }
 
     @Override
-    public void registerSeller(RegisterEntity registerEntity) {
+    public void registerSeller(final RegisterEntity registerEntity) {
         if (validateSeller(registerEntity, uriCopyIdCard, uriCopyBookBank)) {
-            view.showProgress();
-            UserManager.updateUserType(UserType.Seller, new UserManager.Handler() {
+            view.showProgressDialog();
+            UserManager.updateUserTypeToSeller(registerEntity.seller, new UserManager.Handler() {
                 @Override
                 public void onComplete() {
-                    view.hideProgress();
-                    view.registerSuccess();
+                    for (int index = 0; index < 2; index++) {
+                        if (index == 0) {
+                            uploadFile(uriCopyIdCard, ImageType.CopyIdCard, registerEntity.seller.idCard, index);
+                        } else {
+                            uploadFile(uriCopyBookBank, ImageType.CopyBookBank, registerEntity.seller.bankName, index);
+                        }
+                    }
+
+//                    view.hideProgressDialog();
+//                    view.registerSuccess();
                 }
             });
         }
@@ -68,6 +84,49 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     @Override
     public void setCopyBookBankUri(Uri uri) {
         this.uriCopyBookBank = uri;
+    }
+
+    private void uploadFile(final Uri uri, final ImageType imageType, final String username, final int index) {
+        view.showProgressDialog();
+        //getting the storage reference
+        StorageReference sRef = storageReference.child(UserManager.STORAGE_PATH_PROFILE + username + System.currentTimeMillis());
+        //adding the file to reference
+
+        sRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                //dismissing the progress dialog
+                view.hideProgressDialog();
+                //creating the upload object to store uploaded image details
+                Upload upload = new Upload(username, uri.getLastPathSegment(), taskSnapshot.getDownloadUrl().toString());
+
+                //adding an upload to firebase database
+                UserManager.updateSellerImage(upload, imageType, new UserManager.Handler() {
+                    @Override
+                    public void onComplete() {
+                        if (index > 0) {
+                            view.hideProgressDialog();
+                            view.registerSuccess();
+                        }
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                view.hideProgressDialog();
+                view.error(e.getMessage());
+
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                //displaying the upload progress
+                Double progress = 100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount();
+                view.updateProgress("กำลังอัพโหลดไฟล์ " + (index + 1) + "/2 --> " + progress.intValue() + " %...");
+            }
+        });
     }
 
     private Boolean validate(RegisterEntity entity) {
@@ -101,13 +160,15 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     private Boolean validateSeller(RegisterEntity entity, Uri copyIdCardUri, Uri copyBookBankUri) {
         boolean isValid = false;
-        if (entity.idCard.isEmpty() || entity.idCard.length() != 13) {
+        if (entity.seller.idCard.isEmpty() || entity.seller.idCard.length() != 13) {
             view.requireField(RequireField.IdentityId);
-        } else if (entity.bankAccount.isEmpty() || entity.bankAccount.length() != 10) {
+        } else if (entity.seller.bankAccount.isEmpty() || entity.seller.bankAccount.length() != 10) {
             view.requireField(RequireField.BankAccount);
-        } else if (entity.bankName.isEmpty()) {
+        } else if (entity.seller.bankName.isEmpty()) {
             view.requireField(RequireField.BankName);
-        } else if (entity.bankBranch.isEmpty()) {
+        } else if (entity.seller.bank.isEmpty()) {
+            view.requireField(RequireField.Bank);
+        } else if (entity.seller.bankBranch.isEmpty()) {
             view.requireField(RequireField.BankBranch);
         } else if (copyIdCardUri == null) {
             view.requireField(RequireField.CopyIDCard);

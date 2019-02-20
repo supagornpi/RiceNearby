@@ -25,6 +25,7 @@ public class User {
     public Upload image;
     public List<Address> addresses;
     public UserType userType;
+    public Seller seller;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)

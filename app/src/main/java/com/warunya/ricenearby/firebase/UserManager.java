@@ -8,9 +8,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.warunya.ricenearby.constant.ImageType;
 import com.warunya.ricenearby.constant.UserType;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.RegisterEntity;
+import com.warunya.ricenearby.model.Seller;
 import com.warunya.ricenearby.model.Upload;
 import com.warunya.ricenearby.model.User;
 
@@ -193,7 +195,34 @@ public class UserManager {
         });
     }
 
-    public static void updateUserType(final UserType userType, final Handler handler) {
+
+    public static void updateSellerImage(final Upload upload, final ImageType imageType, final Handler handler) {
+        getDatabaseReference().runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                User value = mutableData.getValue(User.class);
+                if (value == null) {
+                    return Transaction.success(mutableData);
+                }
+                if (imageType == ImageType.CopyIdCard) {
+                    value.seller.copyIdCardImage = upload;
+                } else if (imageType == ImageType.CopyBookBank) {
+                    value.seller.copyBookBankImage = upload;
+                }
+                // Set value and report transaction success
+                mutableData.setValue(value);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                if (handler == null) return;
+                handler.onComplete();
+            }
+        });
+    }
+
+    public static void updateUserTypeToSeller(final Seller seller, final Handler handler) {
         getDatabaseReference().runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -202,7 +231,8 @@ public class UserManager {
                     return Transaction.success(mutableData);
                 }
 
-                value.userType = userType;
+                value.userType = UserType.Seller;
+                value.seller = seller;
                 // Set value and report transaction success
                 mutableData.setValue(value);
                 return Transaction.success(mutableData);

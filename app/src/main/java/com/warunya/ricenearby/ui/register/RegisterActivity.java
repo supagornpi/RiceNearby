@@ -17,6 +17,8 @@ import com.warunya.ricenearby.ui.main.MainActivity;
 import com.warunya.ricenearby.utils.DismissKeyboardListener;
 import com.warunya.ricenearby.utils.ValidatorUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 public class RegisterActivity extends AbstractActivity implements RegisterContract.View {
 
     private RelativeLayout rootView;
@@ -127,22 +129,7 @@ public class RegisterActivity extends AbstractActivity implements RegisterContra
     }
 
     @Override
-    public void showProgress() {
-        showProgressDialog();
-    }
-
-    @Override
-    public void hideProgress() {
-        hideProgressDialog();
-    }
-
-    @Override
-    public void showNotFound() {
-
-    }
-
-    @Override
-    public void hideNotFound() {
+    public void error(@NotNull String message) {
 
     }
 }
