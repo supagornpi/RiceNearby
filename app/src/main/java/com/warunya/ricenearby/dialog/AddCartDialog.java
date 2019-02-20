@@ -190,7 +190,7 @@ public class AddCartDialog extends Dialog {
 
             MealTimeAdapter adapter = new MealTimeAdapter();
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
-                    LinearLayoutManager.VERTICAL, false));
+                    LinearLayoutManager.HORIZONTAL, false));
             recyclerView.setAdapter(adapter);
             adapter.setList(meals);
 
