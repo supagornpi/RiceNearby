@@ -290,6 +290,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
 
     @Override
     public void fetchSellerInfo(User user) {
+        setTitle(user.name == null ? user.username : user.name);
         tvSellerName.setText(user.name == null ? user.username : user.name);
         if (user.image != null) {
             GlideLoader.Companion.loadImageCircle(user.image.url, ivSellerProfile);
