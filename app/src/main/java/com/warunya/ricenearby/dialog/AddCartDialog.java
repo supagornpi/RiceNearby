@@ -24,6 +24,7 @@ import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.ui.food.MealTimeAdapter;
 import com.warunya.ricenearby.utils.GlideLoader;
+import com.warunya.ricenearby.utils.SortUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,6 +185,9 @@ public class AddCartDialog extends Dialog {
         }
 
         if (meals.size() != 0) {
+            //sorting
+            SortUtils.sortMeals(meals);
+
             tvTotalAmount.setText(getContext().getString(R.string.cart_total_amount, meals.get(0).amount));
             totalAmount = meals.get(0).amount;
             currentSelectedMeal = meals.get(0);

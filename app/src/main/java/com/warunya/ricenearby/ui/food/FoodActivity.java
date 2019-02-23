@@ -34,6 +34,7 @@ import com.warunya.ricenearby.utils.BitmapUtils;
 import com.warunya.ricenearby.utils.ConvertDateUtils;
 import com.warunya.ricenearby.utils.GlideLoader;
 import com.warunya.ricenearby.utils.ResolutionUtils;
+import com.warunya.ricenearby.utils.SortUtils;
 
 import org.parceler.Parcels;
 
@@ -165,6 +166,8 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         }
 
         if (meals.size() != 0) {
+            //sorting
+            SortUtils.sortMeals(meals);
             StringBuilder allMeal = new StringBuilder();
             for (Meal meal : meals) {
                 allMeal.append(ConvertDateUtils.getNewDateFormatFOrMealTime(meal.date))
@@ -317,4 +320,5 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     public void hideProgressFollow() {
         progressBarFollow.setVisibility(View.GONE);
     }
+
 }
