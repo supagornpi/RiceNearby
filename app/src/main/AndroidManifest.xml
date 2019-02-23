@@ -88,6 +88,9 @@
             android:name=".ui.search.SearchActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.main.admin.MainAdminActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -101,6 +104,7 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
 
     </application>
 
