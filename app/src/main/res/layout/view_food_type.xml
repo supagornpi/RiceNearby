@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="1"
             android:padding="@dimen/padding_small"
             android:textColor="@color/color_white"
             android:textSize="11sp"
