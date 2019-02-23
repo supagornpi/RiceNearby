@@ -141,6 +141,7 @@ public class HomeFragment extends AbstractFragment implements HomeContract.View 
         CustomAdapter<Food> customAdapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
             public <T> void onBindViewHolder(T item, View itemView, int viewType, int position) {
+                ((FoodGridView) itemView).setHorizontalItem();
                 ((FoodGridView) itemView).bind(((Food) item));
                 ((FoodGridView) itemView).bindAction();
 
