@@ -22,6 +22,7 @@ import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.model.Promotion;
 import com.warunya.ricenearby.ui.cart.CartActivity;
 import com.warunya.ricenearby.ui.home.viewall.ViewAllFoodActivity;
+import com.warunya.ricenearby.ui.search.SearchActivity;
 import com.warunya.ricenearby.ui.web.WebViewActivity;
 import com.warunya.ricenearby.utils.ResolutionUtils;
 
@@ -46,7 +47,7 @@ public class HomeFragment extends AbstractFragment implements HomeContract.View 
     private RecyclerViewProgress rvpFoodType;
     private ViewPager viewPagerPromotion;
     private CircleIndicator circleIndicator;
-    private EditText edtSearch;
+    private TextView edtSearch;
     private ImageView ivCart;
     private TextView tvSeeAllRecommend;
     private TextView tvSeeAllFollow;
@@ -95,6 +96,13 @@ public class HomeFragment extends AbstractFragment implements HomeContract.View 
             @Override
             public void onClick(View view) {
                 CartActivity.start();
+            }
+        });
+
+        edtSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SearchActivity.start();
             }
         });
 

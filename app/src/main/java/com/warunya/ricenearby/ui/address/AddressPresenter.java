@@ -53,6 +53,9 @@ public class AddressPresenter implements AddressContract.Presenter {
             location.setLatitude(addresses.get(0).latitude);
             location.setLongitude(addresses.get(0).longitude);
             AppInstance.getInstance().setMyLocation(location);
+
+            AppInstance.getInstance().setCurrentLocation(location);
+
         }
     }
 }
