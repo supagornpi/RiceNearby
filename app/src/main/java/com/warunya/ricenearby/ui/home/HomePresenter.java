@@ -5,9 +5,8 @@ import android.location.Location;
 import com.warunya.ricenearby.constant.AppInstance;
 import com.warunya.ricenearby.firebase.FoodManager;
 import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.utils.SortUtils;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class HomePresenter implements HomeContract.Presenter {
@@ -74,22 +73,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 food.distance = currentLocation.distanceTo(foodLocation);
             }
         }
-
-        Collections.sort(foods, new Comparator<Food>() {
-            @Override
-            public int compare(Food food1, Food food2) {
-                // ## Ascending order
-//                return obj1.firstName.compareToIgnoreCase(obj2.firstName); // To compare string values
-                // return Integer.valueOf(obj1.empId).compareTo(Integer.valueOf(obj2.empId)); // To compare integer values
-
-                // ## Descending order
-                // return obj2.firstName.compareToIgnoreCase(obj1.firstName); // To compare string values
-                if (food1.distance != null && food2.distance != null) {
-                    return Integer.valueOf(food1.distance.intValue()).compareTo(food2.distance.intValue()); // To compare integer values
-                } else {
-                    return -1;
-                }
-            }
-        });
+        //sorting
+        SortUtils.sortDistance(foods);
     }
 }
