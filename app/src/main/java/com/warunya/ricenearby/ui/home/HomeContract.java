@@ -40,7 +40,13 @@ public interface HomeContract {
 
         void hideProgressFollow();
 
-        void notFoundFollow();
+        void showNotFoundFollow();
+
+        void hideNotFoundFollow();
+
+        void showNotFoundNearby();
+
+        void hideNotFoundNearby();
 
         void showProgressNearby();
 

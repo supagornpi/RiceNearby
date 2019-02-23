@@ -78,8 +78,9 @@ public class HomePresenter implements HomeContract.Presenter {
             public void onComplete(List<Follow> follows) {
                 view.hideProgressFollow();
                 if (follows.size() == 0) {
-                    view.notFoundFollow();
+                    view.showNotFoundFollow();
                 } else {
+                    view.hideNotFoundFollow();
                     followFoods = new ArrayList<>();
                     for (Follow follow : follows) {
                         FoodManager.getUserFoods(follow.uid, new FoodManager.QueryListener() {
@@ -97,17 +98,18 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void getNearBy() {
+        view.showProgressNearby();
         FoodManager.getAllFoods(new FoodManager.QueryListener() {
             @Override
             public void onComplete(List<Food> foods) {
-                view.hideProgress();
+                view.hideProgressNearby();
+                foods = setDistanceLimit(foods);
                 if (foods != null && foods.size() > 0) {
-                    view.hideNotFound();
-                    setDistance(foods);
+                    view.hideNotFoundNearby();
                     view.fetchNearby(foods);
                     nearbyFoods = foods;
                 } else {
-                    view.showNotFound();
+                    view.showNotFoundNearby();
                 }
             }
         });
@@ -146,5 +148,27 @@ public class HomePresenter implements HomeContract.Presenter {
         }
         //sorting
         SortUtils.sortDistance(foods);
+    }
+
+
+    private List<Food> setDistanceLimit(List<Food> foods) {
+        List<Food> newFoods = new ArrayList<>();
+        for (Food food : foods) {
+            if (food.latitude != null && food.longitude != null) {
+                Location foodLocation = new Location("");
+                foodLocation.setLatitude(food.latitude);
+                foodLocation.setLongitude(food.longitude);
+                Location currentLocation = AppInstance.getInstance().getCurrentLocation();
+                if (currentLocation != null) {
+                    food.distance = currentLocation.distanceTo(foodLocation);
+                    if (food.distance <= 3000) {
+                        newFoods.add(food);
+                    }
+                }
+            }
+        }
+        //sorting
+        SortUtils.sortDistance(newFoods);
+        return newFoods;
     }
 }

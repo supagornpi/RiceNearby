@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -284,9 +283,25 @@ public class HomeFragment extends AbstractFragment implements HomeContract.View 
     }
 
     @Override
-    public void notFoundFollow() {
+    public void showNotFoundFollow() {
         rvpFollow.setTextNotFound("คุณยังไม่ได้ติดตามร้านค้า");
         rvpFollow.showNotFound();
+    }
+
+    @Override
+    public void hideNotFoundFollow() {
+        rvpFollow.hideNotFound();
+    }
+
+    @Override
+    public void showNotFoundNearby() {
+        rvpNearby.setTextNotFound("ไม่พบร้านใกล้ตัว");
+        rvpNearby.showNotFound();
+    }
+
+    @Override
+    public void hideNotFoundNearby() {
+        rvpNearby.hideNotFound();
     }
 
     @Override
