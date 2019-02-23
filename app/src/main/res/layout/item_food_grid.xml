@@ -59,7 +59,9 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            tools:text="มื้ออาหาร" />
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+            tools:text="ผู้ขาย" />
 
         <View
             android:layout_width="0dp"

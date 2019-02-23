@@ -11,10 +11,41 @@ public interface HomeContract {
     interface Presenter extends BasePresenter {
         void filterFoods(String keyWord);
 
+        void getFollow();
+
+        void getNearBy();
+
+        void getFoodType();
+
+        List<Food> getRecommendFoods();
+
+        List<Food> getFollowFoods();
+
+        List<Food> getNearbyFoods();
+
     }
 
     interface View extends BaseView {
-        void fetchFoods(List<Food> Foods);
+        void fetchFoods(List<Food> foods);
+
+        void fetchFollow(List<Food> foods);
+
+        void fetchNearby(List<Food> foods);
+
+        void showProgressRecommend();
+
+        void hideProgressRecommend();
+
+        void showProgressFollow();
+
+        void hideProgressFollow();
+
+        void notFoundFollow();
+
+        void showProgressNearby();
+
+        void hideProgressNearby();
+
 
     }
 }

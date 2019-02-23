@@ -3,15 +3,22 @@ package com.warunya.ricenearby.ui.home;
 import android.location.Location;
 
 import com.warunya.ricenearby.constant.AppInstance;
+import com.warunya.ricenearby.firebase.FollowManager;
 import com.warunya.ricenearby.firebase.FoodManager;
+import com.warunya.ricenearby.model.Follow;
 import com.warunya.ricenearby.model.Food;
 import com.warunya.ricenearby.utils.SortUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomePresenter implements HomeContract.Presenter {
 
     private HomeContract.View view;
+    private List<Food> recommendFoods = new ArrayList<>();
+    private List<Food> followFoods = new ArrayList<>();
+    private List<Food> nearbyFoods = new ArrayList<>();
 
     HomePresenter(HomeContract.View view) {
         this.view = view;
@@ -28,8 +35,9 @@ public class HomePresenter implements HomeContract.Presenter {
                 if (foods != null && foods.size() > 0) {
                     view.hideNotFound();
                     setDistance(foods);
+                    Collections.shuffle(foods);
                     view.fetchFoods(foods);
-
+                    recommendFoods = foods;
 
                 } else {
                     view.showNotFound();
@@ -60,6 +68,69 @@ public class HomePresenter implements HomeContract.Presenter {
                 }
             }
         });
+    }
+
+    @Override
+    public void getFollow() {
+        view.showProgressFollow();
+        FollowManager.getUserFollow(new FollowManager.QueryListener() {
+            @Override
+            public void onComplete(List<Follow> follows) {
+                view.hideProgressFollow();
+                if (follows.size() == 0) {
+                    view.notFoundFollow();
+                } else {
+                    followFoods = new ArrayList<>();
+                    for (Follow follow : follows) {
+                        FoodManager.getUserFoods(follow.uid, new FoodManager.QueryListener() {
+                            @Override
+                            public void onComplete(List<Food> foods) {
+                                view.fetchFollow(foods);
+                                followFoods.addAll(foods);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getNearBy() {
+        FoodManager.getAllFoods(new FoodManager.QueryListener() {
+            @Override
+            public void onComplete(List<Food> foods) {
+                view.hideProgress();
+                if (foods != null && foods.size() > 0) {
+                    view.hideNotFound();
+                    setDistance(foods);
+                    view.fetchNearby(foods);
+                    nearbyFoods = foods;
+                } else {
+                    view.showNotFound();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getFoodType() {
+
+    }
+
+    @Override
+    public List<Food> getRecommendFoods() {
+        return recommendFoods;
+    }
+
+    @Override
+    public List<Food> getFollowFoods() {
+        return followFoods;
+    }
+
+    @Override
+    public List<Food> getNearbyFoods() {
+        return nearbyFoods;
     }
 
     private void setDistance(List<Food> foods) {
