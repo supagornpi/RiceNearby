@@ -9,7 +9,9 @@ public enum Tabs {
     Cart,
     History,
     Schedule,
-    Profile;
+    Profile,
+    Seller,
+    Order;
 
     public static Tabs parse(int type) {
         Map<Integer, Tabs> creatorMap = new HashMap<>();
@@ -19,6 +21,8 @@ public enum Tabs {
         creatorMap.put(History.ordinal(), History);
         creatorMap.put(Schedule.ordinal(), Schedule);
         creatorMap.put(Profile.ordinal(), Profile);
+        creatorMap.put(Seller.ordinal(), Seller);
+        creatorMap.put(Order.ordinal(), Order);
         return creatorMap.get(type);
     }
 }
