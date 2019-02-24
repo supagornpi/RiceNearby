@@ -107,22 +107,24 @@ public class MenuActivity extends AbstractActivity implements MenuContract.View 
     }
 
     private void bindAction() {
-        setMenuRightText("เพิ่มอาหาร");
-        setOnclickMenuRight(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (presenter.hasAddress()) {
-                    AddFoodActivity.start();
-                } else {
-                    DialogAlert.Companion.show(MenuActivity.this, "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            AddressActivity.start();
-                        }
-                    });
+        if (!isSelectFood) {
+            setMenuRightText("เพิ่มอาหาร");
+            setOnclickMenuRight(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (presenter.hasAddress()) {
+                        AddFoodActivity.start();
+                    } else {
+                        DialogAlert.Companion.show(MenuActivity.this, "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                AddressActivity.start();
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
 
         if (isSelectFood) {
             cbSelectedAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
