@@ -54,12 +54,13 @@ public class HistoryActivity extends AbstractActivity implements HistoryContract
 
     @Override
     protected void setupView(@Nullable Bundle savedInstanceState) {
-        setTitle("History");
         bindView();
         bindAction();
         showBackButton();
 
         isMyOrder = getIntent().getBooleanExtra("isMyOrder", false);
+        setTitle(isMyOrder ? "Order" : "History");
+
 //        actionBar.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
         presenter = new HistoryPresenter(this, isMyOrder);
 

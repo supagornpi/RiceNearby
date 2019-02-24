@@ -10,6 +10,7 @@ import java.util.List;
 
 public class CustomAdapter<T> extends RecyclerView.Adapter<CustomAdapter<T>.ViewHolder> {
 
+    private int maximumItem = -1;
     private List<T> list = new ArrayList<>();
     private OnBindViewListener onBindViewListener;
 
@@ -37,7 +38,7 @@ public class CustomAdapter<T> extends RecyclerView.Adapter<CustomAdapter<T>.View
 
     @Override
     public int getItemCount() {
-        return this.list.size();
+        return (maximumItem == -1) ? this.list.size() : (this.list.size() > 10) ? maximumItem : this.list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -82,5 +83,9 @@ public class CustomAdapter<T> extends RecyclerView.Adapter<CustomAdapter<T>.View
 
     public List<T> getList() {
         return list;
+    }
+
+    public void setMaximumItem(int maximumItem) {
+        this.maximumItem = maximumItem;
     }
 }

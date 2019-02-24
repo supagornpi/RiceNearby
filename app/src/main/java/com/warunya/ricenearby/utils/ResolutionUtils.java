@@ -44,6 +44,13 @@ public class ResolutionUtils {
         return properHeight.intValue();
     }
 
+    public static int getBannerPromotionHeightFromRatio(Context context) {
+        Float ratio = 4.7f / 15.0f;
+        Float properWith = (float) ResolutionUtils.getScreenSize(context)[0];
+        Float properHeight = properWith * ratio;
+        return properHeight.intValue();
+    }
+
     public static void setViewSize(Context context, float scaleWidth, float scaleHeight, View view) {
         //set image size
         Resources resources = context.getResources();

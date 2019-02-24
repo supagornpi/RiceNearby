@@ -43,7 +43,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter {
     public void getOrder(final Filter filter) {
         view.showProgress();
 
-        OrderManager.getUserOrders(new OrderManager.QueryListListener() {
+        OrderManager.getUserOrdersOnlyPaid(new OrderManager.QueryListListener() {
             @Override
             public void onComplete(List<Order> orders) {
                 view.hideProgress();
