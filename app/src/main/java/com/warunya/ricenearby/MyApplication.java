@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.FacebookSdk;
+import com.onesignal.OneSignal;
 
 public class MyApplication extends Application {
 
@@ -22,5 +23,11 @@ public class MyApplication extends Application {
         super.onCreate();
         applicationContext = this;
         FacebookSdk.sdkInitialize(this);
+
+        // OneSignal Initialization
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
     }
 }
