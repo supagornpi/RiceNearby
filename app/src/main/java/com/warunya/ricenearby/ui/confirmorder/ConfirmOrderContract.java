@@ -6,6 +6,7 @@ import com.warunya.ricenearby.base.BasePresenter;
 import com.warunya.ricenearby.base.BaseView;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
+import com.warunya.ricenearby.model.Order;
 
 import java.util.List;
 
@@ -15,6 +16,10 @@ public interface ConfirmOrderContract {
         void findOrder(String key);
 
         void confirmPayment(Uri uri);
+
+        Order getOrder();
+
+        void setOrder(Order order);
 
     }
 

@@ -9,7 +9,7 @@ import com.warunya.ricenearby.model.Order;
 public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
 
     private ConfirmOrderContract.View view;
-    private Order order;
+    private Order mOrder;
 
     ConfirmOrderPresenter(ConfirmOrderContract.View view) {
         this.view = view;
@@ -35,7 +35,7 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
                 if (order == null) return;
                 if (order.carts != null) {
                     view.hideNotFound();
-                    ConfirmOrderPresenter.this.order = order;
+                    mOrder = order;
                     view.fetchCart(order.carts);
                     view.fetchAddress(order.address, order.additionalAddress);
                 } else {
@@ -48,7 +48,7 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
     @Override
     public void confirmPayment(Uri uri) {
         view.showProgressDialog();
-        OrderManager.uploadBillingImage(uri, String.valueOf(ServerValue.TIMESTAMP), order.key,
+        OrderManager.uploadBillingImage(uri, String.valueOf(ServerValue.TIMESTAMP), mOrder.key,
                 new OrderManager.Handler() {
                     @Override
                     public void onComplete() {
@@ -61,5 +61,15 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
 
                     }
                 });
+    }
+
+    @Override
+    public Order getOrder() {
+        return mOrder;
+    }
+
+    @Override
+    public void setOrder(Order order) {
+        this.mOrder = order;
     }
 }

@@ -288,4 +288,34 @@
         android:padding="@dimen/padding_small"
         android:text="@string/button_confirm_payment"
         android:textColor="@color/color_white" />
+
+    <LinearLayout
+        android:id="@+id/layout_approve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_reject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/color_red"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center"
+            android:padding="@dimen/padding_small"
+            android:text="จำนวนไม่ถูกต้อง"
+            android:textColor="@color/color_white" />
+
+        <Button
+            android:id="@+id/btn_approve"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center"
+            android:padding="@dimen/padding_small"
+            android:text="จำนวนถูกต้อง"
+            android:textColor="@color/color_white" />
+    </LinearLayout>
 </LinearLayout>

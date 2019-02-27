@@ -9,14 +9,17 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.onesignal.OneSignal;
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
 import com.warunya.ricenearby.constant.AppInstance;
+import com.warunya.ricenearby.constant.OrderStatus;
 import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
@@ -25,6 +28,7 @@ import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Order;
+import com.warunya.ricenearby.onesignal.OnesignalManager;
 import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.IntentUtils;
@@ -52,8 +56,11 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     private TextView tvTotalPriceLabel;
     private TextView tvAddress;
     private TextView tvEditAddress;
+    private Button btnReject;
+    private Button btnApprove;
     private EditText edtAdditionalAddress;
     private LinearLayout layoutBank;
+    private LinearLayout layoutApprove;
 
     public static void start(String key) {
         Intent intent = new Intent(MyApplication.applicationContext, ConfirmOrderActivity.class);
@@ -86,8 +93,11 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         if (order == null) {
             presenter.findOrder(key);
         } else {
+            presenter.setOrder(order);
             fetchCart(order.carts);
             fetchAddress(order.address, order.additionalAddress);
+            layoutApprove.setVisibility(isMyOrder && order.orderStatus == OrderStatus.WaitingForReview
+                    ? View.VISIBLE : View.GONE);
         }
 
         layoutBank.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
@@ -107,6 +117,9 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         tvEditAddress = findViewById(R.id.tv_edit_address);
         edtAdditionalAddress = findViewById(R.id.edt_additional_address);
         layoutBank = findViewById(R.id.layout_bank);
+        layoutApprove = findViewById(R.id.layout_approve);
+        btnApprove = findViewById(R.id.btn_approve);
+        btnReject = findViewById(R.id.btn_reject);
 
         adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
@@ -140,6 +153,15 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
             @Override
             public void onClick(View view) {
                 AddressActivity.start();
+            }
+        });
+
+        btnApprove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Order order = presenter.getOrder();
+                if (order == null) return;
+                OnesignalManager.sendNotification("การชำระเงินสำเร็จ" , "Order: "+order.orderNo + " ของคุณได้รับการยืนยันการชำระเงินเรียบร้อยแล้วแล้ว");
             }
         });
 
