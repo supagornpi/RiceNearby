@@ -181,13 +181,6 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
     }
 
     private void bindAction() {
-        setOnclickMenuRight(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddFoodActivity.start();
-            }
-        });
-
         btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
