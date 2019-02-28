@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.onesignal.OneSignal;
 import com.warunya.ricenearby.MyApplication;
 import com.warunya.ricenearby.R;
 import com.warunya.ricenearby.base.AbstractActivity;
