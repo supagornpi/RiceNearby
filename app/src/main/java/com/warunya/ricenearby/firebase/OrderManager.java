@@ -55,7 +55,11 @@ public class OrderManager {
     }
 
     public static DatabaseReference getUserOrderReference(String key) {
-        return getInstance().mDatabase.child("user-orders").child(UserManager.getUid()).child(key);
+        return getUserOrderReference(key, UserManager.getUid());
+    }
+
+    public static DatabaseReference getUserOrderReference(String key, String uid) {
+        return getInstance().mDatabase.child("user-orders").child(uid).child(key);
     }
 
     public static void createOrder(final Order order, final OnCreateOrderListener onCreateOrderListener) {

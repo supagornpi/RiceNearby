@@ -80,17 +80,17 @@ public class HistoryActivity extends AbstractActivity implements HistoryContract
                 }
             });
         }
-        if (isMyOrder) {
-            presenter.filterOrder(currentFilter);
-        }
+//        if (isMyOrder) {
+//            presenter.filterOrder(currentFilter);
+//        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!isMyOrder) {
+//        if (!isMyOrder) {
             presenter.filterOrder(currentFilter);
-        }
+//        }
     }
 
     private void bindView() {

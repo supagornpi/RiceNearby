@@ -24,11 +24,11 @@ import com.warunya.ricenearby.customs.CustomAdapter;
 import com.warunya.ricenearby.customs.view.CartView;
 import com.warunya.ricenearby.customs.view.RecyclerViewProgress;
 import com.warunya.ricenearby.dialog.DialogAlert;
+import com.warunya.ricenearby.firebase.OrderManager;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Order;
-import com.warunya.ricenearby.onesignal.OnesignalManager;
 import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.GlideLoader;
@@ -171,9 +171,38 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Order order = presenter.getOrder();
-                if (order == null) return;
-                OnesignalManager.sendNotification("การชำระเงินสำเร็จ", "Order: " + order.orderNo + " ของคุณได้รับการยืนยันการชำระเงินเรียบร้อยแล้วแล้ว");
+                DialogAlert.Companion.show(ConfirmOrderActivity.this, "อนุมัติการชำระเงิน", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Order order = presenter.getOrder();
+                        if (order == null) return;
+                        //change status to paid
+                        OrderManager.changeOrderStatus(OrderManager.getOrdersReference(order.key), OrderStatus.Paid);
+                        OrderManager.changeOrderStatus(OrderManager.getUserOrderReference(order.key, order.uid), OrderStatus.Paid);
+                        finish();
+                    }
+                });
+//
+//                OnesignalManager.sendNotification("การชำระเงินสำเร็จ", "Order: " + order.orderNo + " ของคุณได้รับการยืนยันการชำระเงินเรียบร้อยแล้วแล้ว");
+            }
+        });
+
+        btnReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogAlert.Companion.show(ConfirmOrderActivity.this, "ปฏิเสษการชำระเงิน", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Order order = presenter.getOrder();
+                        if (order == null) return;
+                        //change status to not paid
+                        OrderManager.changeOrderStatus(OrderManager.getOrdersReference(order.key), OrderStatus.NotPaid);
+                        OrderManager.changeOrderStatus(OrderManager.getUserOrderReference(order.key, order.uid), OrderStatus.NotPaid);
+                        finish();
+                    }
+                });
+//
+//                OnesignalManager.sendNotification("การชำระเงินสำเร็จ", "Order: " + order.orderNo + " ของคุณได้รับการยืนยันการชำระเงินเรียบร้อยแล้วแล้ว");
             }
         });
 
