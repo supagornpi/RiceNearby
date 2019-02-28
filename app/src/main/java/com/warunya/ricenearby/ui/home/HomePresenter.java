@@ -83,7 +83,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     view.hideNotFoundFollow();
                     followFoods = new ArrayList<>();
                     for (Follow follow : follows) {
-                        FoodManager.getUserFoods(follow.uid, new FoodManager.QueryListener() {
+                        FoodManager.getUserFoods(follow.uidSeller, new FoodManager.QueryListener() {
                             @Override
                             public void onComplete(List<Food> foods) {
                                 view.fetchFollow(foods);
