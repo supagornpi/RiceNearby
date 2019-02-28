@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import com.warunya.ricenearby.model.Order;
 import com.warunya.ricenearby.onesignal.OnesignalManager;
 import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.utils.FileUtils;
+import com.warunya.ricenearby.utils.GlideLoader;
 import com.warunya.ricenearby.utils.IntentUtils;
 import com.warunya.ricenearby.utils.PermissionUtils;
 
@@ -60,6 +62,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     private EditText edtAdditionalAddress;
     private LinearLayout layoutBank;
     private LinearLayout layoutApprove;
+    private ImageView ivSlip;
 
     public static void start(String key) {
         Intent intent = new Intent(MyApplication.applicationContext, ConfirmOrderActivity.class);
@@ -88,6 +91,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         showBackButton();
         String key = getIntent().getStringExtra(EXTRA_KEY);
         Order order = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_ORDER));
+        //isMyOrder if true mean order for seller
         boolean isMyOrder = getIntent().getBooleanExtra(EXTRA_IS_MY_ORDER, false);
         if (order == null) {
             presenter.findOrder(key);
@@ -97,6 +101,14 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
             fetchAddress(order.address, order.additionalAddress);
             layoutApprove.setVisibility(isMyOrder && order.orderStatus == OrderStatus.WaitingForReview
                     ? View.VISIBLE : View.GONE);
+            //show slip
+            ivSlip.setVisibility(isMyOrder && order.orderStatus == OrderStatus.WaitingForReview
+                    ? View.VISIBLE : View.GONE);
+            if (isMyOrder && order.orderStatus == OrderStatus.WaitingForReview) {
+                if (order.billingImage == null) return;
+                //load slip image
+                GlideLoader.Companion.load(order.billingImage.url, ivSlip);
+            }
         }
 
         layoutBank.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
@@ -119,6 +131,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         layoutApprove = findViewById(R.id.layout_approve);
         btnApprove = findViewById(R.id.btn_approve);
         btnReject = findViewById(R.id.btn_reject);
+        ivSlip = findViewById(R.id.iv_slip);
 
         adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
@@ -160,7 +173,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
             public void onClick(View view) {
                 Order order = presenter.getOrder();
                 if (order == null) return;
-                OnesignalManager.sendNotification("การชำระเงินสำเร็จ" , "Order: "+order.orderNo + " ของคุณได้รับการยืนยันการชำระเงินเรียบร้อยแล้วแล้ว");
+                OnesignalManager.sendNotification("การชำระเงินสำเร็จ", "Order: " + order.orderNo + " ของคุณได้รับการยืนยันการชำระเงินเรียบร้อยแล้วแล้ว");
             }
         });
 
