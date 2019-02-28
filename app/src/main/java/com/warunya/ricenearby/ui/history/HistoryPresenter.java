@@ -46,18 +46,23 @@ public class HistoryPresenter implements HistoryContract.Presenter {
     public void filterOrder(final Filter filter) {
         view.showProgress();
         if (isMyOrder) {
+            //Order
             OrderManager.getAllOrders(new OrderManager.QueryListListener() {
                 @Override
                 public void onComplete(List<Order> orders) {
                     view.hideProgress();
                     if (orders.size() > 0) {
                         view.hideNotFound();
+                        //filter with my user id
                         orders = filterWithCurrentUser(orders);
+                        //filter period (Between selected filter period)
                         orders = filterPeriod(orders, filter);
                         mOrders = orders;
                         if (normalMode) {
+                            //show group by order
                             view.fetchOrder(mOrders);
                         } else {
+                            //show group by date
                             view.fetchSummaryOrder(summaryByDate(mOrders));
                         }
                         if (orders.size() == 0) {
@@ -69,15 +74,18 @@ public class HistoryPresenter implements HistoryContract.Presenter {
                 }
             });
         } else {
+            //History
             OrderManager.getUserOrders(new OrderManager.QueryListListener() {
                 @Override
                 public void onComplete(List<Order> orders) {
                     view.hideProgress();
                     if (orders.size() > 0) {
+                        //filter period (Between selected filter period)
                         orders = filterPeriod(orders, filter);
                         orders = isMyOrder ? filterWithCurrentUser(orders) : orders;
                         mOrders = orders;
                         view.hideNotFound();
+                        //show order history
                         view.fetchOrder(mOrders);
                     } else {
                         view.showNotFound();
