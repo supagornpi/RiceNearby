@@ -211,7 +211,13 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     @Override
     public void fetchCart(List<Cart> carts) {
         adapter.setListItem(carts);
-        calculatePrice();
+//        calculatePrice();
+    }
+
+    @Override
+    public void fetchCart(Cart cart) {
+        adapter.addItem(cart);
+//        calculatePrice();
     }
 
     @Override
@@ -253,9 +259,11 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
 
     private void calculatePrice() {
         int price = 0;
-        for (Cart cart : adapter.getList()) {
-            for (Meal meal : cart.meals) {
-                price += cart.food.price * meal.amount;
+        if (adapter.getList() != null) {
+            for (Cart cart : adapter.getList()) {
+                for (Meal meal : cart.meals) {
+                    price += cart.food.price * meal.amount;
+                }
             }
         }
         tvTotalPrice.setText(String.valueOf(price + AppInstance.DELIVERY_PRICE) + "฿");

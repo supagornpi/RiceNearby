@@ -82,7 +82,7 @@ public class CustomAdapter<T> extends RecyclerView.Adapter<CustomAdapter<T>.View
     }
 
     public List<T> getList() {
-        return list;
+        return this.list;
     }
 
     public void setMaximumItem(int maximumItem) {

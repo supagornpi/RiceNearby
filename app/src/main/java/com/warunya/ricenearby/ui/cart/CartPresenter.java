@@ -62,23 +62,23 @@ public class CartPresenter implements CartContract.Presenter {
 
     @Override
     public void confirmOrder(List<Cart> carts, int totalPrice, Address address, String additionalAddress) {
-        String orderNo = ConvertDateUtils.getDate() + gen();
-        String uid = UserManager.getUid();
-        Log.d("Order no", orderNo + " ,  uid: " + uid);
 
-        //create order
-        Order order = new Order(orderNo, uid, OrderStatus.NotPaid, carts, totalPrice, AppInstance.DELIVERY_PRICE);
-        //set address to order
-        order.address = address;
-        order.additionalAddress = additionalAddress;
-        OrderManager.createOrder(order, new OrderManager.OnCreateOrderListener() {
-            @Override
-            public void onSuccess(String key) {
-                view.goToConfirmOrderActivity(key);
-            }
-        });
 
         for (Cart cart : carts) {
+            String orderNo = ConvertDateUtils.getDate() + gen();
+            String uid = UserManager.getUid();
+            Log.d("Order no", orderNo + " ,  uid: " + uid);
+            //create order
+            Order order = new Order(orderNo, uid, OrderStatus.NotPaid, cart, totalPrice, AppInstance.DELIVERY_PRICE);
+            //set address to order
+            order.address = address;
+            order.additionalAddress = additionalAddress;
+            OrderManager.createOrder(order, new OrderManager.OnCreateOrderListener() {
+                @Override
+                public void onSuccess(String key) {
+//                    view.goToConfirmOrderActivity(key);
+                }
+            });
             CartManager.confirmedOrder(cart.key);
         }
     }

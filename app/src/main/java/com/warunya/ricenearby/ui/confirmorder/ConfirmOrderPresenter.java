@@ -36,7 +36,11 @@ public class ConfirmOrderPresenter implements ConfirmOrderContract.Presenter {
                 if (order.carts != null) {
                     view.hideNotFound();
                     mOrder = order;
-                    view.fetchCart(order.carts);
+                    if (order.carts != null) {
+                        view.fetchCart(order.carts);
+                    } else if (order.cart != null) {
+                        view.fetchCart(order.cart);
+                    }
                     view.fetchAddress(order.address, order.additionalAddress);
                 } else {
                     view.showNotFound();

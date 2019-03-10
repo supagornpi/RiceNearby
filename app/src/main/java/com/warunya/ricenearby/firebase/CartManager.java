@@ -73,7 +73,7 @@ public class CartManager {
     }
 
     public static void getUserCarts(final QueryListener queryListener) {
-        getInstance().userProfileEventListener = new ValueEventListener() {
+        ValueEventListener userProfileEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<HashMap<String, Cart>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Cart>>() {
@@ -96,7 +96,7 @@ public class CartManager {
         };
         getInstance().mDatabase.child("user-carts").child(UserManager.getUid())
                 .orderByChild("isConfirmOrder").equalTo(false)
-                .addListenerForSingleValueEvent(getInstance().userProfileEventListener);
+                .addListenerForSingleValueEvent(userProfileEventListener);
     }
 
     public static void removeCart(String key) {

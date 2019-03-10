@@ -19,6 +19,7 @@ public class Order {
     public long timestamp;
     public OrderStatus orderStatus;
     public List<Cart> carts;
+    public Cart cart;
     public int totalPrice;
     public int deliveryPrice;
     public Upload billingImage;
@@ -28,11 +29,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(String orderNo, String uid, OrderStatus orderStatus, List<Cart> carts, int totalPrice, int deliveryPrice) {
+    public Order(String orderNo, String uid, OrderStatus orderStatus, Cart cart, int totalPrice, int deliveryPrice) {
         this.orderNo = orderNo;
         this.uid = uid;
         this.orderStatus = orderStatus;
-        this.carts = carts;
+        this.cart = cart;
         this.totalPrice = totalPrice;
         this.deliveryPrice = deliveryPrice;
     }
@@ -46,6 +47,7 @@ public class Order {
         result.put("orderStatus", orderStatus);
         result.put("timestamp", ServerValue.TIMESTAMP);
         result.put("carts", carts);
+        result.put("cart", cart);
         result.put("totalPrice", totalPrice);
         result.put("deliveryPrice", deliveryPrice);
         result.put("billingImage", billingImage);

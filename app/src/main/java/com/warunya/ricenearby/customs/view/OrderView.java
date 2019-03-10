@@ -74,10 +74,17 @@ public class OrderView extends LinearLayout {
 
         int amount = 0;
         int totalPrice = 0;
-        for (Cart cart : order.carts) {
-            amount += cart.amount;
+        if (order.carts != null) {
+            for (Cart cart : order.carts) {
+                amount += cart.amount;
+                if (order.totalPrice == 0) {
+                    totalPrice += cart.food.price * cart.amount;
+                }
+            }
+        } else if (order.cart != null) {
+            amount += order.cart.amount;
             if (order.totalPrice == 0) {
-                totalPrice += cart.food.price * cart.amount;
+                totalPrice += order.cart.food.price * order.cart.amount;
             }
         }
 
@@ -94,6 +101,8 @@ public class OrderView extends LinearLayout {
         initRecyclerView();
         if (order.carts != null) {
             adapter.setListItem(order.carts);
+        } else if (order.cart != null) {
+            adapter.addItem(order.cart);
         }
     }
 

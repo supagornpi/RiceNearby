@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/backgroud_login"
     android:orientation="vertical"
-    android:paddingEnd="@dimen/padding_xxxlarge"
-    android:paddingStart="@dimen/padding_xxxlarge">
+    android:paddingStart="@dimen/padding_xxxlarge"
+    android:paddingEnd="@dimen/padding_xxxlarge">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,10 +44,10 @@
             android:hint="@string/label_email"
             android:inputType="textEmailAddress"
             android:maxLength="50"
-            android:paddingBottom="@dimen/padding_small"
-            android:paddingEnd="@dimen/padding_normal"
             android:paddingStart="@dimen/padding_normal"
-            android:paddingTop="@dimen/padding_small" />
+            android:paddingTop="@dimen/padding_small"
+            android:paddingEnd="@dimen/padding_normal"
+            android:paddingBottom="@dimen/padding_small" />
 
         <EditText
             android:id="@+id/edt_password"
@@ -58,10 +58,10 @@
             android:hint="@string/label_password"
             android:inputType="textPassword"
             android:maxLength="20"
-            android:paddingBottom="@dimen/padding_small"
-            android:paddingEnd="@dimen/padding_normal"
             android:paddingStart="@dimen/padding_normal"
-            android:paddingTop="@dimen/padding_small" />
+            android:paddingTop="@dimen/padding_small"
+            android:paddingEnd="@dimen/padding_normal"
+            android:paddingBottom="@dimen/padding_small" />
 
         <Button
             android:id="@+id/btn_login"
