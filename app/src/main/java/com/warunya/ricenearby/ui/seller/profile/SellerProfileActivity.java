@@ -136,7 +136,7 @@ public class SellerProfileActivity extends AbstractActivity implements SellerPro
     public void fetchSellerInfo(User user) {
         tvSellerName.setText(user.name == null ? user.username : user.name);
         if (user.image != null) {
-            GlideLoader.Companion.loadImageCircle(user.image.url, ivSellerProfile);
+            GlideLoader.loadImageCircle(user.image.url, ivSellerProfile);
         }
     }
 

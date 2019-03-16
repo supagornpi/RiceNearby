@@ -52,9 +52,9 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
         }
 
         if (images.size() > 0 && position != images.size() && images.get(position).uri != null) {
-            GlideLoader.Companion.load(images.get(position).uri, viewHolder.ivImage);
+            GlideLoader.load(images.get(position).uri, viewHolder.ivImage);
         } else if (images.size() > 0 && position != images.size() && images.get(position).url != null) {
-            GlideLoader.Companion.load(images.get(position).url, viewHolder.ivImage);
+            GlideLoader.load(images.get(position).url, viewHolder.ivImage);
         } else {
             viewHolder.ivImage.setImageResource(R.drawable.ic_add);
         }

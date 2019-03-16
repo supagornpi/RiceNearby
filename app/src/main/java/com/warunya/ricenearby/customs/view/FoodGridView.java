@@ -93,7 +93,7 @@ public class FoodGridView extends LinearLayout {
         }
 
         if (food.uploads != null && food.uploads.get(0) != null) {
-            GlideLoader.Companion.load(food.uploads.get(0).url, ivFood);
+            GlideLoader.load(food.uploads.get(0).url, ivFood);
         } else {
             ivFood.setImageResource(R.drawable.logo);
         }

@@ -107,7 +107,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
             if (isMyOrder && order.orderStatus == OrderStatus.WaitingForReview) {
                 if (order.billingImage == null) return;
                 //load slip image
-                GlideLoader.Companion.load(order.billingImage.url, ivSlip);
+                GlideLoader.load(order.billingImage.url, ivSlip);
             }
         }
 

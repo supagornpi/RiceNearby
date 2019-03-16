@@ -178,7 +178,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         }
 
         if (user.image == null) return;
-        GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
+        GlideLoader.loadImageCircle(user.image.url, ivProfile);
 
         if (user.gender != null) {
             if (user.gender == Gender.Male) {
@@ -213,7 +213,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_GALLERY && data != null) {
-                GlideLoader.Companion.loadImageCircle(data.getData(), ivProfile);
+                GlideLoader.loadImageCircle(data.getData(), ivProfile);
                 imageUri = data.getData();
             }
         }

@@ -98,7 +98,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
                 ivFood.getLayoutParams().height = ResolutionUtils.getBannerHeightFromRatio(itemView.getContext());
 
                 if (((Upload) item) == null) return;
-                GlideLoader.Companion.load(((Upload) item).url, ivFood);
+                GlideLoader.load(((Upload) item).url, ivFood);
             }
 
             @Override
@@ -289,7 +289,7 @@ public class FoodActivity extends AbstractActivity implements FoodContract.View 
         setTitle(user.name == null ? user.username : user.name);
         tvSellerName.setText(user.name == null ? user.username : user.name);
         if (user.image != null) {
-            GlideLoader.Companion.loadImageCircle(user.image.url, ivSellerProfile);
+            GlideLoader.loadImageCircle(user.image.url, ivSellerProfile);
         }
     }
 

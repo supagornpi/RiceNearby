@@ -163,7 +163,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         if (user == null) return;
         tvName.setText(user.name == null || user.name.isEmpty() ? user.username : user.name);
         if (user.image != null) {
-            GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
+            GlideLoader.loadImageCircle(user.image.url, ivProfile);
         }
 
         if (user.addresses != null && user.addresses.size() > 0) {
