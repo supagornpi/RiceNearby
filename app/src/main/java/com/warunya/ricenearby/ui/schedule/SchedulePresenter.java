@@ -64,6 +64,11 @@ public class SchedulePresenter implements ScheduleContract.Presenter {
 
     @Override
     public void filterByDate(Calendar calendar) {
+        if (mOrders == null || mOrders.size() == 0) {
+            //ไม่มีออเดอร์
+            view.showNotFound();
+            return;
+        }
         List<MealByDate> mealByDates = filterDate(calendar);
         if (mealByDates.size() == 0) {
             view.showNotFound();
