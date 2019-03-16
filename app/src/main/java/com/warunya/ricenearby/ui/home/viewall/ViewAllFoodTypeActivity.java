@@ -47,7 +47,7 @@ public class ViewAllFoodTypeActivity extends AbstractActivity implements ViewAll
         bindView();
         initRecyclerViewFood();
         int foodType = getIntent().getIntExtra("foodType", 0);
-        presenter = new ViewAllPresenter(this, FoodType.Companion.parse(foodType));
+        presenter = new ViewAllPresenter(this, FoodType.parse(foodType));
 
         presenter.start();
     }

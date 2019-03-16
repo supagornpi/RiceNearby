@@ -45,7 +45,7 @@ public class ViewAllPresenter implements ViewAllContract.Presenter {
         List<Food> newFoods = new ArrayList<>();
         for (Food food : foods) {
             for (com.warunya.ricenearby.model.FoodType foodType : food.foodTypes) {
-                if (FoodType.Companion.parse(foodType.typeName) == mFoodType) {
+                if (FoodType.parse(foodType.typeName) == mFoodType) {
                     newFoods.add(food);
                 }
             }
