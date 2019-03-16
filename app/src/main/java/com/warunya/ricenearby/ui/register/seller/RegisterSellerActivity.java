@@ -234,15 +234,15 @@ public class RegisterSellerActivity extends AbstractActivity implements Register
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PermissionUtils.Companion.getPERMISSION_READ_EXTERNAL_STORAGE()) {
-            if (PermissionUtils.Companion.isGrantAll(permissions)) {
+        if (requestCode == PermissionUtils.PERMISSION_READ_EXTERNAL_STORAGE) {
+            if (PermissionUtils.isGrantAll(permissions)) {
                 openGalleryIntent(requestCode);
             }
         }
     }
 
     private void openGalleryIntent(int requestCode) {
-        IntentUtils.INSTANCE.startIntentGallery(this, requestCode);
+        IntentUtils.startIntentGallery(this, requestCode);
     }
 
     @Override

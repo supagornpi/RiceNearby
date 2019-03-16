@@ -242,15 +242,15 @@ public class AddFoodActivity extends AbstractActivity implements AddFoodContract
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PermissionUtils.Companion.getPERMISSION_READ_EXTERNAL_STORAGE()) {
-            if (PermissionUtils.Companion.isGrantAll(permissions)) {
+        if (requestCode == PermissionUtils.PERMISSION_READ_EXTERNAL_STORAGE) {
+            if (PermissionUtils.isGrantAll(permissions)) {
                 openGalleryIntent();
             }
         }
     }
 
     private void openGalleryIntent() {
-        IntentUtils.INSTANCE.startIntentGallery(this, REQUEST_IMAGE_GALLERY);
+        IntentUtils.startIntentGallery(this, REQUEST_IMAGE_GALLERY);
     }
 
     @Override

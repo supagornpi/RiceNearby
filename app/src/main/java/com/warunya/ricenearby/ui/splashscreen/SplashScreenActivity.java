@@ -39,7 +39,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        if (PermissionUtils.Companion.isRequestPermissionLocation(this)) {
+        if (PermissionUtils.isRequestPermissionLocation(this)) {
             mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
