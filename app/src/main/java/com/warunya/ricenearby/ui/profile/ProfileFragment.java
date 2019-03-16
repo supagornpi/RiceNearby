@@ -90,7 +90,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
                 if (hasAddress) {
                     AddFoodActivity.start();
                 } else {
-                    DialogAlert.Companion.show(getActivity(), "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
+                    DialogAlert.show(getActivity(), "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             AddressActivity.start();
@@ -121,7 +121,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogAlert.Companion.show(getActivity(), R.string.dialog_logout, new DialogInterface.OnClickListener() {
+                DialogAlert.show(getActivity(), R.string.dialog_logout, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         UserManager.logout();

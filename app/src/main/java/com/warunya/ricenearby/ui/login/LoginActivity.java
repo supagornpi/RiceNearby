@@ -167,7 +167,7 @@ public class LoginActivity extends AbstractActivity implements LoginContract.Vie
 
     @Override
     public void loginFailed() {
-        DialogAlert.Companion.show(this, R.string.dialog_login_failed);
+        DialogAlert.show(this, R.string.dialog_login_failed);
     }
 
     @Override

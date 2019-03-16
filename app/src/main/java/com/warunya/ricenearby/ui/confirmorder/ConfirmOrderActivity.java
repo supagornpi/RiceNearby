@@ -171,7 +171,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogAlert.Companion.show(ConfirmOrderActivity.this, "อนุมัติการชำระเงิน", new DialogInterface.OnClickListener() {
+                DialogAlert.show(ConfirmOrderActivity.this, "อนุมัติการชำระเงิน", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Order order = presenter.getOrder();
@@ -190,7 +190,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogAlert.Companion.show(ConfirmOrderActivity.this, "ปฏิเสษการชำระเงิน", new DialogInterface.OnClickListener() {
+                DialogAlert.show(ConfirmOrderActivity.this, "ปฏิเสษการชำระเงิน", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Order order = presenter.getOrder();
@@ -222,7 +222,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
 
     @Override
     public void paymentSuccess() {
-        DialogAlert.Companion.showOnlyPossitive(this, "ยืนยันการชำระเงินสำเร็จแล้ว",
+        DialogAlert.showOnlyPossitive(this, "ยืนยันการชำระเงินสำเร็จแล้ว",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

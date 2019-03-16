@@ -101,7 +101,7 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
 
                     @Override
                     public void onClickedDelete() {
-                        DialogAlert.Companion.show(getActivity(), "คุณต้องการลบใช่หรือไม่", new DialogInterface.OnClickListener() {
+                        DialogAlert.show(getActivity(), "คุณต้องการลบใช่หรือไม่", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 adapter.deleteItemAt(position);
@@ -133,7 +133,7 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
             public void onClick(View view) {
                 if (currentAddress == null) {
                     //need to add address
-                    DialogAlert.Companion.show(getActivity(), "คุณต้องเพิ่มที่อยู่ก่อนทำการยืนยันออเดอร์",
+                    DialogAlert.show(getActivity(), "คุณต้องเพิ่มที่อยู่ก่อนทำการยืนยันออเดอร์",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -142,7 +142,7 @@ public class CartFragment extends AbstractFragment implements CartContract.View 
                             });
                 } else {
                     //confirm order
-                    DialogAlert.Companion.show(getActivity(), R.string.dialog_title_confirm_order,
+                    DialogAlert.show(getActivity(), R.string.dialog_title_confirm_order,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

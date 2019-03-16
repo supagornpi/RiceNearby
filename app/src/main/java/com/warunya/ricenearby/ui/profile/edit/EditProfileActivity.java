@@ -199,7 +199,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         String name = edtName.getText().toString().trim();
         String mobile = edtMobile.getText().toString().trim();
         String birthday = currentSelectedDate;
-        Gender gender = Gender.Companion.parse(spnGender.getSelectedItemPosition());
+        Gender gender = Gender.parse(spnGender.getSelectedItemPosition());
         File file = null;
         if (imageUri != null) {
             file = FileUtils.getResizedBitmap(this, new File(FileUtils.getRealPathFromURI(this, imageUri)));

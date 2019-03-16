@@ -115,7 +115,7 @@ public class MenuActivity extends AbstractActivity implements MenuContract.View 
                     if (presenter.hasAddress()) {
                         AddFoodActivity.start();
                     } else {
-                        DialogAlert.Companion.show(MenuActivity.this, "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
+                        DialogAlert.show(MenuActivity.this, "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 AddressActivity.start();
