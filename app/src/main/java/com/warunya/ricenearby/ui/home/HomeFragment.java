@@ -110,6 +110,10 @@ public class HomeFragment extends AbstractFragment implements HomeContract.View 
             public void onClick(View view) {
                 List<Food> foods = presenter.getRecommendFoods();
                 if (foods != null && foods.size() != 0) {
+                    //เอาแค่ 10 อัน
+                    if (foods.size() > 10) {
+                        foods = foods.subList(0, 9);
+                    }
                     ViewAllFoodActivity.start("อาหารแนะนำ", foods);
                 }
             }
