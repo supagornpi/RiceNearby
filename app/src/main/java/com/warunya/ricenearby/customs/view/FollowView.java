@@ -71,7 +71,7 @@ public class FollowView extends LinearLayout {
                         FollowView.this.follow = follow;
                         tvSellerName.setText(follow.user.name == null ? follow.user.username : follow.user.name);
                         if (follow.user.image != null) {
-                            GlideLoader.Companion.loadImageCircle(follow.user.image.url, ivSellerProfile);
+                            GlideLoader.loadImageCircle(follow.user.image.url, ivSellerProfile);
                         }
                     }
                 }
@@ -88,7 +88,7 @@ public class FollowView extends LinearLayout {
             //has user (after got from server)
             tvSellerName.setText(follow.user.name == null ? follow.user.username : follow.user.name);
             if (follow.user.image != null) {
-                GlideLoader.Companion.loadImageCircle(follow.user.image.url, ivSellerProfile);
+                GlideLoader.loadImageCircle(follow.user.image.url, ivSellerProfile);
             }
             btnFollow.setText(follow.isFollowing ? "ยกเลิกติดตาม" : "ติดตาม");
         }

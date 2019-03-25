@@ -1,6 +1,6 @@
-package com.warunya.ricenearby.constant
+package com.warunya.ricenearby.constant;
 
-enum class RequireField {
+public enum RequireField {
 
     Username,
     Email,
@@ -16,6 +16,5 @@ enum class RequireField {
     FoodName,
     Price,
     Detail,
-    FoodType;
-
+    FoodType
 }

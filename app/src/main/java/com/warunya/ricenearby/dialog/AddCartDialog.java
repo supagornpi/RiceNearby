@@ -120,7 +120,7 @@ public class AddCartDialog extends Dialog {
         bindAdapter();
 
         if (food.uploads != null) {
-            GlideLoader.Companion.load(food.uploads.get(0).url, ivFood);
+            GlideLoader.load(food.uploads.get(0).url, ivFood);
         }
 
         if (isBuyNow) {

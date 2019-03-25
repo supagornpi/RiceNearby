@@ -77,7 +77,7 @@ public class FoodView extends LinearLayout {
         tvDate.setText(food.date == null ? "" : food.date);
 
         if (food.uploads != null && food.uploads.get(0) != null) {
-            GlideLoader.Companion.load(food.uploads.get(0).url, ivFood);
+            GlideLoader.load(food.uploads.get(0).url, ivFood);
         } else {
             ivFood.setImageResource(R.drawable.logo);
         }

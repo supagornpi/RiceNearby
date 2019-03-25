@@ -178,7 +178,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         }
 
         if (user.image == null) return;
-        GlideLoader.Companion.loadImageCircle(user.image.url, ivProfile);
+        GlideLoader.loadImageCircle(user.image.url, ivProfile);
 
         if (user.gender != null) {
             if (user.gender == Gender.Male) {
@@ -199,7 +199,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         String name = edtName.getText().toString().trim();
         String mobile = edtMobile.getText().toString().trim();
         String birthday = currentSelectedDate;
-        Gender gender = Gender.Companion.parse(spnGender.getSelectedItemPosition());
+        Gender gender = Gender.parse(spnGender.getSelectedItemPosition());
         File file = null;
         if (imageUri != null) {
             file = FileUtils.getResizedBitmap(this, new File(FileUtils.getRealPathFromURI(this, imageUri)));
@@ -213,7 +213,7 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_GALLERY && data != null) {
-                GlideLoader.Companion.loadImageCircle(data.getData(), ivProfile);
+                GlideLoader.loadImageCircle(data.getData(), ivProfile);
                 imageUri = data.getData();
             }
         }
@@ -222,15 +222,15 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PermissionUtils.Companion.getPERMISSION_READ_EXTERNAL_STORAGE()) {
-            if (PermissionUtils.Companion.isGrantAll(permissions)) {
+        if (requestCode == PermissionUtils.PERMISSION_READ_EXTERNAL_STORAGE) {
+            if (PermissionUtils.isGrantAll(permissions)) {
                 openGalleryIntent();
             }
         }
     }
 
     private void openGalleryIntent() {
-        IntentUtils.INSTANCE.startIntentGallery(this, REQUEST_IMAGE_GALLERY);
+        IntentUtils.startIntentGallery(this, REQUEST_IMAGE_GALLERY);
     }
 
     private void showDatePickerDialog() {

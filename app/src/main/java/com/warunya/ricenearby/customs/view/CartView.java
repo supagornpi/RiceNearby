@@ -107,7 +107,7 @@ public class CartView extends LinearLayout {
 
 
         if (food.uploads != null && food.uploads.get(0) != null) {
-            GlideLoader.Companion.load(food.uploads.get(0).url, ivFood);
+            GlideLoader.load(food.uploads.get(0).url, ivFood);
         } else {
             ivFood.setImageResource(R.drawable.logo);
         }
@@ -124,7 +124,7 @@ public class CartView extends LinearLayout {
                 if (user == null) return;
                 tvSellerName.setText(user.name == null ? user.username : user.name);
                 if (user.image != null) {
-                    GlideLoader.Companion.loadImageCircle(user.image.url, ivSellerProfile);
+                    GlideLoader.loadImageCircle(user.image.url, ivSellerProfile);
                 } else {
                     ivSellerProfile.setImageResource(R.drawable.logo);
                 }

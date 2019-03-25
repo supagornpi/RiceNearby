@@ -22,11 +22,6 @@ abstract class AbstractActivity : AppCompatActivity() {
         setupView(savedInstanceState)
     }
 
-    // override the base context of application to update default locale for this activity
-//    override fun attachBaseContext(base: Context) {
-//        super.attachBaseContext(LanguageHelper.onAttach(base))
-//    }
-
     override fun setTitle(stringId: Int) {
         setTitle(resources.getString(stringId))
     }
@@ -49,32 +44,12 @@ abstract class AbstractActivity : AppCompatActivity() {
         }
     }
 
-    fun setMenuRightText(textId: Int) {
-        tvRightMenu.text = applicationContext.getString(textId)
-    }
-
     fun setMenuRightText(text: String) {
         tvRightMenu.text = text
     }
 
     fun setOnclickMenuRight(onClickListener: View.OnClickListener) {
         tvRightMenu.setOnClickListener(onClickListener)
-    }
-
-    fun setButtonLeft(icon: Int, onClickListener: View.OnClickListener) {
-        if (btnIconLeft != null) {
-            btnIconLeft.setImageResource(icon)
-            btnIconLeft.visibility = View.VISIBLE
-            btnIconLeft.setOnClickListener(onClickListener)
-        }
-    }
-
-    fun setButtonRight(icon: Int, onClickListener: View.OnClickListener) {
-        if (btnRight != null) {
-            btnRight.setImageResource(icon)
-            btnRight.visibility = View.VISIBLE
-            btnRight.setOnClickListener(onClickListener)
-        }
     }
 
     private fun setProgressDialog() {

@@ -161,7 +161,7 @@ public class HistoryActivity extends AbstractActivity implements HistoryContract
                 builder.onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        currentFilter = Filter.Companion.parse(dialog.getSelectedIndex());
+                        currentFilter = Filter.parse(dialog.getSelectedIndex());
                         presenter.filterOrder(currentFilter);
                     }
                 }).negativeText("ยกเลิก").positiveText("ตกลง");

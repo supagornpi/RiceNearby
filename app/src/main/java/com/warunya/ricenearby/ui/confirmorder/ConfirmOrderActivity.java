@@ -107,7 +107,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
             if (isMyOrder && order.orderStatus == OrderStatus.WaitingForReview) {
                 if (order.billingImage == null) return;
                 //load slip image
-                GlideLoader.Companion.load(order.billingImage.url, ivSlip);
+                GlideLoader.load(order.billingImage.url, ivSlip);
             }
         }
 
@@ -171,7 +171,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogAlert.Companion.show(ConfirmOrderActivity.this, "อนุมัติการชำระเงิน", new DialogInterface.OnClickListener() {
+                DialogAlert.show(ConfirmOrderActivity.this, "อนุมัติการชำระเงิน", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Order order = presenter.getOrder();
@@ -190,7 +190,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogAlert.Companion.show(ConfirmOrderActivity.this, "ปฏิเสษการชำระเงิน", new DialogInterface.OnClickListener() {
+                DialogAlert.show(ConfirmOrderActivity.this, "ปฏิเสษการชำระเงิน", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Order order = presenter.getOrder();
@@ -228,7 +228,7 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
 
     @Override
     public void paymentSuccess() {
-        DialogAlert.Companion.showOnlyPossitive(this, "ยืนยันการชำระเงินสำเร็จแล้ว",
+        DialogAlert.showOnlyPossitive(this, "ยืนยันการชำระเงินสำเร็จแล้ว",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -287,15 +287,15 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PermissionUtils.Companion.getPERMISSION_READ_EXTERNAL_STORAGE()) {
-            if (PermissionUtils.Companion.isGrantAll(permissions)) {
+        if (requestCode == PermissionUtils.PERMISSION_READ_EXTERNAL_STORAGE) {
+            if (PermissionUtils.isGrantAll(permissions)) {
                 openGalleryIntent();
             }
         }
     }
 
     private void openGalleryIntent() {
-        IntentUtils.INSTANCE.startIntentGallery(this, REQUEST_IMAGE_GALLERY);
+        IntentUtils.startIntentGallery(this, REQUEST_IMAGE_GALLERY);
     }
 
 }

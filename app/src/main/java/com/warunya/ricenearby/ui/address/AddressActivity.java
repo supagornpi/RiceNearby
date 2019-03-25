@@ -76,7 +76,7 @@ public class AddressActivity extends AbstractActivity implements AddressContract
                 ((AddressView) itemView).addOnActionListener(new AddressView.OnActionListener() {
                     @Override
                     public void deleteItem() {
-                        DialogAlert.Companion.show(AddressActivity.this, "คุณต้องการลบที่อยู่นี้ใช่หรือไม่", new DialogInterface.OnClickListener() {
+                        DialogAlert.show(AddressActivity.this, "คุณต้องการลบที่อยู่นี้ใช่หรือไม่", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 adapter.deleteItemAt(position);

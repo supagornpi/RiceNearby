@@ -66,7 +66,7 @@ public class SellerActivity extends AbstractActivity implements SellerContract.V
                 if (presenter.hasAddress()) {
                     AddFoodActivity.start();
                 } else {
-                    DialogAlert.Companion.show(SellerActivity.this, "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
+                    DialogAlert.show(SellerActivity.this, "คุณต้องเพิ่มที่อยู่ก่อน", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             AddressActivity.start();

@@ -61,7 +61,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
     protected void setupView(Bundle savedInstanceState) {
         showBackButton();
 
-        mealTime = MealTime.Companion.parse(getIntent().getIntExtra("MealTime", 0));
+        mealTime = MealTime.parse(getIntent().getIntExtra("MealTime", 0));
         String title = "";
         if (mealTime == MealTime.Breakfast) {
             title = "อาหารเช้า";
@@ -229,14 +229,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
 
     private void addMealTime(Food food, MealTime mealTime, String date, int amount) {
         boolean isInAdapter = false;
-        int index = 0;
-        for (Food foodInAdapter : adapter.getList()) {
-            if (foodInAdapter.key.equals(food.key)) {
-                isInAdapter = true;
-                food = foodInAdapter;
-            }
-            index++;
-        }
+
 
         Meal meal = new Meal(date, amount, mealTime);
         if (mealTime == MealTime.Breakfast) {
@@ -273,12 +266,7 @@ public class SetTimeFoodActivity extends AbstractActivity implements SetTimeFood
             }
         }
 
-        if (isInAdapter) {
-            adapter.editItemAt(index - 1, food);
-            adapter.notifyDataSetChanged();
-        } else {
-            adapter.addItem(food);
-        }
+        adapter.addItem(food);
 
         presenter.addMeal(food.key, meal, mealTime);
     }

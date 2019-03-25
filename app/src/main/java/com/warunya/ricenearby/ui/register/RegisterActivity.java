@@ -117,7 +117,7 @@ public class RegisterActivity extends AbstractActivity implements RegisterContra
 
     @Override
     public void registerFailed() {
-        DialogAlert.Companion.show(this, R.string.dialog_register_failed);
+        DialogAlert.show(this, R.string.dialog_register_failed);
     }
 
     private RegisterEntity getRegisterEntity() {
