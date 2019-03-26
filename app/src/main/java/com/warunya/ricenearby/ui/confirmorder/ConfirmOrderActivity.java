@@ -211,13 +211,13 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     @Override
     public void fetchCart(List<Cart> carts) {
         adapter.setListItem(carts);
-//        calculatePrice();
+        calculatePrice();
     }
 
     @Override
     public void fetchCart(Cart cart) {
         adapter.addItem(cart);
-//        calculatePrice();
+        calculatePrice();
     }
 
     @Override

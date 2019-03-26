@@ -38,6 +38,15 @@ public class Order {
         this.deliveryPrice = deliveryPrice;
     }
 
+    public Order(String orderNo, String uid, OrderStatus orderStatus, List<Cart> carts, int totalPrice, int deliveryPrice) {
+        this.orderNo = orderNo;
+        this.uid = uid;
+        this.orderStatus = orderStatus;
+        this.carts = carts;
+        this.totalPrice = totalPrice;
+        this.deliveryPrice = deliveryPrice;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

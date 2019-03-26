@@ -10,10 +10,14 @@ import com.warunya.ricenearby.firebase.OrderManager;
 import com.warunya.ricenearby.firebase.UserManager;
 import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
+import com.warunya.ricenearby.model.Food;
+import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Order;
 import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.utils.ConvertDateUtils;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -62,24 +66,66 @@ public class CartPresenter implements CartContract.Presenter {
 
     @Override
     public void confirmOrder(List<Cart> carts, int totalPrice, Address address, String additionalAddress) {
-
+        List<Order> newOrders = new ArrayList<>();
 
         for (Cart cart : carts) {
             String orderNo = ConvertDateUtils.getDate() + gen();
             String uid = UserManager.getUid();
             Log.d("Order no", orderNo + " ,  uid: " + uid);
             //create order
-            Order order = new Order(orderNo, uid, OrderStatus.NotPaid, cart, totalPrice, AppInstance.DELIVERY_PRICE);
+            List<Cart> cartsOrder = new ArrayList<>();
+            cartsOrder.add(cart);
+            Order order = new Order(orderNo, uid, OrderStatus.NotPaid, cartsOrder, totalPrice, AppInstance.DELIVERY_PRICE);
             //set address to order
             order.address = address;
             order.additionalAddress = additionalAddress;
-            OrderManager.createOrder(order, new OrderManager.OnCreateOrderListener() {
+
+            if (newOrders.size() > 1) {
+                Iterator<Order> iter = newOrders.iterator();
+                boolean isSameSeller = false;
+                int index = 0;
+                int sameOrderAt = 0;
+
+                //เช็คว่าเคยสร้าง order ของผู้ขายคนนี้แล้วหรือยัง
+                while (iter.hasNext()) {
+                    Iterator<Cart> iterCart = iter.next().carts.iterator();
+                    while (iterCart.hasNext()) {
+                        Food food = iterCart.next().food;
+                        if (food.uid.equals(cart.food.uid)) {
+                            isSameSeller = true;
+                            sameOrderAt = index;
+                        }
+                    }
+                    index++;
+                }
+                if (isSameSeller) {
+                    //เคยสร้าง order แล้วให้ add อาหารเข้าไปเพิ่ม
+                    newOrders.get(sameOrderAt).carts.add(cart);
+                } else {
+                    //order ใหม่
+                    newOrders.add(order);
+                }
+            } else {
+                //order ใหม่
+                newOrders.add(order);
+            }
+        }
+
+        for (Order orderToConfirm : newOrders) {
+            if (orderToConfirm.carts != null) {
+                for (Cart cartToConfirm : orderToConfirm.carts) {
+                    //เปลี่ยนสถานะเป็น ยืนยันออเดอร์แล้ว
+                    CartManager.confirmedOrder(cartToConfirm.key);
+                }
+            }
+            orderToConfirm.totalPrice = getTotalPrice(orderToConfirm.carts);
+            //สร้าง order ที่ firebase
+            OrderManager.createOrder(orderToConfirm, new OrderManager.OnCreateOrderListener() {
                 @Override
                 public void onSuccess(String key) {
-//                    view.goToConfirmOrderActivity(key);
+                    view.goToConfirmOrderActivity(key);
                 }
             });
-            CartManager.confirmedOrder(cart.key);
         }
     }
 
@@ -99,5 +145,19 @@ public class CartPresenter implements CartContract.Presenter {
     public int gen() {
         Random r = new Random(System.currentTimeMillis());
         return ((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
+    }
+
+    private int getFoodPrice(List<Cart> carts) {
+        int price = 0;
+        for (Cart cart : carts) {
+            for (Meal meal : cart.meals) {
+                price += cart.food.price * meal.amount;
+            }
+        }
+        return price;
+    }
+
+    private int getTotalPrice(List<Cart> carts) {
+        return getFoodPrice(carts) + AppInstance.DELIVERY_PRICE;
     }
 }
