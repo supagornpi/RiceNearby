@@ -54,6 +54,17 @@ public class EditProfilePresenter implements EditProfileContract.Presenter {
         });
     }
 
+    @Override
+    public void getAddress() {
+        UserManager.getUserProfile(new UserManager.OnValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                view.bindAddress(user);
+            }
+        });
+    }
+
     private void uploadFile(final Uri uri, final String username) {
         view.showProgressDialog();
         //getting the storage reference

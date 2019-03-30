@@ -45,7 +45,14 @@ public class ViewAllFoodActivity extends AbstractActivity {
         bindView();
         initRecyclerViewFood();
         List<Food> foods = Parcels.unwrap(getIntent().getParcelableExtra("foods"));
+
+        String title = getIntent().getStringExtra("title");
+        if (title.equals("อาหารแนะนำ")) {
+            adapter.setMaximumItem(10);
+        }
+
         adapter.setListItem(foods);
+
     }
 
     private void bindView() {

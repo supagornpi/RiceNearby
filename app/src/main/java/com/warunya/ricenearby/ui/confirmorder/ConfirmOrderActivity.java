@@ -29,6 +29,7 @@ import com.warunya.ricenearby.model.Address;
 import com.warunya.ricenearby.model.Cart;
 import com.warunya.ricenearby.model.Meal;
 import com.warunya.ricenearby.model.Order;
+import com.warunya.ricenearby.model.User;
 import com.warunya.ricenearby.ui.address.AddressActivity;
 import com.warunya.ricenearby.utils.FileUtils;
 import com.warunya.ricenearby.utils.GlideLoader;
@@ -57,6 +58,9 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     private TextView tvTotalPriceLabel;
     private TextView tvAddress;
     private TextView tvEditAddress;
+    private TextView tvBankAccount;
+    private TextView tvBank;
+    private TextView tvBankName;
     private Button btnReject;
     private Button btnApprove;
     private EditText edtAdditionalAddress;
@@ -109,6 +113,11 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
                 //load slip image
                 GlideLoader.load(order.billingImage.url, ivSlip);
             }
+
+            if (!isMyOrder && order.carts.size() > 0) {
+                presenter.getBankAccount(order.carts.get(0).food.uid);
+            }
+
         }
 
         layoutBank.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
@@ -116,7 +125,6 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
 //        tvEditAddress.setVisibility(isMyOrder ? View.GONE : View.VISIBLE);
         setTitle(isMyOrder ? "รายการอาหาร" : "การสั่งซื้ออาหารของท่าน");
         tvTotalPriceLabel.setText(isMyOrder ? "รวมทั้งหมด" : "รวมทั้งหมดที่ต้องชำระ");
-
     }
 
     private void bindView() {
@@ -132,6 +140,9 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
         btnApprove = findViewById(R.id.btn_approve);
         btnReject = findViewById(R.id.btn_reject);
         ivSlip = findViewById(R.id.iv_slip);
+        tvBankAccount = findViewById(R.id.tv_bank_account);
+        tvBank = findViewById(R.id.tv_bank);
+        tvBankName = findViewById(R.id.tv_bank_name);
 
         adapter = new CustomAdapter<>(new CustomAdapter.OnBindViewListener() {
             @Override
@@ -218,6 +229,15 @@ public class ConfirmOrderActivity extends AbstractActivity implements ConfirmOrd
     public void fetchCart(Cart cart) {
         adapter.addItem(cart);
         calculatePrice();
+    }
+
+    @Override
+    public void fetchBankAccount(User user) {
+        if (user.seller != null) {
+            tvBankAccount.setText(user.seller.bankAccount);
+            tvBank.setText(user.seller.bank);
+            tvBankName.setText(user.seller.bankName);
+        }
     }
 
     @Override

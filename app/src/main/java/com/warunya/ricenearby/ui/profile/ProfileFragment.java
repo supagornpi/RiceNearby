@@ -173,7 +173,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
 
     @Override
     public void enableRegisterSellerButton() {
-        btnSeller.setText(getContext().getResources().getString(R.string.button_register_seller));
+        btnSeller.setText(getResources().getString(R.string.button_register_seller));
         progressBarSeller.setVisibility(View.GONE);
         btnSeller.setVisibility(View.VISIBLE);
 //        btnSeller.setEnabled(true);
@@ -182,7 +182,7 @@ public class ProfileFragment extends AbstractFragment implements ProfileContract
 
     @Override
     public void disableRegisterSellerButton() {
-        btnSeller.setText(getContext().getResources().getString(R.string.profile_you_are_seller));
+        btnSeller.setText(getResources().getString(R.string.profile_you_are_seller));
         btnSeller.setVisibility(View.VISIBLE);
         progressBarSeller.setVisibility(View.GONE);
         btnSeller.setOnClickListener(new View.OnClickListener() {

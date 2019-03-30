@@ -80,6 +80,7 @@ public class AddressActivity extends AbstractActivity implements AddressContract
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 adapter.deleteItemAt(position);
+                                btnAddAddress.setVisibility(adapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
                                 presenter.submit(adapter.getList());
                             }
                         });

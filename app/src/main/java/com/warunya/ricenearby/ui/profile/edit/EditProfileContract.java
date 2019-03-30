@@ -8,10 +8,14 @@ public interface EditProfileContract {
 
     interface Presenter extends BasePresenter {
         void editUserProfile(User user);
+
+        void getAddress();
     }
 
     interface View extends BaseView.Progress {
         void bindUserData(User user);
+
+        void bindAddress(User user);
 
     }
 }

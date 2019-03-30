@@ -80,13 +80,15 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         showBackButton();
         bindView();
         bindAction();
+        presenter.start();
+        myCalendar.set(Calendar.YEAR, 1990);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.start();
+        presenter.getAddress();
     }
 
     private void bindView() {
@@ -188,10 +190,13 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
             }
         }
 
+    }
+
+    @Override
+    public void bindAddress(User user) {
         if (user.addresses != null && user.addresses.size() > 0) {
             tvAddress.setText(user.addresses.get(0).name);
         }
-
     }
 
     private User getUserProfile() {
@@ -213,8 +218,9 @@ public class EditProfileActivity extends AbstractActivity implements EditProfile
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_GALLERY && data != null) {
-                GlideLoader.loadImageCircle(data.getData(), ivProfile);
                 imageUri = data.getData();
+                GlideLoader.loadImageCircle(imageUri, ivProfile);
+
             }
         }
     }
